@@ -1,6 +1,7 @@
 using UnityEngine;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 public class Enemy {
 	[JsonProperty("sprite", DefaultValueHandling = DefaultValueHandling.Populate)]
@@ -18,17 +19,16 @@ public class Enemy {
 	public static Dictionary<string, Enemy> CreateEnemiesFromJson(string jsonPath) {
 		TextAsset enemyJson = Resources.Load<TextAsset>(jsonPath);
 
-		List<Enemy> enemies = JsonConvert.DeserializeObject<List<Enemy>>(enemyJson);
+		List<Enemy> enemies = JsonConvert.DeserializeObject<List<Enemy>>(enemyJson.text);
 
 		Dictionary<string, Enemy> enemyDictionary = new Dictionary<string, Enemy>();
 
 		foreach(Enemy enemy in enemies) {
-			if(enemyDictionary.TryAdd(enemy.name, enemy)) { continue; }
+			if(enemyDictionary.TryAdd(enemy.Name, enemy)) { continue; }
 
-			Debug.LogError($"{enemy.name} is defined multiple times in {jsonPath}!");
+			Debug.LogError($"{enemy.Name} is defined multiple times in {jsonPath}!");
 		}
 
 		return enemyDictionary;
 	}
 }
-
