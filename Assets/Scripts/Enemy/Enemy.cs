@@ -3,7 +3,8 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 
 public class Enemy {
-	public string SpriteIndex;
+	[JsonProperty("sprite", DefaultValueHandling = DefaultValueHandling.Populate)]
+	public int SpriteIndex = 0;
 
 	[JsonProperty("name", DefaultValueHandling = DefaultValueHandling.Populate)]
 	public string Name = "unnamed enemy";
