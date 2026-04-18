@@ -1,11 +1,8 @@
 using UnityEngine;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using System.IO;
-using System.Collections.Generic;
 using UnityEngine.UI;
 using System.Collections;
-using System.Linq;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -17,7 +14,18 @@ public class EnemySpawner : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        LevelLoader.LoadLevels();
+        TextAsset jsonAsset = Resources.Load<TextAsset>("levels");
+        Debug.Log($"jsonAsset.text: {jsonAsset.text}");
+        List<Level> levels = JsonConvert.DeserializeObject<List<Level>>(jsonAsset.text);
+
+        foreach (Level level in levels)
+        {
+            Debug.Log($"LEVEL: {level.Name}, {level.Waves}, {level.Spawns}");
+            foreach (Spawn spawn in level.Spawns)
+            {
+                Debug.Log($"SPAWN: {spawn.Enemy}, {spawn.Count}, {spawn.Hp}, {spawn.Speed}, {spawn.Damage}, {spawn.Delay}, {spawn.Location}");
+            }
+        }
 
         GameObject selector = Instantiate(button, level_selector.transform);
         selector.transform.localPosition = new Vector3(0, 130);
@@ -65,8 +73,8 @@ public class EnemySpawner : MonoBehaviour
 
     IEnumerator SpawnZombie()
     {
-        SpawnPoint spawn_point = SpawnPoints[Random.Range(0, SpawnPoints.Length)];
-        Vector2 offset = Random.insideUnitCircle * 1.8f;
+        SpawnPoint spawn_point = SpawnPoints[UnityEngine.Random.Range(0, SpawnPoints.Length)];
+        Vector2 offset = UnityEngine.Random.insideUnitCircle * 1.8f;
                 
         Vector3 initial_position = spawn_point.transform.position + new Vector3(offset.x, offset.y, 0);
         GameObject new_enemy = Instantiate(enemy, initial_position, Quaternion.identity);
