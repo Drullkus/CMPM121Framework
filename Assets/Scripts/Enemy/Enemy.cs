@@ -1,9 +1,8 @@
-using UnityEngine;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 
-public class Enemy {
+public class EnemyStats {
 	[JsonProperty("sprite", DefaultValueHandling = DefaultValueHandling.Populate)]
 	public int SpriteIndex = 0;
 
@@ -16,19 +15,16 @@ public class Enemy {
 	[JsonProperty("damage", DefaultValueHandling = DefaultValueHandling.Populate)]
 	public int Damage = 5;
 
-	public static Dictionary<string, Enemy> CreateEnemyStatDictionaryFromJson(string jsonPath) {
-		TextAsset enemyJson = Resources.Load<TextAsset>(jsonPath);
+	public static Statuses.Status CreateEnemyStatDictionaryFromJson(string statsJson, out Dictionary<string, EnemyStats> enemyStatDictionary) {
+		enemyStatDictionary = new Dictionary<string, EnemyStats>();
 
-		List<Enemy> enemies = JsonConvert.DeserializeObject<List<Enemy>>(enemyJson.text);
+		List<EnemyStats> enemyStatsList = JsonConvert.DeserializeObject<List<EnemyStats>>(statsJson);
 
-		Dictionary<string, Enemy> enemyDictionary = new Dictionary<string, Enemy>();
-
-		foreach(Enemy enemy in enemies) {
-			if(enemyDictionary.TryAdd(enemy.Name, enemy)) { continue; }
-
-			Debug.LogError($"{enemy.Name} is defined multiple times in {jsonPath}!");
+		foreach(EnemyStats enemyStats in enemyStatsList) {
+			if(enemyStatDictionary.TryAdd(enemyStats.Name, enemyStats)) { continue; }
+			return Statuses.Status.ENEMY_STAT_REDEFINITION;
 		}
 
-		return enemyDictionary;
+		return Statuses.Status.SUCCESS;
 	}
 }

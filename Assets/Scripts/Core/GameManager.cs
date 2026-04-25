@@ -17,8 +17,8 @@ public class GameManager
 
     public int countdown;
     private static GameManager theInstance;
-    public static GameManager Instance {  get
-        {
+    public static GameManager Instance {
+        get {
             if (theInstance == null)
                 theInstance = new GameManager();
             return theInstance;
@@ -33,6 +33,7 @@ public class GameManager
     public PlayerSpriteManager playerSpriteManager;
     public RelicIconManager relicIconManager;
 
+    private Dictionary<string, EnemyStats> enemyStats;
     private List<GameObject> enemies;
     public int enemy_count { get { return enemies.Count; } }
 
@@ -54,6 +55,13 @@ public class GameManager
 
     private GameManager()
     {
-        enemies = new List<GameObject>();
+        TextAsset jsonFile = Resources.Load<TextAsset>("enemies");
+        Statuses.Status res = EnemyStats.CreateEnemyStatDictionaryFromJson(jsonFile.text, out enemyStats);
+        if(res != Statuses.Status.SUCCESS) { Debug.LogError(res.StatusString()); }
+        else {
+            foreach(EnemyStats stats in enemyStats.Values) {
+                Debug.Log(stats.Name);
+            }
+        }
     }
 }
