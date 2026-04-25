@@ -16,7 +16,7 @@ public class Enemy {
 	[JsonProperty("damage", DefaultValueHandling = DefaultValueHandling.Populate)]
 	public int Damage = 5;
 
-	public static Dictionary<string, Enemy> CreateEnemiesFromJson(string jsonPath) {
+	public static Dictionary<string, Enemy> CreateEnemyStatDictionaryFromJson(string jsonPath) {
 		TextAsset enemyJson = Resources.Load<TextAsset>(jsonPath);
 
 		List<Enemy> enemies = JsonConvert.DeserializeObject<List<Enemy>>(enemyJson.text);
