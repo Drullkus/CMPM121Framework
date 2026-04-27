@@ -12,8 +12,8 @@ namespace Statuses {
 public static class StatusExtensions {
     // enum-string association method provided by stackoverflow user
     // Glennular at https://stackoverflow.com/a/630900
-    public static string StatusString(this Statuses.Status s) {
-        DescriptionAttribute[] attributes = (DescriptionAttribute[])s
+    public static string StatusString(this Statuses.Status statusInstance) {
+        DescriptionAttribute[] attributes = (DescriptionAttribute[])statusInstance
             .GetType()
             .GetField(s.ToString())
             .GetCustomAttributes(typeof(DescriptionAttribute), false);
