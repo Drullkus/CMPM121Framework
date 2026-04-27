@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 public class Level
 {
     [JsonProperty("name")]
-    public string Name { get; }
+    public string Name { get; set; }
 
     [JsonProperty("waves", DefaultValueHandling = DefaultValueHandling.Populate)]
     public int Waves { get; set; } = 0; // 0 means endless
