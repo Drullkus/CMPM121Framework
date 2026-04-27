@@ -55,6 +55,7 @@ public class GameManager
 
     private GameManager()
     {
+		enemies = new List<GameObject>();
         TextAsset jsonFile = Resources.Load<TextAsset>("enemies");
         Statuses.Status res = EnemyStats.CreateEnemyStatDictionaryFromJson(jsonFile.text, out enemyStats);
         if(res != Statuses.Status.SUCCESS) { Debug.LogError(res.StatusString()); }
