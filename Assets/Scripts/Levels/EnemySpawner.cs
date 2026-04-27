@@ -20,7 +20,6 @@ public class EnemySpawner : MonoBehaviour
     void Start()
     {
         TextAsset jsonAsset = Resources.Load<TextAsset>("levels");
-        Debug.Log($"jsonAsset.text: {jsonAsset.text}");
         List<Level> levels = JsonConvert.DeserializeObject<List<Level>>(jsonAsset.text);
 
         for (int index = 0; index < levels.Count; index++)
@@ -31,12 +30,6 @@ public class EnemySpawner : MonoBehaviour
             selector.transform.localPosition = new Vector3(0, 130 - index * 40);
             selector.GetComponent<MenuSelectorController>().spawner = this;
             selector.GetComponent<MenuSelectorController>().SetLevel(level);
-
-            Debug.Log($"LEVEL: {level.Name}, {level.Waves}, {level.Spawns}");
-            foreach (Spawn spawn in level.Spawns)
-            {
-                Debug.Log($"SPAWN: {spawn.Enemy}, {spawn.Count}, {spawn.Hp}, {spawn.Speed}, {spawn.Damage}, {spawn.Delay}, {spawn.Location}");
-            }
         }
     }
 
@@ -48,7 +41,6 @@ public class EnemySpawner : MonoBehaviour
 
     public void StartLevel(Level level)
     {
-        Debug.Log(level.Name);
         this.selectedLevel = level;
         level_selector.gameObject.SetActive(false);
         // this is not nice: we should not have to be required to tell the player directly that the level is starting
