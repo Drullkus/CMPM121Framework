@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 [System.Serializable]
@@ -32,6 +33,11 @@ public class Spawn
         return RPNEvaluator.RPNEvaluator.Evaluate(this.Count, new() { ["wave"] = wave });
     }
 
+    public int GetDelayInWave(int wave)
+    {
+        return RPNEvaluator.RPNEvaluator.Evaluate(this.Delay, new() { ["wave"] = wave });
+    }
+
     public int GetHpInWave(int baseHp, int wave)
     {
         return RPNEvaluator.RPNEvaluator.Evaluate(this.Hp, new() { ["base"] = baseHp, ["wave"] = wave });
@@ -45,6 +51,17 @@ public class Spawn
     public int GetDamageInWave(int baseHp, int wave)
     {
         return RPNEvaluator.RPNEvaluator.Evaluate(this.Damage, new() { ["base"] = baseHp, ["wave"] = wave });
+    }
+
+    public IEnumerable<int> GetSpawnBatches()
+    {
+        while (true)
+        {
+            foreach (int batch in Sequence)
+            {
+                yield return batch;
+            }
+        }
     }
 
 }

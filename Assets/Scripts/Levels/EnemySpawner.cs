@@ -96,17 +96,26 @@ public class EnemySpawner : MonoBehaviour
     IEnumerator SpawnEnemyType(Spawn spawn)
     {
         int totalEnemiesOfType = spawn.GetCountInWave(this.waveLevel);
+        int enemyCount = 0;
 
-        for (int enemyCount = 1; enemyCount <= totalEnemiesOfType; enemyCount++)
+        foreach (int spawnCount in spawn.GetSpawnBatches())
         {
-            SpawnPoint spawn_point = this.ChooseSpawnPoint(spawn.Location);
-            Vector2 offset = UnityEngine.Random.insideUnitCircle * 1.8f;
+            for (int countInBatch = 0; countInBatch < spawnCount; countInBatch++)
+            {
+                SpawnPoint spawn_point = this.ChooseSpawnPoint(spawn.Location);
+                Vector2 offset = UnityEngine.Random.insideUnitCircle * 1.8f;
 
-            Vector3 initial_position = spawn_point.transform.position + new Vector3(offset.x, offset.y, 0);
+                Vector3 initial_position = spawn_point.transform.position + new Vector3(offset.x, offset.y, 0);
 
-            this.SpawnEnemy(initial_position);
+                this.SpawnEnemy(initial_position, spawn);
 
-            // TODO handle sequencing logic
+                if (++enemyCount >= totalEnemiesOfType)
+                {
+                    yield break;
+                }
+            }
+
+            yield return new WaitForSeconds(spawn.GetDelayInWave(this.waveLevel));
         }
 
         yield return null;
@@ -126,7 +135,7 @@ public class EnemySpawner : MonoBehaviour
         return SpawnPoints[UnityEngine.Random.Range(0, SpawnPoints.Length)];
     }
 
-    void SpawnEnemy(Vector3 initial_position)
+    void SpawnEnemy(Vector3 initial_position, Spawn spawn)
     {
         GameObject new_enemy = Instantiate(enemy, initial_position, Quaternion.identity);
 
