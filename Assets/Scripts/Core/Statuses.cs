@@ -15,7 +15,7 @@ public static class StatusExtensions {
     public static string StatusString(this Statuses.Status statusInstance) {
         DescriptionAttribute[] attributes = (DescriptionAttribute[])statusInstance
             .GetType()
-            .GetField(s.ToString())
+            .GetField(statusInstance.ToString())
             .GetCustomAttributes(typeof(DescriptionAttribute), false);
 
         if(attributes.Length == 0) { return "UNDEFINED STATUS"; }
