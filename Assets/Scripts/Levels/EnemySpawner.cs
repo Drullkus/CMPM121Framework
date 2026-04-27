@@ -9,28 +9,30 @@ public class EnemySpawner : MonoBehaviour
     public Image level_selector;
     public GameObject button;
     public GameObject enemy;
-    public SpawnPoint[] SpawnPoints;    
+    public SpawnPoint[] SpawnPoints;
+    private List<Level> levels;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         TextAsset jsonAsset = Resources.Load<TextAsset>("levels");
         Debug.Log($"jsonAsset.text: {jsonAsset.text}");
-        List<Level> levels = JsonConvert.DeserializeObject<List<Level>>(jsonAsset.text);
+        this.levels = JsonConvert.DeserializeObject<List<Level>>(jsonAsset.text);
 
-        foreach (Level level in levels)
+        for (int index = 0; index < this.levels.Count; index++)
         {
+            Level level = this.levels[index];
+            GameObject selector = Instantiate(button, level_selector.transform);
+            selector.transform.localPosition = new Vector3(0, 130 - index * 40);
+            selector.GetComponent<MenuSelectorController>().spawner = this;
+            selector.GetComponent<MenuSelectorController>().SetLevel(level.Name);
+
             Debug.Log($"LEVEL: {level.Name}, {level.Waves}, {level.Spawns}");
             foreach (Spawn spawn in level.Spawns)
             {
                 Debug.Log($"SPAWN: {spawn.Enemy}, {spawn.Count}, {spawn.Hp}, {spawn.Speed}, {spawn.Damage}, {spawn.Delay}, {spawn.Location}");
             }
         }
-
-        GameObject selector = Instantiate(button, level_selector.transform);
-        selector.transform.localPosition = new Vector3(0, 130);
-        selector.GetComponent<MenuSelectorController>().spawner = this;
-        selector.GetComponent<MenuSelectorController>().SetLevel("Start");
     }
 
     // Update is called once per frame
@@ -41,6 +43,7 @@ public class EnemySpawner : MonoBehaviour
 
     public void StartLevel(string levelname)
     {
+        Debug.Log(levelname);
         level_selector.gameObject.SetActive(false);
         // this is not nice: we should not have to be required to tell the player directly that the level is starting
         GameManager.Instance.player.GetComponent<PlayerController>().StartLevel();
