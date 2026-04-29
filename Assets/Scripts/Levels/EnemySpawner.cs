@@ -16,6 +16,9 @@ public class EnemySpawner : MonoBehaviour
     private Level selectedLevel;
     private int waveLevel = 1;
 
+    public delegate void OnWaveEndHandler();
+    public event OnWaveEndHandler onWaveEnd;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -31,6 +34,8 @@ public class EnemySpawner : MonoBehaviour
             selector.GetComponent<MenuSelectorController>().spawner = this;
             selector.GetComponent<MenuSelectorController>().SetLevel(level);
         }
+
+        GameManager.Instance.enemySpawner = this;
     }
 
     // Update is called once per frame
@@ -71,7 +76,9 @@ public class EnemySpawner : MonoBehaviour
         GameManager.Instance.state = GameManager.GameState.INWAVE;
         yield return this.SpawnWave();
         yield return new WaitWhile(() => GameManager.Instance.enemy_count > 0);
+        
         GameManager.Instance.state = GameManager.GameState.WAVEEND;
+        onWaveEnd.Invoke();
     }
 
     IEnumerator SpawnWave()
