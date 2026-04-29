@@ -76,13 +76,17 @@ public class EnemySpawner : MonoBehaviour
 
     IEnumerator SpawnWave()
     {
+        List<Coroutine> coroutines = new List<Coroutine>();
         foreach (Spawn spawn in this.selectedLevel.Spawns)
         {
             // Asynchronously spawn each type of enemy
-            StartCoroutine(SpawnEnemyType(spawn));
+            coroutines.Add(StartCoroutine(SpawnEnemyType(spawn)));
         }
 
-        yield return new WaitForSeconds(0.5f);
+        foreach (var coroutine in coroutines)
+        {
+            yield return coroutine;
+        }
     }
 
     IEnumerator SpawnEnemyType(Spawn spawn)
