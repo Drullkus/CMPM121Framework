@@ -36,29 +36,19 @@ public class Spawn
     [JsonProperty("location", DefaultValueHandling = DefaultValueHandling.Populate)]
     public string Location { get; set; }
 
-    public int GetCountInWave(int wave)
+    public void CalculateForWave(int wave, out int count, out int delay)
     {
-        return RPNEvaluator.RPNEvaluator.Evaluate(this.Count, new() { ["wave"] = wave });
+        Dictionary<string, int> variables = new() { ["wave"] = wave };
+
+        count = RPNEvaluator.RPNEvaluator.Evaluate(this.Count, variables);
+        delay = RPNEvaluator.RPNEvaluator.Evaluate(this.Delay, variables);
     }
 
-    public int GetDelayInWave(int wave)
+    public void CalculateForNewSpawn(EnemyStats enemy, int wave, out int hp, out int speed, out int damage)
     {
-        return RPNEvaluator.RPNEvaluator.Evaluate(this.Delay, new() { ["wave"] = wave });
-    }
-
-    public int GetHpInWave(int baseHp, int wave)
-    {
-        return RPNEvaluator.RPNEvaluator.Evaluate(this.Hp, new() { ["base"] = baseHp, ["wave"] = wave });
-    }
-
-    public int GetSpeedInWave(int baseHp, int wave)
-    {
-        return RPNEvaluator.RPNEvaluator.Evaluate(this.Speed, new() { ["base"] = baseHp, ["wave"] = wave });
-    }
-
-    public int GetDamageInWave(int baseHp, int wave)
-    {
-        return RPNEvaluator.RPNEvaluator.Evaluate(this.Damage, new() { ["base"] = baseHp, ["wave"] = wave });
+        hp = RPNEvaluator.RPNEvaluator.Evaluate(this.Hp, new() { ["base"] = enemy.HP, ["wave"] = wave });
+        speed = RPNEvaluator.RPNEvaluator.Evaluate(this.Speed, new() { ["base"] = enemy.Speed, ["wave"] = wave });
+        damage = RPNEvaluator.RPNEvaluator.Evaluate(this.Damage, new() { ["base"] = enemy.Damage, ["wave"] = wave });
     }
 
     public IEnumerable<int> GetSpawnBatches()

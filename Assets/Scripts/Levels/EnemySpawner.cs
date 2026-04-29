@@ -91,7 +91,7 @@ public class EnemySpawner : MonoBehaviour
 
     IEnumerator SpawnEnemyType(Spawn spawn)
     {
-        int totalEnemiesOfType = spawn.GetCountInWave(this.waveLevel);
+        spawn.CalculateForWave(this.waveLevel, out int totalEnemiesOfType, out int sequenceDelay);
         int enemyCount = 0;
 
         foreach (int spawnCount in spawn.GetSpawnBatches())
@@ -111,7 +111,7 @@ public class EnemySpawner : MonoBehaviour
                 }
             }
 
-            yield return new WaitForSeconds(spawn.GetDelayInWave(this.waveLevel));
+            yield return new WaitForSeconds(sequenceDelay);
         }
 
         yield return null;
@@ -144,9 +144,10 @@ public class EnemySpawner : MonoBehaviour
 
         new_enemy.GetComponent<SpriteRenderer>().sprite = GameManager.Instance.enemySpriteManager.Get(enemyStats.SpriteIndex);
         EnemyController en = new_enemy.GetComponent<EnemyController>();
-        en.hp = new Hittable(spawn.GetHpInWave(enemyStats.HP, waveLevel), Hittable.Team.MONSTERS, new_enemy);
-        en.speed = spawn.GetSpeedInWave(enemyStats.Speed, waveLevel);
-        en.damage = spawn.GetDamageInWave(enemyStats.Damage, waveLevel);
+        spawn.CalculateForNewSpawn(enemyStats, this.waveLevel, out int hp, out int speed, out int damage);
+        en.hp = new Hittable(hp, Hittable.Team.MONSTERS, new_enemy);
+        en.speed = speed;
+        en.damage = damage;
         GameManager.Instance.AddEnemy(new_enemy);
     }
 }
