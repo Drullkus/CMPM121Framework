@@ -131,10 +131,18 @@ public class EnemySpawner : MonoBehaviour
     {
         GameObject new_enemy = Instantiate(enemy, initial_position, Quaternion.identity);
 
-        new_enemy.GetComponent<SpriteRenderer>().sprite = GameManager.Instance.enemySpriteManager.Get(0);
+        EnemyStats enemyStats;
+
+        if(!GameManager.Instance.enemyStats.TryGetValue(spawn.Enemy, out enemyStats)) {
+            Debug.LogError($"tried to spawn enemy of type \"{spawn.Enemy}\" when no such enemy type exists!");
+            return;
+        }
+
+        new_enemy.GetComponent<SpriteRenderer>().sprite = GameManager.Instance.enemySpriteManager.Get(enemyStats.SpriteIndex);
         EnemyController en = new_enemy.GetComponent<EnemyController>();
-        en.hp = new Hittable(50, Hittable.Team.MONSTERS, new_enemy);
-        en.speed = 10;
+        en.hp = new Hittable(spawn.GetHpInWave(enemyStats.HP, waveLevel), Hittable.Team.MONSTERS, new_enemy);
+        en.speed = spawn.GetSpeedInWave(enemyStats.Speed, waveLevel);
+        en.damage = spawn.GetDamageInWave(enemyStats.Damage, waveLevel);
         GameManager.Instance.AddEnemy(new_enemy);
     }
 }

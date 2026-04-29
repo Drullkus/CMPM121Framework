@@ -33,7 +33,7 @@ public class GameManager
     public PlayerSpriteManager playerSpriteManager;
     public RelicIconManager relicIconManager;
 
-    private Dictionary<string, EnemyStats> enemyStats;
+    public Dictionary<string, EnemyStats> enemyStats;
     private List<GameObject> enemies;
     public int enemy_count { get { return enemies.Count; } }
 
