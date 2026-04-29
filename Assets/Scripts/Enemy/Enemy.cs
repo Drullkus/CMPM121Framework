@@ -14,7 +14,7 @@ public class EnemyStats {
 
 	[DefaultValue(20)]
 	[JsonProperty("hp", DefaultValueHandling = DefaultValueHandling.Populate)]
-	public int HP;
+	public int HP { get; set; }
 
 	[DefaultValue(5)]
 	[JsonProperty("speed", DefaultValueHandling = DefaultValueHandling.Populate)]
