@@ -1,19 +1,28 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 public class EnemyStats {
+	[DefaultValue(0)]
 	[JsonProperty("sprite", DefaultValueHandling = DefaultValueHandling.Populate)]
-	public int SpriteIndex = 0;
+	public int SpriteIndex { get; set; }
 
+	[DefaultValue("unnamed enemy")]
 	[JsonProperty("name", DefaultValueHandling = DefaultValueHandling.Populate)]
-	public string Name = "unnamed enemy";
+	public string Name { get; set; }
+
+	[DefaultValue(20)]
 	[JsonProperty("hp", DefaultValueHandling = DefaultValueHandling.Populate)]
-	public int HP = 20;
+	public int HP;
+
+	[DefaultValue(5)]
 	[JsonProperty("speed", DefaultValueHandling = DefaultValueHandling.Populate)]
-	public int Speed = 5;
+	public int Speed { get; set; }
+
+	[DefaultValue(5)]
 	[JsonProperty("damage", DefaultValueHandling = DefaultValueHandling.Populate)]
-	public int Damage = 5;
+	public int Damage { get; set; }
 
 	public static Statuses.Status CreateEnemyStatDictionaryFromJson(string statsJson, out Dictionary<string, EnemyStats> enemyStatDictionary) {
 		enemyStatDictionary = new Dictionary<string, EnemyStats>();
@@ -26,5 +35,13 @@ public class EnemyStats {
 		}
 
 		return Statuses.Status.SUCCESS;
+	}
+}
+
+public class Enemy {
+	EnemyStats stats;
+
+	Enemy(EnemyStats stats) {
+		this.stats = stats;
 	}
 }

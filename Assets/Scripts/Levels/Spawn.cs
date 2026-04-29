@@ -1,5 +1,7 @@
+using UnityEngine;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using System.ComponentModel;
 
 [System.Serializable]
 public class Spawn
@@ -10,23 +12,29 @@ public class Spawn
     [JsonProperty("count")]
     public string Count { get; set; }
 
+    [DefaultValue("base")]
     [JsonProperty("hp", DefaultValueHandling = DefaultValueHandling.Populate)]
-    public string Hp { get; set; } = "base";
+    public string Hp { get; set; }
 
+    [DefaultValue("base")]
     [JsonProperty("speed", DefaultValueHandling = DefaultValueHandling.Populate)]
-    public string Speed { get; set; } = "base";
+    public string Speed { get; set; }
 
+    [DefaultValue("base")]
     [JsonProperty("damage", DefaultValueHandling = DefaultValueHandling.Populate)]
-    public string Damage { get; set; } = "base";
+    public string Damage { get; set; }
 
+    [DefaultValue("2")]
     [JsonProperty("delay", DefaultValueHandling = DefaultValueHandling.Populate)]
-    public string Delay { get; set; } = "2";
+    public string Delay { get; set; }
 
+    [DefaultValue(new int[] { 1 })]
     [JsonProperty("sequence", DefaultValueHandling = DefaultValueHandling.Populate)]
-    public int[] Sequence { get; set; } = { 1 };
+    public int[] Sequence { get; set; }
 
+    [DefaultValue("random")]
     [JsonProperty("location", DefaultValueHandling = DefaultValueHandling.Populate)]
-    public string Location { get; set; } = "random";
+    public string Location { get; set; }
 
     public int GetCountInWave(int wave)
     {
