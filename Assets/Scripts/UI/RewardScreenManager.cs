@@ -1,24 +1,49 @@
+using TMPro;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class RewardScreenManager : MonoBehaviour
 {
-    public GameObject rewardUI;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
+
+    [SerializeField]
+    private GameObject rewardUI;
+
+    [SerializeField]
+    private GameObject statDisplayPrefab;
+
+    private List<GameObject> statDisplays = new List<GameObject>();
+
+    void Start() {
+        GameManager.Instance.rewardScreenManager = this;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ShowRewardScreen(List<string> stats)
     {
-        if (GameManager.Instance.state == GameManager.GameState.WAVEEND)
+        float statSpacing = 40; // TODO make this depend on stats.Count
+        float statStartingYOffset = 190 - statSpacing * stats.Count;
+
+        for(int i = 0; i < stats.Count; i++)
         {
-            rewardUI.SetActive(true);
+            GameObject newStatDisplay = Instantiate(statDisplayPrefab, rewardUI.transform);
+            newStatDisplay.transform.localPosition = new Vector3(0, statStartingYOffset - statSpacing * i, 0);
+
+            TextMeshProUGUI textObject = newStatDisplay.GetComponent<TextMeshProUGUI>();
+            textObject.text = stats[i];
+
+            statDisplays.Add(newStatDisplay);
         }
-        else
+
+        rewardUI.SetActive(true);
+    }
+
+    private void HideRewardScreen()
+    {
+        rewardUI.SetActive(false);
+
+        foreach(GameObject statDisplay in statDisplays)
         {
-            rewardUI.SetActive(false);
+            Destroy(statDisplay);
         }
     }
+
 }

@@ -17,6 +17,10 @@ public class EnemySpawner : MonoBehaviour
     public SpawnPoint[] SpawnPoints;
     private Level selectedLevel;
     private int waveLevel = 1;
+    private float waveDuration = 0;
+
+    public delegate void OnWaveEndHandler();
+    public event OnWaveEndHandler onWaveEnd;
 
     public void Reset()
     {
@@ -38,12 +42,16 @@ public class EnemySpawner : MonoBehaviour
             selector.GetComponent<MenuSelectorController>().spawner = this;
             selector.GetComponent<MenuSelectorController>().SetLevel(level);
         }
+
+        GameManager.Instance.enemySpawner = this;
     }
 
     // Update is called once per frame
     void Update()
     {
+        waveDuration += Time.deltaTime;
         
+        GameManager.Instance.waveStatValues["waveDuration"] = (int)Math.Floor(waveDuration);
     }
 
     public void OnDestroy()
@@ -73,6 +81,8 @@ public class EnemySpawner : MonoBehaviour
 
     IEnumerator StartWave()
     {
+        waveDuration = 0;
+
         GameManager.Instance.state = GameManager.GameState.COUNTDOWN;
         GameManager.Instance.countdown = 3;
         for (int i = 3; i > 0; i--)
@@ -83,7 +93,9 @@ public class EnemySpawner : MonoBehaviour
         GameManager.Instance.state = GameManager.GameState.INWAVE;
         yield return this.SpawnWave();
         yield return new WaitWhile(() => GameManager.Instance.enemy_count > 0);
+        
         GameManager.Instance.state = GameManager.GameState.WAVEEND;
+        onWaveEnd.Invoke();
     }
 
     IEnumerator SpawnWave()
