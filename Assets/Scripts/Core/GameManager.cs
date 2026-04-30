@@ -64,7 +64,7 @@ public class GameManager
     private List<GameObject> enemies;
     public int enemy_count { get { return enemies.Count; } }
 
-    private Dictionary<string, int> waveStatValues = new(){
+    public Dictionary<string, int> waveStatValues = new(){
         [ "hitCount" ] = 0,
         [ "shotCount" ] = 0,
         [ "waveTime" ] = 0,
@@ -108,9 +108,9 @@ public class GameManager
 
         for(int i = 0; i < Math.Min(baseLength, 3); i++)
         {
-            int indicesIndex = new System.Random().Next(0, possibleIndices.Count);
+            int indicesIndex = new System.Random().Next(0, possibleIndices.Count - 1);
             int expressionIndex = possibleIndices[indicesIndex];
-            possibleIndices.RemoveAt(expressionIndex);
+            possibleIndices.RemoveAt(indicesIndex);
 
             (string, string) expression = waveStatExpressions.Values.ToArray()[expressionIndex];
 
