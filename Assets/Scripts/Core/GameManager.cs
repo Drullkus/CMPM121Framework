@@ -70,8 +70,8 @@ public class GameManager
         [ "waveDuration" ] = 0,
     };
     private Dictionary<string, (string, string)> waveStatExpressions = new(){
-        [ "secondsSurvived" ] = ("waveDuration", "Seconds survived:"),
-        [ "accuracy" ] = ("100 hitCount * shotCount /", "Shot accuracy:"),
+        [ "waveDuration" ] = ("waveDuration", "Wave duration: {0} seconds"),
+        [ "accuracy" ] = ("100 hitCount * shotCount /", "Shot accuracy: {0}%"),
     };
 
     public void AddEnemy(GameObject enemy)
@@ -117,7 +117,9 @@ public class GameManager
             string description = expression.Item2;
             string value = RPNEvaluator.RPNEvaluator.Evaluate(expression.Item1, waveStatValues).ToString();
 
-            stats.Add($"{description} {value}");
+            string stat = String.Format(description, value);
+
+            stats.Add(stat);
         }
 
         return stats;
@@ -129,10 +131,5 @@ public class GameManager
         TextAsset jsonFile = Resources.Load<TextAsset>("enemies");
         Statuses.Status res = EnemyStats.CreateEnemyStatDictionaryFromJson(jsonFile.text, out enemyStats);
         if(res != Statuses.Status.SUCCESS) { Debug.LogError(res.StatusString()); }
-        else {
-            foreach(EnemyStats stats in enemyStats.Values) {
-                Debug.Log(stats.Name);
-            }
-        }
     }
 }
