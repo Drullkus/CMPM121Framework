@@ -6,15 +6,22 @@ using Newtonsoft.Json;
 using Unity.Mathematics;
 using System;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class EnemySpawner : MonoBehaviour
 {
     public Image level_selector;
     public GameObject button;
     public GameObject enemy;
+    public GameObject defeatScreen;
     public SpawnPoint[] SpawnPoints;
     private Level selectedLevel;
     private int waveLevel = 1;
+
+    public void Reset()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -37,6 +44,11 @@ public class EnemySpawner : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void OnDestroy()
+    {
+        GameManager.Instance.ClearEnemies();
     }
 
     public void StartLevel(Level level)

@@ -9,6 +9,11 @@ public class DamageNumbers : MonoBehaviour
         EventBus.Instance.OnDamage += OnDamage;
     }
 
+    public void OnDestroy()
+    {
+        EventBus.Instance.OnDamage -= OnDamage;
+    }
+
     // Update is called once per frame
     void Update()
     {

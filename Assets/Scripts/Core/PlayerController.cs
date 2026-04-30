@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
 
     public SpellCaster spellcaster;
     public SpellUI spellui;
+    public GameObject defeatScreen;
 
     public int speed;
 
@@ -63,7 +64,8 @@ public class PlayerController : MonoBehaviour
 
     void Die()
     {
-        Debug.Log("You Lost");
+        GameManager.Instance.state = GameManager.GameState.GAMEOVER;
+        defeatScreen.SetActive(true);
     }
 
 }
