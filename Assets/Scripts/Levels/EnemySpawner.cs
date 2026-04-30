@@ -70,6 +70,11 @@ public class EnemySpawner : MonoBehaviour
 
     public void NextWave()
     {
+        if (selectedLevel.Waves == this.waveLevel)
+        {
+            this.Reset();
+        }
+
         this.waveLevel++;
 
         if (selectedLevel.Waves == 0 || selectedLevel.Waves <= this.waveLevel)
