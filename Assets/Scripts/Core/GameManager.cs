@@ -67,10 +67,10 @@ public class GameManager
     public Dictionary<string, int> waveStatValues = new(){
         [ "hitCount" ] = 0,
         [ "shotCount" ] = 0,
-        [ "waveTime" ] = 0,
+        [ "waveDuration" ] = 0,
     };
     private Dictionary<string, (string, string)> waveStatExpressions = new(){
-        [ "secondsSurvived" ] = ("waveTime", "Seconds survived:"),
+        [ "secondsSurvived" ] = ("waveDuration", "Seconds survived:"),
         [ "accuracy" ] = ("100 hitCount * shotCount /", "Shot accuracy:"),
     };
 

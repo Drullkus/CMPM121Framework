@@ -15,6 +15,7 @@ public class EnemySpawner : MonoBehaviour
     public SpawnPoint[] SpawnPoints;
     private Level selectedLevel;
     private int waveLevel = 1;
+    private float waveDuration = 0;
 
     public delegate void OnWaveEndHandler();
     public event OnWaveEndHandler onWaveEnd;
@@ -41,7 +42,9 @@ public class EnemySpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        waveDuration += Time.deltaTime;
         
+        GameManager.Instance.waveStatValues["waveDuration"] = (int)Math.Floor(waveDuration);
     }
 
     public void StartLevel(Level level)
@@ -66,6 +69,8 @@ public class EnemySpawner : MonoBehaviour
 
     IEnumerator StartWave()
     {
+        waveDuration = 0;
+
         GameManager.Instance.state = GameManager.GameState.COUNTDOWN;
         GameManager.Instance.countdown = 3;
         for (int i = 3; i > 0; i--)
