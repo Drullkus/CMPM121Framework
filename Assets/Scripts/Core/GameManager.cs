@@ -66,8 +66,8 @@ public class GameManager
 
     private Dictionary<string, int> waveStatValues = new(){
         [ "hitCount" ] = 0,
-        [ "shotCount" ] = 1,
-        [ "waveTime" ] = 100,
+        [ "shotCount" ] = 0,
+        [ "waveTime" ] = 0,
     };
     private Dictionary<string, (string, string)> waveStatExpressions = new(){
         [ "secondsSurvived" ] = ("waveTime", "Seconds survived:"),
@@ -90,6 +90,14 @@ public class GameManager
         return enemies.Aggregate((a,b) => (a.transform.position - point).sqrMagnitude < (b.transform.position - point).sqrMagnitude ? a : b);
     }
 
+    public void ClearWaveStatValues()
+    {
+        foreach(string key in waveStatValues.Keys.ToArray())
+        {
+            waveStatValues[key] = 0;
+        }
+    }
+
     public List<string> GetRandomStats()
     {
         List<int> possibleIndices = Enumerable.Range(0, waveStatExpressions.Count).ToList();
@@ -98,7 +106,8 @@ public class GameManager
 
         int baseLength = possibleIndices.Count;
 
-        for(int i = 0; i < Math.Min(baseLength, 3); i++) {
+        for(int i = 0; i < Math.Min(baseLength, 3); i++)
+        {
             int indicesIndex = new System.Random().Next(0, possibleIndices.Count);
             int expressionIndex = possibleIndices[indicesIndex];
             possibleIndices.RemoveAt(expressionIndex);
