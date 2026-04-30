@@ -30,6 +30,7 @@ public class ProjectileController : MonoBehaviour
             if (ec != null)
             {
                 OnHit(ec.hp, transform.position);
+                GameManager.Instance.waveStatValues["hitCount"]++;
             }
             else
             {
