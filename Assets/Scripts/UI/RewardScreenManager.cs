@@ -36,7 +36,7 @@ public class RewardScreenManager : MonoBehaviour
         rewardUI.SetActive(true);
     }
 
-    private void HideRewardScreen()
+    public void HideRewardScreen()
     {
         rewardUI.SetActive(false);
 
