@@ -64,6 +64,16 @@ public class GameManager
     private List<GameObject> enemies;
     public int enemy_count { get { return enemies.Count; } }
 
+    private Dictionary<string, int> waveStatValues = new(){
+        [ "hitCount" ] = 0,
+        [ "shotCount" ] = 1,
+        [ "waveTime" ] = 100,
+    };
+    private Dictionary<string, (string, string)> waveStatExpressions = new(){
+        [ "secondsSurvived" ] = ("waveTime", "Seconds survived:"),
+        [ "accuracy" ] = ("100 hitCount * shotCount /", "Shot accuracy:"),
+    };
+
     public void AddEnemy(GameObject enemy)
     {
         enemies.Add(enemy);
@@ -82,7 +92,26 @@ public class GameManager
 
     public List<string> GetRandomStats()
     {
-        return new List<string>{ "stat example 1", "stat example 2", "stat example 3" };
+        List<int> possibleIndices = Enumerable.Range(0, waveStatExpressions.Count).ToList();
+
+        List<string> stats = new();
+
+        int baseLength = possibleIndices.Count;
+
+        for(int i = 0; i < Math.Min(baseLength, 3); i++) {
+            int indicesIndex = new System.Random().Next(0, possibleIndices.Count);
+            int expressionIndex = possibleIndices[indicesIndex];
+            possibleIndices.RemoveAt(expressionIndex);
+
+            (string, string) expression = waveStatExpressions.Values.ToArray()[expressionIndex];
+
+            string description = expression.Item2;
+            string value = RPNEvaluator.RPNEvaluator.Evaluate(expression.Item1, waveStatValues).ToString();
+
+            stats.Add($"{description} {value}");
+        }
+
+        return stats;
     }
 
     private GameManager()
