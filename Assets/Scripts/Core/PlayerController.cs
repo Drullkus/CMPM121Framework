@@ -49,7 +49,8 @@ public class PlayerController : MonoBehaviour
 
     void OnAttack(InputValue value)
     {
-        if (GameManager.Instance.state == GameManager.GameState.PREGAME || GameManager.Instance.state == GameManager.GameState.GAMEOVER) return;
+        // FIXME remove GameManager.GameState.COUNTDOWN from among the checks and find out what's actually null
+        if (GameManager.Instance.state == GameManager.GameState.PREGAME || GameManager.Instance.state == GameManager.GameState.COUNTDOWN || GameManager.Instance.state == GameManager.GameState.GAMEOVER) return;
 
         GameManager.Instance.waveStatValues["shotCount"]++;
 
