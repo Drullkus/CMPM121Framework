@@ -46,7 +46,7 @@ public class GameManager
         set
         {
             _rewardScreenManager = value;
-            if(_enemySpawner) { _enemySpawner.onWaveEnd += () => { _rewardScreenManager.ShowRewardScreen(GetRandomStats()); }; }
+            if(_enemySpawner) { _enemySpawner.onWaveEnd += () => { _rewardScreenManager.ShowRewardScreen(GetRandomStats(), _enemySpawner.WavesCompleted()); }; }
         }
     }
 
@@ -56,7 +56,7 @@ public class GameManager
         set
         {
             _enemySpawner = value;
-            if(_rewardScreenManager) { _enemySpawner.onWaveEnd += () => { _rewardScreenManager.ShowRewardScreen(GetRandomStats()); }; }
+            if(_rewardScreenManager) { _enemySpawner.onWaveEnd += () => { _rewardScreenManager.ShowRewardScreen(GetRandomStats(), _enemySpawner.WavesCompleted()); }; }
         }
     }
 

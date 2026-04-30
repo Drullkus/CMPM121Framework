@@ -17,20 +17,33 @@ public class RewardScreenManager : MonoBehaviour
         GameManager.Instance.rewardScreenManager = this;
     }
 
-    public void ShowRewardScreen(List<string> stats)
+    public void ShowRewardScreen(List<string> stats, bool wavesCompleted)
     {
-        float statSpacing = 40; // TODO make this depend on stats.Count
-        float statStartingYOffset = 190 - statSpacing * stats.Count;
-
-        for(int i = 0; i < stats.Count; i++)
+        if (wavesCompleted)
         {
             GameObject newStatDisplay = Instantiate(statDisplayPrefab, rewardUI.transform);
-            newStatDisplay.transform.localPosition = new Vector3(0, statStartingYOffset - statSpacing * i, 0);
+            newStatDisplay.transform.localPosition = new Vector3(0, 0, 0);
 
             TextMeshProUGUI textObject = newStatDisplay.GetComponent<TextMeshProUGUI>();
-            textObject.text = stats[i];
+            textObject.text = "U WINNER";
 
             statDisplays.Add(newStatDisplay);
+        }
+        else
+        {
+            float statSpacing = 40; // TODO make this depend on stats.Count
+            float statStartingYOffset = 190 - statSpacing * stats.Count;
+
+            for (int i = 0; i < stats.Count; i++)
+            {
+                GameObject newStatDisplay = Instantiate(statDisplayPrefab, rewardUI.transform);
+                newStatDisplay.transform.localPosition = new Vector3(0, statStartingYOffset - statSpacing * i, 0);
+
+                TextMeshProUGUI textObject = newStatDisplay.GetComponent<TextMeshProUGUI>();
+                textObject.text = stats[i];
+
+                statDisplays.Add(newStatDisplay);
+            }
         }
 
         rewardUI.SetActive(true);

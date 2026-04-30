@@ -179,4 +179,9 @@ public class EnemySpawner : MonoBehaviour
         en.damage = damage;
         GameManager.Instance.AddEnemy(new_enemy);
     }
+
+    public bool WavesCompleted()
+    {
+        return selectedLevel.Waves == this.waveLevel;
+    }
 }
