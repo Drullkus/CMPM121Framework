@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 
 [System.Serializable]
-public class Level
-{
+public class Level {
+
     [JsonProperty("name")]
     public string Name { get; set; }
 
@@ -12,4 +12,5 @@ public class Level
 
     [JsonProperty("spawns")]
     public List<Spawn> Spawns { get; set; }
+
 }

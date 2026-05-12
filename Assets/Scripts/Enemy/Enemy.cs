@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 
 public class EnemyStats {
+
 	[DefaultValue(0)]
 	[JsonProperty("sprite", DefaultValueHandling = DefaultValueHandling.Populate)]
 	public int SpriteIndex { get; set; }
@@ -36,12 +37,15 @@ public class EnemyStats {
 
 		return Statuses.Status.SUCCESS;
 	}
+
 }
 
 public class Enemy {
+
 	EnemyStats stats;
 
 	Enemy(EnemyStats stats) {
 		this.stats = stats;
 	}
+
 }

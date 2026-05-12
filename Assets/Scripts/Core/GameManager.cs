@@ -3,16 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public class GameManager 
-{
-    public enum GameState
-    {
+public class GameManager {
+
+    public enum GameState {
         PREGAME,
         INWAVE,
         WAVEEND,
         COUNTDOWN,
         GAMEOVER
     }
+
     public GameState state;
 
     public int countdown;
@@ -40,21 +40,17 @@ public class GameManager
     private RewardScreenManager _rewardScreenManager;
     private EnemySpawner _enemySpawner;
 
-    public RewardScreenManager rewardScreenManager
-    {
+    public RewardScreenManager rewardScreenManager {
         get => _rewardScreenManager;
-        set
-        {
+        set {
             _rewardScreenManager = value;
             if(_enemySpawner) { _enemySpawner.onWaveEnd += () => { _rewardScreenManager.ShowRewardScreen(GetRandomStats(), _enemySpawner.WavesCompleted()); }; }
         }
     }
 
-    public EnemySpawner enemySpawner
-    {
+    public EnemySpawner enemySpawner {
         get => _enemySpawner;
-        set
-        {
+        set {
             _enemySpawner = value;
             if(_rewardScreenManager) { _enemySpawner.onWaveEnd += () => { _rewardScreenManager.ShowRewardScreen(GetRandomStats(), _enemySpawner.WavesCompleted()); }; }
         }
@@ -74,45 +70,38 @@ public class GameManager
         [ "accuracy" ] = ("100 hitCount * shotCount /", "Shot accuracy: {0}%"),
     };
 
-    public void AddEnemy(GameObject enemy)
-    {
+    public void AddEnemy(GameObject enemy) {
         enemies.Add(enemy);
     }
-    public void RemoveEnemy(GameObject enemy)
-    {
+
+    public void RemoveEnemy(GameObject enemy) {
         enemies.Remove(enemy);
     }
 
-    public void ClearEnemies()
-    {
+    public void ClearEnemies() {
         enemies.Clear();
     }
 
-    public GameObject GetClosestEnemy(Vector3 point)
-    {
+    public GameObject GetClosestEnemy(Vector3 point) {
         if (enemies == null || enemies.Count == 0) return null;
         if (enemies.Count == 1) return enemies[0];
         return enemies.Aggregate((a,b) => (a.transform.position - point).sqrMagnitude < (b.transform.position - point).sqrMagnitude ? a : b);
     }
 
-    public void ClearWaveStatValues()
-    {
-        foreach(string key in waveStatValues.Keys.ToArray())
-        {
+    public void ClearWaveStatValues() {
+        foreach(string key in waveStatValues.Keys.ToArray()) {
             waveStatValues[key] = 0;
         }
     }
 
-    public List<string> GetRandomStats()
-    {
+    public List<string> GetRandomStats() {
         List<int> possibleIndices = Enumerable.Range(0, waveStatExpressions.Count).ToList();
 
         List<string> stats = new();
 
         int baseLength = possibleIndices.Count;
 
-        for(int i = 0; i < Math.Min(baseLength, 3); i++)
-        {
+        for(int i = 0; i < Math.Min(baseLength, 3); i++) {
             int indicesIndex = new System.Random().Next(0, possibleIndices.Count - 1);
             int expressionIndex = possibleIndices[indicesIndex];
             possibleIndices.RemoveAt(indicesIndex);
@@ -130,11 +119,11 @@ public class GameManager
         return stats;
     }
 
-    private GameManager()
-    {
+    private GameManager() {
 		enemies = new List<GameObject>();
         TextAsset jsonFile = Resources.Load<TextAsset>("enemies");
         Statuses.Status res = EnemyStats.CreateEnemyStatDictionaryFromJson(jsonFile.text, out enemyStats);
         if(res != Statuses.Status.SUCCESS) { Debug.LogError(res.StatusString()); }
     }
+
 }

@@ -8,8 +8,8 @@ using System;
 using System.Linq;
 using UnityEngine.SceneManagement;
 
-public class EnemySpawner : MonoBehaviour
-{
+public class EnemySpawner : MonoBehaviour {
+
     public Image level_selector;
     public GameObject button;
     public GameObject enemy;
@@ -22,14 +22,11 @@ public class EnemySpawner : MonoBehaviour
     public delegate void OnWaveEndHandler();
     public event OnWaveEndHandler onWaveEnd;
 
-    public void Reset()
-    {
+    public void Reset() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
+    void Start() {
         TextAsset jsonAsset = Resources.Load<TextAsset>("levels");
         List<Level> levels = JsonConvert.DeserializeObject<List<Level>>(jsonAsset.text);
 
@@ -46,21 +43,17 @@ public class EnemySpawner : MonoBehaviour
         GameManager.Instance.enemySpawner = this;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         waveDuration += Time.deltaTime;
         
         GameManager.Instance.waveStatValues["waveDuration"] = (int)Math.Floor(waveDuration);
     }
 
-    public void OnDestroy()
-    {
+    public void OnDestroy() {
         GameManager.Instance.ClearEnemies();
     }
 
-    public void StartLevel(Level level)
-    {
+    public void StartLevel(Level level) {
         this.selectedLevel = level;
         level_selector.gameObject.SetActive(false);
         // this is not nice: we should not have to be required to tell the player directly that the level is starting
@@ -68,24 +61,20 @@ public class EnemySpawner : MonoBehaviour
         StartCoroutine(this.StartWave());
     }
 
-    public void NextWave()
-    {
-        if (selectedLevel.Waves == this.waveLevel)
-        {
+    public void NextWave() {
+        if (selectedLevel.Waves == this.waveLevel) {
             this.Reset();
         }
 
         this.waveLevel++;
 
-        if (selectedLevel.Waves == 0 || selectedLevel.Waves <= this.waveLevel)
-        {
+        if (selectedLevel.Waves == 0 || selectedLevel.Waves <= this.waveLevel) {
             StartCoroutine(this.StartWave());
         }
     }
 
 
-    IEnumerator StartWave()
-    {
+    IEnumerator StartWave() {
         waveDuration = 0;
 
         GameManager.Instance.state = GameManager.GameState.COUNTDOWN;
@@ -103,8 +92,7 @@ public class EnemySpawner : MonoBehaviour
         onWaveEnd.Invoke();
     }
 
-    IEnumerator SpawnWave()
-    {
+    IEnumerator SpawnWave() {
         List<Coroutine> coroutines = new List<Coroutine>();
         foreach (Spawn spawn in this.selectedLevel.Spawns)
         {
@@ -118,15 +106,12 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    IEnumerator SpawnEnemyType(Spawn spawn)
-    {
+    IEnumerator SpawnEnemyType(Spawn spawn) {
         spawn.CalculateForWave(this.waveLevel, out int totalEnemiesOfType, out int sequenceDelay);
         int enemyCount = 0;
 
-        foreach (int spawnCount in spawn.GetSpawnBatches())
-        {
-            for (int countInBatch = 0; countInBatch < spawnCount; countInBatch++)
-            {
+        foreach (int spawnCount in spawn.GetSpawnBatches()) {
+            for (int countInBatch = 0; countInBatch < spawnCount; countInBatch++) {
                 SpawnPoint spawn_point = this.ChooseSpawnPoint(spawn.Location);
                 Vector2 offset = UnityEngine.Random.insideUnitCircle * 1.8f;
 
@@ -134,8 +119,7 @@ public class EnemySpawner : MonoBehaviour
 
                 this.SpawnEnemy(initial_position, spawn);
 
-                if (++enemyCount >= totalEnemiesOfType)
-                {
+                if (++enemyCount >= totalEnemiesOfType) {
                     yield break;
                 }
             }
@@ -146,12 +130,10 @@ public class EnemySpawner : MonoBehaviour
         yield return null;
     }
 
-    SpawnPoint ChooseSpawnPoint(string filter)
-    {
+    SpawnPoint ChooseSpawnPoint(string filter) {
         string spawnKey = filter.Split()[^1].ToUpper();
 
-        if (Enum.TryParse<SpawnPoint.SpawnName>(spawnKey, out var spawnType))
-        {
+        if (Enum.TryParse<SpawnPoint.SpawnName>(spawnKey, out var spawnType)) {
             List<SpawnPoint> spawnPointsFiltered = SpawnPoints.Where(p => p.kind == spawnType).ToList();
 
             return spawnPointsFiltered[UnityEngine.Random.Range(0, spawnPointsFiltered.Count)];
@@ -160,8 +142,7 @@ public class EnemySpawner : MonoBehaviour
         return SpawnPoints[UnityEngine.Random.Range(0, SpawnPoints.Length)];
     }
 
-    void SpawnEnemy(Vector3 initial_position, Spawn spawn)
-    {
+    void SpawnEnemy(Vector3 initial_position, Spawn spawn) {
         GameObject new_enemy = Instantiate(enemy, initial_position, Quaternion.identity);
 
         EnemyStats enemyStats;
@@ -180,8 +161,9 @@ public class EnemySpawner : MonoBehaviour
         GameManager.Instance.AddEnemy(new_enemy);
     }
 
-    public bool WavesCompleted()
-    {
+    public bool WavesCompleted() {
         return selectedLevel.Waves == this.waveLevel;
     }
+
 }
+

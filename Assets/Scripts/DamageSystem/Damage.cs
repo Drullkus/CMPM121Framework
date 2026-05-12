@@ -1,21 +1,21 @@
 using UnityEngine;
 
-public class Damage 
-{
+public class Damage {
+
     public int amount;
-    public enum Type
-    {
+
+    public enum Type {
         PHYSICAL, ARCANE, NATURE, FIRE, ICE, DARK, LIGHT
     }
+
     public Type type;
-    public Damage(int amount, Type type)
-    {
+
+    public Damage(int amount, Type type) {
         this.amount = amount;
         this.type = type;
     }
 
-    public static Type TypeFromString(string type)
-    {
+    public static Type TypeFromString(string type) {
         string t = type.ToLower();
         if (t == "arcane") return Type.ARCANE;
         if (t == "nature") return Type.NATURE;
@@ -25,4 +25,6 @@ public class Damage
         if (t == "light") return Type.LIGHT;
         return Type.PHYSICAL;
     }
+
 }
+

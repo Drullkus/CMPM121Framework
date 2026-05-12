@@ -5,8 +5,8 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Collections.Generic;
 
-public class PlayerController : MonoBehaviour
-{
+public class PlayerController : MonoBehaviour {
+
     public Hittable hp;
     public HealthBar healthui;
     public ManaBar manaui;
@@ -20,14 +20,12 @@ public class PlayerController : MonoBehaviour
     public Unit unit;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
+    void Start() {
         unit = GetComponent<Unit>();
         GameManager.Instance.player = gameObject;
     }
 
-    public void StartLevel()
-    {
+    public void StartLevel() {
         spellcaster = new SpellCaster(125, 8, Hittable.Team.PLAYER);
         StartCoroutine(spellcaster.ManaRegeneration());
         
@@ -41,14 +39,7 @@ public class PlayerController : MonoBehaviour
         spellui.SetSpell(spellcaster.spell);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    void OnAttack(InputValue value)
-    {
+    void OnAttack(InputValue value) {
         // FIXME remove GameManager.GameState.COUNTDOWN from among the checks and find out what's actually null
         if (GameManager.Instance.state == GameManager.GameState.PREGAME || GameManager.Instance.state == GameManager.GameState.COUNTDOWN || GameManager.Instance.state == GameManager.GameState.GAMEOVER) return;
 
@@ -60,14 +51,13 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(spellcaster.Cast(transform.position, mouseWorld));
     }
 
-    void OnMove(InputValue value)
-    {
-        if (GameManager.Instance.state == GameManager.GameState.PREGAME || GameManager.Instance.state == GameManager.GameState.GAMEOVER) return;
-        unit.movement = value.Get<Vector2>()*speed;
+    void OnMove(InputValue value) {
+        if (GameManager.Instance.state == GameManager.GameState.PREGAME || GameManager.Instance.state == GameManager.GameState.GAMEOVER) { return; }
+
+        unit.movement = value.Get<Vector2>() * speed;
     }
 
-    void Die()
-    {
+    void Die() {
         GameManager.Instance.state = GameManager.GameState.GAMEOVER;
         defeatScreen.SetActive(true);
     }
