@@ -4,8 +4,8 @@ using Newtonsoft.Json;
 using System.ComponentModel;
 
 [System.Serializable]
-public class Spawn
-{
+public class Spawn {
+
     [JsonProperty("enemy")]
     public string Enemy { get; set; }
 
@@ -36,30 +36,26 @@ public class Spawn
     [JsonProperty("location", DefaultValueHandling = DefaultValueHandling.Populate)]
     public string Location { get; set; }
 
-    public void CalculateForWave(int wave, out int count, out int delay)
-    {
+    public void CalculateForWave(int wave, out int count, out int delay) {
         Dictionary<string, int> variables = new() { ["wave"] = wave };
 
         count = RPNEvaluator.RPNEvaluator.Evaluate(this.Count, variables);
         delay = RPNEvaluator.RPNEvaluator.Evaluate(this.Delay, variables);
     }
 
-    public void CalculateForNewSpawn(EnemyStats enemy, int wave, out int hp, out int speed, out int damage)
-    {
+    public void CalculateForNewSpawn(EnemyStats enemy, int wave, out int hp, out int speed, out int damage) {
         hp = RPNEvaluator.RPNEvaluator.Evaluate(this.Hp, new() { ["base"] = enemy.HP, ["wave"] = wave });
         speed = RPNEvaluator.RPNEvaluator.Evaluate(this.Speed, new() { ["base"] = enemy.Speed, ["wave"] = wave });
         damage = RPNEvaluator.RPNEvaluator.Evaluate(this.Damage, new() { ["base"] = enemy.Damage, ["wave"] = wave });
     }
 
-    public IEnumerable<int> GetSpawnBatches()
-    {
-        while (true)
-        {
-            foreach (int batch in Sequence)
-            {
+    public IEnumerable<int> GetSpawnBatches() {
+        while (true) {
+            foreach (int batch in Sequence) {
                 yield return batch;
             }
         }
     }
 
 }
+

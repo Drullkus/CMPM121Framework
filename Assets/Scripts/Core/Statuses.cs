@@ -1,6 +1,7 @@
 using System.ComponentModel;
 
 namespace Statuses {
+
     public enum Status {
         [Description("Success")]
         SUCCESS = 0,
@@ -10,6 +11,7 @@ namespace Statuses {
 }
 
 public static class StatusExtensions {
+
     // enum-string association method provided by stackoverflow user
     // Glennular at https://stackoverflow.com/a/630900
     public static string StatusString(this Statuses.Status statusInstance) {
@@ -22,4 +24,5 @@ public static class StatusExtensions {
 
         return attributes[0].Description;
     }
+
 }
