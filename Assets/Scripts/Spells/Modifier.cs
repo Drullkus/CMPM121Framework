@@ -14,9 +14,8 @@ namespace Spells {
 			_format = format;
 		}
 
-		// TODO
-		void Modify(ref Stat stat) {
-			
+		public void Modify(ref string stat) {
+			stat.value = format.Replace("{value}", stat.value);
 		}
 
 	}
