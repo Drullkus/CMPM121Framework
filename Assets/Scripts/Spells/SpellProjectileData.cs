@@ -1,5 +1,11 @@
 namespace Spells
 {
+	public enum Trajectory {
+		STRAIGHT,
+		SPIRAL,
+		HOMING,
+	}
+
     public class SpellProjectileData
     {
         public string trajectory { get; set; }
