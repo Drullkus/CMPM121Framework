@@ -6,8 +6,10 @@ using Newtonsoft.Json;
 using Unity.Mathematics;
 using System;
 using System.Linq;
+using Player;
 using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(PlayerController))]
 public class EnemySpawner : MonoBehaviour {
 
     public Image level_selector;
@@ -18,6 +20,7 @@ public class EnemySpawner : MonoBehaviour {
     private Level selectedLevel;
     private int waveLevel = 1;
     private float waveDuration = 0;
+    public PlayerController playerController;
 
     public delegate void OnWaveEndHandler();
     public event OnWaveEndHandler onWaveEnd;
@@ -57,7 +60,7 @@ public class EnemySpawner : MonoBehaviour {
         this.selectedLevel = level;
         level_selector.gameObject.SetActive(false);
         // this is not nice: we should not have to be required to tell the player directly that the level is starting
-        GameManager.Instance.player.GetComponent<PlayerController>().StartLevel();
+        playerController.StartLevel(new PlayerClassData());
         StartCoroutine(this.StartWave());
     }
 
@@ -69,6 +72,7 @@ public class EnemySpawner : MonoBehaviour {
         this.waveLevel++;
 
         if (selectedLevel.Waves == 0 || selectedLevel.Waves <= this.waveLevel) {
+            this.playerController.OnNextWave(this.waveLevel);
             StartCoroutine(this.StartWave());
         }
     }

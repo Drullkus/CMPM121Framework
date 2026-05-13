@@ -497,8 +497,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 334187433}
   cooldown: {fileID: 1468482023}
-  manacost: {fileID: 11042825}
-  damage: {fileID: 757752468}
+  manacost: {fileID: 0}
+  damage: {fileID: 0}
   highlight: {fileID: 279594428}
   dropbutton: {fileID: 426128245}
 --- !u!114 &96316930
@@ -1804,8 +1804,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 1298929768}
   cooldown: {fileID: 1528674329}
-  manacost: {fileID: 532755681}
-  damage: {fileID: 1860547075}
+  manacost: {fileID: 0}
+  damage: {fileID: 0}
   highlight: {fileID: 1477215737}
   dropbutton: {fileID: 1528944909}
 --- !u!114 &457295005
@@ -2008,6 +2008,7 @@ MonoBehaviour:
   - {fileID: 2073311049}
   - {fileID: 1577913788}
   - {fileID: 587991943}
+  playerController: {fileID: 1718273952}
 --- !u!1 &532755679
 GameObject:
   m_ObjectHideFlags: 0
@@ -2969,8 +2970,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 1218915916}
   cooldown: {fileID: 1610884461}
-  manacost: {fileID: 2070572078}
-  damage: {fileID: 989605413}
+  manacost: {fileID: 0}
+  damage: {fileID: 0}
   highlight: {fileID: 12506828}
   dropbutton: {fileID: 578112679}
 --- !u!114 &797691356
@@ -56497,8 +56498,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 1727109217}
   cooldown: {fileID: 1669142557}
-  manacost: {fileID: 400786126}
-  damage: {fileID: 982783696}
+  manacost: {fileID: 0}
+  damage: {fileID: 0}
   highlight: {fileID: 1270515289}
   dropbutton: {fileID: 672798488}
 --- !u!114 &2085212186

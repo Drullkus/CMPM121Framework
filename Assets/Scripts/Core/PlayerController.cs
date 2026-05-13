@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.IO;
 using System.Collections.Generic;
+using Player;
 
 public class PlayerController : MonoBehaviour {
 
@@ -15,6 +16,8 @@ public class PlayerController : MonoBehaviour {
     public SpellUI spellui;
     public GameObject defeatScreen;
 
+    public PlayerClassData data;
+
     public int speed;
 
     public Unit unit;
@@ -25,7 +28,9 @@ public class PlayerController : MonoBehaviour {
         GameManager.Instance.player = gameObject;
     }
 
-    public void StartLevel() {
+    public void StartLevel(PlayerClassData data) {
+        this.data = data;
+        
         spellcaster = new SpellCaster(125, 8, Hittable.Team.PLAYER);
         StartCoroutine(spellcaster.ManaRegeneration());
         
@@ -37,6 +42,15 @@ public class PlayerController : MonoBehaviour {
         healthui.SetHealth(hp);
         manaui.SetSpellCaster(spellcaster);
         spellui.SetSpell(spellcaster.spell);
+    }
+
+    public void OnNextWave(int wave) {
+        data.CalculatePlayerStatsForWave(wave, out int health, out int mana, out int mana_reg, out int spellpower, out int speed); // FIXME spellpower unused, needs wiring into spellcasting
+        
+        this.hp.hp = health;
+        this.spellcaster.mana = mana;
+        this.spellcaster.mana_reg = mana_reg;
+        this.speed = speed;
     }
 
     void OnAttack(InputValue value) {
