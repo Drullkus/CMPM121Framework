@@ -8,11 +8,15 @@ namespace Spells
         public readonly string name;
         public readonly string description;
         public readonly int icon;
-        public readonly string manaCost;
-        public readonly string cooldown;
-        public readonly SpellDamageData damageData;
-        public readonly SpellProjectileData projectileData;
-        public readonly string delay; 
+        public string manaCost;
+        public string cooldown;
+        public SpellDamageData damageData;
+		public SpellDamageData secondaryDamageData;
+        public SpellProjectileData projectileData;
+		public SpellProjectileData secondaryProjectileData;
+        public string delay;
+
+		public string n;
         
 		private List<SpellBlueprintModifier> _modifiers;
 
@@ -58,35 +62,51 @@ namespace Spells
 		}
 
 		public SpellData SetN(string n) {
+			this.N = n;
+			return this;
+		}
+
+		public SpellData SetSecondaryDamage(SpellDamageData damageData) {
+			secondaryDamageData = damageData;
+			return this;
+		}
+
+		public SpellData SetSecondaryProjectileData(ProjectileData projectileData) {
+			secondaryProjectileData = projectileData;
+			return this;
+		}
+
+		// TODO - add path
+		public SpellData SetDamageMultiplier(string multiplier) {
+			SpellBlueprintRPNStatModifier modifier = new(multiplier, "*", null);
+
+			_modifiers.Add(modifier);
 
 			return this;
 		}
 
-		public SpellData SetSecondaryDamage() {
+		// TODO - add path
+		public SpellData SetManaAdder(string amount) {
+			SpellBlueprintRPNStatModifier modifier = new(amount, "+", null);
+
+			_modifiers.Add(modifier);
 
 			return this;
 		}
 
-		public SpellData SetSecondaryProjectileData() {
+		// TODO - add path
+		public SpellData SetManaMultiplier(string multiplier) {
+			SpellBlueprintRPNStatModifier modifier = new(multiplier, "*", null);
 
-			return this;
-		}
-		public SpellData SetDamageMultiplier() {
-
-			return this;
-		}
-
-		public SpellData SetManaAdder() {
+			_modifiers.Add(modifier);
 
 			return this;
 		}
 
-		public SpellData SetManaMultiplier() {
+		public SpellData SetSpeedMultiplier(string multiplier) {
+			SpellBlueprintRPNStatModifier modifier = new(multiplier, "*", null);
 
-			return this;
-		}
-
-		public SpellData SetSpeedMultiplier() {
+			_modifiers.Add(modifier);
 
 			return this;
 		}
@@ -147,8 +167,16 @@ namespace Spells
 		private string _prefix;
 		private string _suffix;
 
+		private SpellStatPath _path;
+
+		public SpellBlueprintRPNStatModifier(string prefix, string suffix, SpellStatPath path) {
+			_prefix = prefix;
+			_suffix = suffix;
+			_path = path;
+		}
+
 		public void Transform(SpellBlueprint blueprint) {
-			// rpnStat = $"{_prefix} {rpnStat} {_suffix}";
+			_path.ResolveRPNString(blueprint) = $"{_prefix} {_path.ResolveRPNString(blueprint)} {_suffix}";
 		}
 
 	}
