@@ -8,9 +8,9 @@ namespace Spells
 
     public class SpellProjectileData
     {
-        public string trajectory { get; set; }
-        public string speed { get; set; }
-        public string lifetime { get; set; }
-        public int sprite { get; set; } = 0;
+        private readonly Trajectory _trajectory;
+        private readonly string _speed;
+        private readonly string _lifetime;
+        private readonly int _sprite;
     }
 }
