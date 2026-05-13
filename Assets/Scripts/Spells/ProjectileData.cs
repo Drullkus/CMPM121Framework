@@ -6,7 +6,7 @@ namespace Spells
 		HOMING,
 	}
 
-    public class SpellProjectileData
+    public class ProjectileData
     {
         private readonly Trajectory _trajectory;
         private readonly string _speed;

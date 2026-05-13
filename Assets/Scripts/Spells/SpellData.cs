@@ -12,8 +12,8 @@ namespace Spells
         public string secondaryDamage { get; set; }
         public string manaCost { get; set; }
         public string cooldown { get; set; }
-        public SpellProjectileData projectile { get; set; }
-        public SpellProjectileData secondaryProjectile { get; set; }
+        public ProjectileData projectile { get; set; }
+        public ProjectileData secondaryProjectile { get; set; }
         
         public string delay { get; set; }
         public string damageMultiplier { get; set; }
