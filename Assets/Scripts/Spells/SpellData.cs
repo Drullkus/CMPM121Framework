@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Spells
 {
     public class SpellData
