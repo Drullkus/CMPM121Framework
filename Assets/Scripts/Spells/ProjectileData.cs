@@ -26,6 +26,14 @@ namespace Spells
 			_lifetime = lifetime;
 		}
 
+		public ProjectileData(DeserializedDataContainer data) {
+			_trajectory = data.trajectory;
+			_sprite = data.sprite;
+			
+			_speed = data.speed;
+			_lifetime = data.lifetime;
+		}
+
 		ProjectileBlueprint MakeBlueprint() {
 			ProjectileBlueprint blueprint = new();
 
