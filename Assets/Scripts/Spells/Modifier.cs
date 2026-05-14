@@ -14,8 +14,8 @@ namespace Spells {
 			_format = format;
 		}
 
-		public void Modify(ref string stat) {
-			stat.value = format.Replace("{value}", stat.value);
+		public void Modify(Stat stat) {
+			stat.value = _format.Replace("{value}", stat.value);
 		}
 
 	}
