@@ -5,59 +5,59 @@ public class DeserializedDataContainer {
 
 	// common fields for spells and modifiers
 	[JsonProperty("name")]
-	public readonly string name;
+	public string name;
 	[JsonProperty("description")]
-	public readonly string description;
+	public string description;
 	[JsonProperty("icon")]
-	public readonly int icon;
+	public int icon;
 
 	// spell fields
 	[JsonProperty("N")]
-	public readonly string n;
+	public string n;
 	[JsonProperty("spray")]
-	public readonly string spray;
-	[JsonProperty("manacost")]
-	public readonly string manaCost;
+	public string spray;
+	[JsonProperty("mana_cost")]
+	public string manaCost;
 	[JsonProperty("cooldown")]
-	public readonly string cooldown;
+	public string cooldown;
 	[JsonProperty("damage")]
-	public readonly DeserializedDataContainer damage;
-	[JsonProperty("secondarydamage")]
-	public readonly DeserializedDataContainer secondaryDamage;
+	public DeserializedDataContainer damage;
+	[JsonProperty("secondary_damage")]
+	public DeserializedDataContainer secondaryDamage;
 	[JsonProperty("projectile")]
-	public readonly DeserializedDataContainer projectile;
-	[JsonProperty("secondaryprojectile")]
-	public readonly DeserializedDataContainer secondaryProjectile;
+	public DeserializedDataContainer projectile;
+	[JsonProperty("secondary_projectile")]
+	public DeserializedDataContainer secondaryProjectile;
 	
 	// modifier-specific fields
 	[JsonProperty("angle")]
-	public readonly string angle;
+	public string angle;
 	[JsonProperty("delay")]
-	public readonly string delay;
-	[JsonProperty("manaadder")]
-	public readonly string manaAdder;
-	[JsonProperty("manamultiplier")]
-	public readonly string manaMultiplier;
-	[JsonProperty("cooldownmultiplier")]
-	public readonly string cooldownMultiplier;
-	[JsonProperty("projectiletrajectory")]
-	public readonly string projectileTrajectory;
+	public string delay;
+	[JsonProperty("mana_adder")]
+	public string manaAdder;
+	[JsonProperty("mana_multiplier")]
+	public string manaMultiplier;
+	[JsonProperty("cooldown_multiplier")]
+	public string cooldownMultiplier;
+	[JsonProperty("projectile_trajectory")]
+	public Spells.Trajectory projectileTrajectory;
 
 	// spell damage fields
 	[JsonProperty("amount")]
-	public readonly string amount;
+	public string amount;
 	[JsonProperty("type")]
-	public readonly string type;
+	public string type;
 
 	// spell projectile fields
 	[JsonProperty("sprite")]
-	public readonly int sprite;
+	public int sprite;
 	[JsonProperty("trajectory")]
-	public readonly Spells.Trajectory trajectory;
+	public Spells.Trajectory trajectory;
 	[JsonProperty("speed")]
-	public readonly string speed;
+	public string speed;
 	[JsonProperty("lifetime")]
-	public readonly string lifetime;
+	public string lifetime;
 
 	public Spells.SpellData AsSpellData() {
 		return new Spells.SpellData(this);
@@ -65,6 +65,33 @@ public class DeserializedDataContainer {
 
 	public Spells.ProjectileData AsProjectileData() {
 		return new Spells.ProjectileData(this);
+	}
+
+	public Spells.Modifier AsModifier() {
+		string target = "";
+		string format = "";
+
+		if(angle != "") {
+			target = "angle";
+			format = $"{angle}";
+		} else if(delay != "") {
+			target = "delay";
+			format = $"{delay}";
+		} else if(manaAdder != "") {
+			target = "manaCost";
+			format = $"{{value}} {manaAdder} +";
+		} else if(manaMultiplier != "") {
+			target = "manaCost";
+			format = $"{{value}} {manaMultiplier} *";
+		} else if(cooldownMultiplier != "") {
+			target = "cooldownMultiplier";
+			format = $"{{value}} {cooldownMultiplier} *";
+		} else if(projectileTrajectory != Spells.Trajectory.UNDEFINED) {
+			target = "projectileTrajectory";
+			format = $"{projectileTrajectory}";
+		}
+
+		return new Spells.Modifier(name, description, target, format);
 	}
 
 }

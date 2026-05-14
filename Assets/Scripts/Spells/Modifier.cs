@@ -5,12 +5,14 @@ namespace Spells {
 		public readonly string name;
 		public readonly string description;
 
+		private string _target;
 		private string _format;
 
-		public Modifier(string name, string description, string format) {
+		public Modifier(string name, string description, string target, string format) {
 			this.name = name;
 			this.description = description;
 
+			_target = target;
 			_format = format;
 		}
 

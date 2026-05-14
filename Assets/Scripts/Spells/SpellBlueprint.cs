@@ -30,8 +30,9 @@ namespace Spells {
 
 		private Dictionary<string, Stat> _stats;
 
-		// TODO
-		public void Modify(Modifier modifier) {}
+		public void Modify(Modifier modifier) {
+			
+		}
 
 	}
 
