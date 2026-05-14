@@ -33,6 +33,10 @@ namespace Spells {
 		[JsonProperty("spray")]
 		private string _spray;
 
+		public SpellData(DeserializedDataContainer data) {
+
+		}
+
     }
 
 }
