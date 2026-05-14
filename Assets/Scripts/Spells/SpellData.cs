@@ -9,7 +9,7 @@ namespace Spells {
 		[JsonProperty("description")]
 		private string _description;
 		[JsonProperty("icon")]
-		private string _icon;
+		private int _icon;
 
 		[JsonProperty("damage")]
 		private SpellDamageData _primaryDamage;
