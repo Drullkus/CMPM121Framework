@@ -5470,6 +5470,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthui: {fileID: 765025204}
   manaui: {fileID: 71109453}
+  SpellUIContainer: {fileID: 1982188287}
   spellui: {fileID: 2085212185}
   defeatScreen: {fileID: 372800356}
   speed: 5
@@ -55968,6 +55969,7 @@ MonoBehaviour:
   - {fileID: 457295002}
   - {fileID: 797691353}
   player: {fileID: 1718273952}
+  activeSlot: 0
 --- !u!1 &2007398911
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour {
     public ManaBar manaui;
 
     public SpellCaster spellcaster;
+    public SpellUIContainer SpellUIContainer;
     public SpellUI spellui;
     public GameObject defeatScreen;
 
@@ -71,6 +72,10 @@ public class PlayerController : MonoBehaviour {
         if (GameManager.Instance.state == GameManager.GameState.PREGAME || GameManager.Instance.state == GameManager.GameState.GAMEOVER) { return; }
 
         unit.movement = value.Get<Vector2>() * speed;
+    }
+
+    void OnChangeSpell(InputValue value) {
+        SpellUIContainer.ChangeSpell();
     }
 
     void Die() {
