@@ -16,7 +16,7 @@ namespace UI {
         
         public void SetPlayerClass(string name, PlayerClassData playerClass, UnityAction onClick) {
             this.playerClass = playerClass;
-            spriteRenderer.sprite = GameManager.Instance.enemySpriteManager.Get(playerClass.sprite);
+            spriteRenderer.sprite = GameManager.Instance.playerSpriteManager.Get(playerClass.sprite);
             textGui.text = name;
             button.onClick.AddListener(onClick);
         }
