@@ -5,16 +5,16 @@ namespace Spells {
     public class SpellData {
 
 		[JsonProperty("name")]
-		private readonly string _name;
+		private string _name;
 		[JsonProperty("description")]
-		private readonly string _description;
+		private string _description;
 		[JsonProperty("icon")]
-		private readonly string _icon;
+		private string _icon;
 
 		[JsonProperty("damage")]
-		private readonly SpellDamageData _primaryDamage;
+		private SpellDamageData _primaryDamage;
 		[JsonProperty("secondary_damage")]
-		private readonly SpellDamageData _secondaryDamage;
+		private SpellDamageData _secondaryDamage;
 
 		[JsonProperty("projectile")]
 		private ProjectileData _primaryProjectile;
@@ -22,16 +22,16 @@ namespace Spells {
 		private ProjectileData _secondaryProjectile;
 
 		[JsonProperty("cooldown")]
-		private readonly string _cooldown;
+		private string _cooldown;
 		[JsonProperty("mana_cost")]
-		private readonly string _manaCost;
+		private string _manaCost;
 
 		[JsonProperty("delay")]
-		private readonly string _delay;
+		private string _delay;
 		[JsonProperty("N")]
-		private readonly string _n;
+		private string _n;
 		[JsonProperty("spray")]
-		private readonly string _spray;
+		private string _spray;
 
     }
 
