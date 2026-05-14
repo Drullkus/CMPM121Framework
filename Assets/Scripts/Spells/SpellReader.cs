@@ -1,6 +1,8 @@
 using Newtonsoft.Json;
 using UnityEngine;
 
+using System.Collections.Generic;
+
 public class DeserializedDataContainer {
 
 	// common fields for spells and modifiers
@@ -59,6 +61,19 @@ public class DeserializedDataContainer {
 	[JsonProperty("lifetime")]
 	public string lifetime;
 
+	private bool IsSpell() {
+		return manaCost != "";
+	}
+
+	private bool IsSpellModifier() {
+		return angle != "" ||
+			delay != "" ||
+			manaAdder != "" ||
+			manaMultiplier != "" ||
+			cooldownMultiplier != "" ||
+			projectileTrajectory != Spells.Trajectory.UNDEFINED;
+	}
+
 	public Spells.SpellData AsSpellData() {
 		return new Spells.SpellData(this);
 	}
@@ -92,6 +107,25 @@ public class DeserializedDataContainer {
 		}
 
 		return new Spells.Modifier(name, description, target, format);
+	}
+
+	public static List<Spells.SpellData> baseSpellData = new();
+	public static List<Spells.Modifier> modifiers = new();
+
+	public static void ReadFromJson(string json) {
+		Dictionary<string, DeserializedDataContainer> deserializedData = JsonConvert.DeserializeObject<Dictionary<string, DeserializedDataContainer>>(json);
+
+		foreach(DeserializedDataContainer data in deserializedData.Values) {
+			if(data.IsSpell()) {
+				baseSpellData.Add(data.AsSpellData());
+				continue;
+			}
+
+			if(data.IsSpellModifier()) {
+				modifiers.Add(data.AsModifier());
+				continue;
+			}
+		}
 	}
 
 }
