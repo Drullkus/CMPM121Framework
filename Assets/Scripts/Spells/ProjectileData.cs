@@ -15,14 +15,27 @@ namespace Spells
 
 		public ProjectileData(
 			Trajectory trajectory,
+			int sprite,
 			string speed,
-			string lifetime,
-			int sprite
+			string lifetime
 		) {
 			_trajectory = trajectory;
+			_sprite = sprite;
+
 			_speed = speed;
 			_lifetime = lifetime;
-			_sprite = sprite;
+		}
+
+		ProjectileBlueprint MakeBlueprint() {
+			ProjectileBlueprint blueprint = new();
+
+			blueprint.SetTrajectory(_trajectory);
+			blueprint.SetSprite(_sprite);
+
+			blueprint.SetStat("speed", new(_speed));
+			blueprint.SetStat("lifetime", new(_lifetime));
+
+			return blueprint;
 		}
     }
 }
