@@ -49,13 +49,14 @@ public class EnemySpawner : MonoBehaviour {
 
         for (var index = 0; index < playerClasses.Count; index++) {
             var playerClass = playerClasses.ElementAt(index);
+            var playerClassData = playerClass.Value;
             if (index == 0) { // first is default class
-                chosenPlayerClass = playerClass.Value;
+                chosenPlayerClass = playerClassData;
             }
 
             var classSelector = Instantiate(playerClassButton, level_selector.transform);
             classSelector.transform.localPosition = new Vector3((index - (playerClasses.Count - 1) * 0.5f) * 80f, -50, -100);
-            classSelector.GetComponent<ClassSelectorControl>().SetPlayerClass(playerClass.Key, playerClass.Value);
+            classSelector.GetComponent<ClassSelectorControl>().SetPlayerClass(playerClass.Key, playerClassData, () => chosenPlayerClass = playerClassData);
         }
 
         GameManager.Instance.enemySpawner = this;
