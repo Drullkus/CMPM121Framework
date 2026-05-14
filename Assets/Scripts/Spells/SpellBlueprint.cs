@@ -2,11 +2,11 @@ using System.Collections.Generic;
 
 namespace Spells {
 
-	public abstract class CastBehavior { public virtual void Cast(); }
+	public abstract class CastBehavior { public abstract void Cast(); }
 
 	namespace CastBehaviors {
 
-		public class Simple : Base {
+		public class Simple : CastBehavior {
 
 			// TODO
 			public override void Cast() {
