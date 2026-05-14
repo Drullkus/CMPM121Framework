@@ -3,10 +3,10 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using Unity.Mathematics;
 using System;
 using System.Linq;
 using Player;
+using UI;
 using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(PlayerController))]
@@ -14,10 +14,12 @@ public class EnemySpawner : MonoBehaviour {
 
     public Image level_selector;
     public GameObject button;
+    public GameObject playerClassButton;
     public GameObject enemy;
     public GameObject defeatScreen;
     public SpawnPoint[] SpawnPoints;
     private Level selectedLevel;
+    private PlayerClassData chosenPlayerClass;
     private int waveLevel = 1;
     private float waveDuration = 0;
     public PlayerController playerController;
@@ -30,17 +32,30 @@ public class EnemySpawner : MonoBehaviour {
     }
 
     void Start() {
-        TextAsset jsonAsset = Resources.Load<TextAsset>("levels");
-        List<Level> levels = JsonConvert.DeserializeObject<List<Level>>(jsonAsset.text);
+        var levelsJsonAsset = Resources.Load<TextAsset>("levels");
+        var levels = JsonConvert.DeserializeObject<List<Level>>(levelsJsonAsset.text);
 
-        for (int index = 0; index < levels.Count; index++)
-        {
-            Level level = levels[index];
+        for (var index = 0; index < levels.Count; index++) {
+            var level = levels[index];
 
-            GameObject selector = Instantiate(button, level_selector.transform);
+            var selector = Instantiate(button, level_selector.transform);
             selector.transform.localPosition = new Vector3(0, 130 - index * 40);
             selector.GetComponent<MenuSelectorController>().spawner = this;
             selector.GetComponent<MenuSelectorController>().SetLevel(level);
+        }
+
+        var playerClassJsonAsset = Resources.Load<TextAsset>("classes");
+        var playerClasses = JsonConvert.DeserializeObject<Dictionary<string, PlayerClassData>>(playerClassJsonAsset.text);
+
+        for (var index = 0; index < playerClasses.Count; index++) {
+            var playerClass = playerClasses.ElementAt(index);
+            if (index == 0) { // first is default class
+                chosenPlayerClass = playerClass.Value;
+            }
+
+            var classSelector = Instantiate(playerClassButton, level_selector.transform);
+            classSelector.transform.localPosition = new Vector3((index - (playerClasses.Count - 1) * 0.5f) * 80f, -50, -100);
+            classSelector.GetComponent<ClassSelectorControl>().SetPlayerClass(playerClass.Key, playerClass.Value);
         }
 
         GameManager.Instance.enemySpawner = this;
@@ -60,7 +75,7 @@ public class EnemySpawner : MonoBehaviour {
         this.selectedLevel = level;
         level_selector.gameObject.SetActive(false);
         // this is not nice: we should not have to be required to tell the player directly that the level is starting
-        playerController.StartLevel(new PlayerClassData());
+        playerController.StartLevel(chosenPlayerClass);
         StartCoroutine(this.StartWave());
     }
 
@@ -83,8 +98,7 @@ public class EnemySpawner : MonoBehaviour {
 
         GameManager.Instance.state = GameManager.GameState.COUNTDOWN;
         GameManager.Instance.countdown = 3;
-        for (int i = 3; i > 0; i--)
-        {
+        for (int i = 3; i > 0; i--) {
             yield return new WaitForSeconds(1);
             GameManager.Instance.countdown--;
         }
