@@ -9,7 +9,6 @@ using Player;
 using UI;
 using UnityEngine.SceneManagement;
 
-[RequireComponent(typeof(PlayerController))]
 public class EnemySpawner : MonoBehaviour {
 
     public Image level_selector;
