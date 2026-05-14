@@ -42,6 +42,8 @@ public class PlayerController : MonoBehaviour {
         healthui.SetHealth(hp);
         manaui.SetSpellCaster(spellcaster);
         spellui.SetSpell(spellcaster.spell);
+
+        gameObject.GetComponent<SpriteRenderer>().sprite = GameManager.Instance.playerSpriteManager.Get(data.sprite);
     }
 
     public void OnNextWave(int wave) {
