@@ -25,17 +25,17 @@ public class EnemyStats {
 	[JsonProperty("damage", DefaultValueHandling = DefaultValueHandling.Populate)]
 	public int Damage { get; set; }
 
-	public static Statuses.Status CreateEnemyStatDictionaryFromJson(string statsJson, out Dictionary<string, EnemyStats> enemyStatDictionary) {
+	public static bool CreateEnemyStatDictionaryFromJson(string statsJson, out Dictionary<string, EnemyStats> enemyStatDictionary) {
 		enemyStatDictionary = new Dictionary<string, EnemyStats>();
 
 		List<EnemyStats> enemyStatsList = JsonConvert.DeserializeObject<List<EnemyStats>>(statsJson);
 
 		foreach(EnemyStats enemyStats in enemyStatsList) {
 			if(enemyStatDictionary.TryAdd(enemyStats.Name, enemyStats)) { continue; }
-			return Statuses.Status.ENEMY_STAT_REDEFINITION;
+			return false;
 		}
 
-		return Statuses.Status.SUCCESS;
+		return true;
 	}
 
 }
