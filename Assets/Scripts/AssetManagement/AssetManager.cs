@@ -1,12 +1,18 @@
 using System;
 using UnityEngine;
 
-public class AssetManager : MonoBehaviour {
+public class AssetManager {
 
-	public static AssetManager Instance;
+	private static AssetManager _instance;
+	public static AssetManager Instance {
+		get {
+			_instance ??= new AssetManager();
+			return _instance;
+		}
+	}
 
 	void Awake() {
-		if(Instance != null) { Destroy(gameObject); return; }
+		if(Instance != null) { return; }
 
 		Instance = this;
 	}
