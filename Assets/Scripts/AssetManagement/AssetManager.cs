@@ -11,12 +11,6 @@ public class AssetManager {
 		}
 	}
 
-	void Awake() {
-		if(Instance != null) { return; }
-
-		_instance = this;
-	}
-
 	// TODO
 	public void LoadSprites(string spritesheetPath, Action<Sprite[]> onLoad) { }
 
