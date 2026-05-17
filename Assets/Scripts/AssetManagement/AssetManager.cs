@@ -14,7 +14,7 @@ public class AssetManager {
 	void Awake() {
 		if(Instance != null) { return; }
 
-		Instance = this;
+		_instance = this;
 	}
 
 	// TODO
