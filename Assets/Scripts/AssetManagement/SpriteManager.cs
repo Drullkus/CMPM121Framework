@@ -30,17 +30,21 @@ public class SpriteManager : MonoBehaviour {
 		_spellSprites = sprites;
 	}
 
-	// TODO
-	public Sprite RetrieveEnemySprite(int index) { return null; }
+	public Sprite RetrieveEnemySprite(int index) {
+		return _enemySprites[index];
+	}
 
-	// TODO
-	public Sprite RetrievePlayerSprite(int index) { return null; }
+	public Sprite RetrievePlayerSprite(int index) {
+		return _playerSprites[index];
+	}
 
-	// TODO
-	public Sprite RetrieveRelicSprite(int index) { return null; }
+	public Sprite RetrieveRelicSprite(int index) {
+		return _relicSprites[index];
+	}
 
-	// TODO
-	public Sprite RetrieveSpellSprite(int index) { return null; }
+	public Sprite RetrieveSpellSprite(int index) {
+		return _spellSprites[index];
+	}
 
 }
 
