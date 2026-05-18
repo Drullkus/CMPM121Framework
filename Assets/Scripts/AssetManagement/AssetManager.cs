@@ -11,11 +11,13 @@ public class AssetManager {
 		}
 	}
 
-	// TODO
-	public void LoadSprites(string spritesheetPath, Action<Sprite[]> onLoad) { }
+	public void LoadSprites(string spritesheetPath, Action<Sprite[]> onLoad) {
+		onLoad.Invoke(Resources.LoadAll<Sprite>(spritesheetPath));
+	}
 
-	// TODO
-	public void LoadJson(string jsonPath, Action<string> onLoad) { }
+	public void LoadJson(string jsonPath, Action<string> onLoad) {
+		onLoad.Invoke(Resources.Load<TextAsset>(jsonPath).text);
+	}
 
 }
 
