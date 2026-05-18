@@ -14,17 +14,21 @@ public class SpriteManager : MonoBehaviour {
 	private Sprite[] _relicSprites;
 	private Sprite[] _spellSprites;
 
-	// TODO
-	private void RegisterEnemySprites(Sprite[] sprites) { }
+	private void RegisterEnemySprites(Sprite[] sprites) {
+		_enemySprites = sprites;
+	}
 
-	// TODO
-	private void RegisterPlayerSprites(Sprite[] sprites) { }
+	private void RegisterPlayerSprites(Sprite[] sprites) {
+		_playerSprites = sprites;
+	}
 
-	// TODO
-	private void RegisterRelicSprites(Sprite[] sprites) { }
+	private void RegisterRelicSprites(Sprite[] sprites) {
+		_relicSprites = sprites;
+	}
 
-	// TODO
-	private void RegisterSpellSprites(Sprite[] sprites) { }
+	private void RegisterSpellSprites(Sprite[] sprites) {
+		_spellSprites = sprites;
+	}
 
 	// TODO
 	public Sprite RetrieveEnemySprite(int index) { return null; }
