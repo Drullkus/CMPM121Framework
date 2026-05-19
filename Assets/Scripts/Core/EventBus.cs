@@ -22,6 +22,11 @@ public class EventBus {
 		OnUIGameObjectRegistered?.Invoke(uiObject, state);
 	}
 
+	public event Action<UIState> OnUIStateChanged;
+	public void ChangeUIState(UIState newState) {
+		OnUIStateChanged?.Invoke(newState);
+	}
+
 	public event Action<int, Spawn> OnSpawnSchedulingRequested;
 	public void RequestSpawnScheduling(int waveIndex, Spawn spawn) {
 		OnSpawnSchedulingRequested?.Invoke(waveIndex, spawn);
