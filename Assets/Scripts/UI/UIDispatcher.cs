@@ -1,3 +1,6 @@
+using System;
+using UnityEngine;
+
 public class UIDispatcher {
 	
 	public enum UIState {
@@ -15,8 +18,14 @@ public class UIDispatcher {
 		}
 	}
 
-	private UIDispatcher() { }
+	private UIDispatcher() {
+		EventBus.Instance.OnUIGameObjectRegistered += RegisterUIObject;
+	}
 
+	// TODO
+	private void RegisterUIObject(Action show, Action hide, UIState state) { }
+
+	// TODO
 	private void ChangeState(UIState newState) { }
 
 }
