@@ -35,8 +35,6 @@ public class UIDispatcher {
 	private void ChangeState(UIState newState) {
 		if(_state == newState) { return; }
 
-		List<Action> stateChangeAtoms = new();
-
 		Action hideAction = () => {};
 		Action showAction = () => {};
 
