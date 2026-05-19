@@ -570,6 +570,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rewardUI: {fileID: 1709288111}
   statDisplayPrefab: {fileID: 5522675815205433113, guid: c7e083f3addae75f3a940bde800c6f18, type: 3}
+  playerSpellContainer: {fileID: 1982188287}
 --- !u!4 &220180078
 Transform:
   m_ObjectHideFlags: 0

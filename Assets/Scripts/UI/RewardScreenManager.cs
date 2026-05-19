@@ -11,6 +11,9 @@ public class RewardScreenManager : MonoBehaviour
     [SerializeField]
     private GameObject statDisplayPrefab;
 
+    [SerializeField]
+    private SpellUIContainer playerSpellContainer;
+
     private List<GameObject> statDisplays = new List<GameObject>();
 
     void Start() {
