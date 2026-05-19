@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class RewardScreenManager : MonoBehaviour
 {
@@ -14,7 +15,10 @@ public class RewardScreenManager : MonoBehaviour
     [SerializeField]
     private SpellUIContainer playerSpellContainer;
 
-    private List<GameObject> statDisplays = new List<GameObject>();
+    [SerializeField]
+    private GameObject spellChoicePrefab;
+
+    private List<GameObject> displayObjects = new List<GameObject>();
 
     void Start() {
         GameManager.Instance.rewardScreenManager = this;
@@ -30,7 +34,7 @@ public class RewardScreenManager : MonoBehaviour
             TextMeshProUGUI textObject = newStatDisplay.GetComponent<TextMeshProUGUI>();
             textObject.text = "U WINNER";
 
-            statDisplays.Add(newStatDisplay);
+            displayObjects.Add(newStatDisplay);
         }
         else
         {
@@ -45,18 +49,31 @@ public class RewardScreenManager : MonoBehaviour
                 TextMeshProUGUI textObject = newStatDisplay.GetComponent<TextMeshProUGUI>();
                 textObject.text = stats[i];
 
-                statDisplays.Add(newStatDisplay);
+                displayObjects.Add(newStatDisplay);
             }
+            
+            // display spell reward
+            InstantiateSpellReward(-96);
         }
 
         rewardUI.SetActive(true);
+
+        void InstantiateSpellReward(float xPos)
+        {
+            var newSpellChoice = Instantiate(spellChoicePrefab, rewardUI.transform);
+            newSpellChoice.transform.localPosition = new Vector3(xPos, 0, 0);
+            var imageComponent = newSpellChoice.GetComponent<Image>();
+            imageComponent.sprite = GameManager.Instance.spellIconManager.Get(0);
+                
+            displayObjects.Add(newSpellChoice);
+        }
     }
 
     public void HideRewardScreen()
     {
         rewardUI.SetActive(false);
 
-        foreach(GameObject statDisplay in statDisplays)
+        foreach(GameObject statDisplay in displayObjects)
         {
             Destroy(statDisplay);
         }
