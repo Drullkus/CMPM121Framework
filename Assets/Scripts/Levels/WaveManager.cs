@@ -44,8 +44,13 @@ public class WaveManager {
 		OnWaveStart?.Invoke();
 	}
 
-	// TODO
-	public void EndWave() { }
+	public void EndWave() {
+		EventBus.Instance.OnAllEnemiesDefeated -= EndWave;
+		EventBus.Instance.InvokeWaveEnd();
+
+		// TODO - move to GameManager so it can control its own state!
+		GameManager.Instance.state = GameManager.GameState.WAVEEND;
+	}
 
 	// TODO
 	private void SetSpawnTimer(Spawn spawn) { }
