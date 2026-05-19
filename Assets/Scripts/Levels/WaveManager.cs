@@ -12,7 +12,7 @@ public class WaveManager {
 	private int waveIndex = 0;
 
 	public void Initialize() {
-		AssetManager.Instance.LoadJson("classes", (loadedJson) => {
+		AssetManager.Instance.LoadJson("levels", (loadedJson) => {
 			List<Level> levels = JsonConvert.DeserializeObject<List<Level>>(loadedJson);
 
 			OnLevelsDeserialized?.Invoke(levels);
