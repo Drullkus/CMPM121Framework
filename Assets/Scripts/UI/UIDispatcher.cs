@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -34,18 +35,27 @@ public class UIDispatcher {
 	private void ChangeState(UIState newState) {
 		if(_state == newState) { return; }
 
-		if(!_objectMap.TryGetValue(_state, out UIObject oldUIObject)) {
-			Debug.LogError("Tried to change UIState from an invalid value!");
-			return;
+		List<Action> stateChangeAtoms = new();
+
+		Action hideAction = () => {};
+		Action showAction = () => {};
+
+		if(_state != UIState.WAVE) {
+			hideAction = _objectMap.TryGetValue(_state, out UIObject oldUIObject) ?
+				oldUIObject.Hide :
+				() => { Debug.LogError("Tried to change UIState to an invalid value!"); };
 		}
 
-		if(!_objectMap.TryGetValue(newState, out UIObject newUIObject)) {
-			Debug.LogError("Tried to change UIState to an invalid value!");
-			return;
+		if(newState != UIState.WAVE) {
+			showAction = _objectMap.TryGetValue(newState, out UIObject newUIObject) ?
+				newUIObject.Show :
+				() => { Debug.LogError("Tried to change UIState from an invalid value!"); };
 		}
 
-		oldUIObject.Hide();
-		newUIObject.Show();
+		hideAction.Invoke();
+		showAction.Invoke();
+
+		_state = newState;
 	}
 
 }
