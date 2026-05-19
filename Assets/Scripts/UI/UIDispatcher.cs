@@ -1,25 +1,9 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public enum UIState {
 	REWARD,
 	WAVE,
-}
-
-public class UIObject {
-
-	private Action _show;
-	private Action _hide;
-
-	public UIObject(Action show, Action hide) {
-		_show = show;
-		_hide = hide;
-	}
-
-	public void Show() { _show.Invoke(); }
-	public void Hide() { _hide.Invoke(); }
-
 }
 
 public class UIDispatcher {
