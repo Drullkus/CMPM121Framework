@@ -17,9 +17,9 @@ public class EventBus {
         OnDamage?.Invoke(where, dmg, target);
     }
 
-	public event Action<Action, Action, UIDispatcher.UIState> OnUIGameObjectRegistered;
-	public void RegisterUIGameObject(Action show, Action hide, UIDispatcher.UIState state) {
-		OnUIGameObjectRegistered?.Invoke(show, hide, state);
+	public event Action<UIObject, UIDispatcher.UIState> OnUIGameObjectRegistered;
+	public void RegisterUIGameObject(UIObject uiObject, UIDispatcher.UIState state) {
+		OnUIGameObjectRegistered?.Invoke(uiObject, state);
 	}
 
 	public event Action<int, Spawn> OnSpawnSchedulingRequested;
