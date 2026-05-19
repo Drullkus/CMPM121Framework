@@ -11,11 +11,14 @@ public class WaveManager {
 
 	public event Action<List<Level>> OnLevelsDeserialized;
 
+	public event Action OnWaveStart;
+	public event Action OnWaveEnd;
+
 	public void Initialize() {
 		AssetManager.Instance.LoadJson("classes", (loadedJson) => {
 			List<Level> levels = JsonConvert.DeserializeObject<List<Level>>(loadedJson);
 
-			OnLevelsDeserialized.Invoke(levels);
+			OnLevelsDeserialized?.Invoke(levels);
 		});
 	}
 
