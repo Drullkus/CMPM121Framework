@@ -38,6 +38,7 @@ public class UIDispatcher {
 
 	private UIDispatcher() {
 		EventBus.Instance.OnUIGameObjectRegistered += RegisterUIObject;
+		EventBus.Instance.OnUIStateChanged += ChangeState;
 	}
 
 	private void RegisterUIObject(UIObject uiObject, UIState state) {
@@ -46,8 +47,22 @@ public class UIDispatcher {
 		}
 	}
 
-	// TODO
-	private void ChangeState(UIState newState) { }
+	private void ChangeState(UIState newState) {
+		if(_state == newState) { return; }
+
+		if(!_objectMap.TryGetValue(_state, out UIObject oldUIObject)) {
+			Debug.LogError("Tried to change UIState from an invalid value!");
+			return;
+		}
+
+		if(!_objectMap.TryGetValue(newState, out UIObject newUIObject)) {
+			Debug.LogError("Tried to change UIState to an invalid value!");
+			return;
+		}
+
+		oldUIObject.Hide();
+		newUIObject.Show();
+	}
 
 }
 
