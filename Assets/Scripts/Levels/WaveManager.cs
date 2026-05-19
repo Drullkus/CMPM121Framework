@@ -1,13 +1,27 @@
+using Newtonsoft.Json;
 using System;
-using UnityEngine;
+using System.Collections.Generic;
 using System.Timers;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class WaveManager {
 
 	private Action<Spawn> _spawnAction;
 
-	// TODO
-	public void Reset() { }
+	public event Action<List<Level>> OnLevelsDeserialized;
+
+	public void Initialize() {
+		AssetManager.Instance.LoadJson("classes", (loadedJson) => {
+			List<Level> levels = JsonConvert.DeserializeObject<List<Level>>(loadedJson);
+
+			OnLevelsDeserialized.Invoke(levels);
+		});
+	}
+
+	public void Reset() {
+		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+	}
 
 	// TODO
 	public void StartWave(Level level) { }
