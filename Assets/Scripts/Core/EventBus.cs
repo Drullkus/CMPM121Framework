@@ -17,9 +17,9 @@ public class EventBus {
         OnDamage?.Invoke(where, dmg, target);
     }
 
-	public event Action<UIObject, UIState> OnUIGameObjectRegistered;
-	public void RegisterUIGameObject(UIObject uiObject, UIState state) {
-		OnUIGameObjectRegistered?.Invoke(uiObject, state);
+	public event Action<UIObject> OnUIObjectRegistered;
+	public void RegisterUIObject(UIObject uiObject) {
+		OnUIObjectRegistered?.Invoke(uiObject);
 	}
 
 	public event Action<UIState> OnUIStateChanged;

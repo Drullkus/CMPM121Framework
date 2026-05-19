@@ -2,11 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum UIState {
-	REWARD,
-	WAVE,
-}
-
 public class UIDispatcher {
 
 	private UIState _state;
@@ -22,12 +17,12 @@ public class UIDispatcher {
 	}
 
 	private UIDispatcher() {
-		EventBus.Instance.OnUIGameObjectRegistered += RegisterUIObject;
+		EventBus.Instance.OnUIObjectRegistered += RegisterUIObject;
 		EventBus.Instance.OnUIStateChanged += ChangeState;
 	}
 
-	private void RegisterUIObject(UIObject uiObject, UIState state) {
-		if(!_objectMap.TryAdd(state, uiObject)) {
+	private void RegisterUIObject(UIObject uiObject) {
+		if(!_objectMap.TryAdd(uiObject.state, uiObject)) {
 			Debug.LogWarning("Tried to associate 2 UIObjects with the same UIState.");
 		}
 	}
