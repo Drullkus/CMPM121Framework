@@ -52,8 +52,5 @@ public class WaveManager {
 		GameManager.Instance.state = GameManager.GameState.WAVEEND;
 	}
 
-	// TODO
-	private void SetSpawnTimer(Spawn spawn) { }
-
 }
 
