@@ -7,8 +7,6 @@ using UnityEngine.SceneManagement;
 
 public class WaveManager {
 
-	private Action<Spawn> _spawnAction;
-
 	public event Action<List<Level>> OnLevelsDeserialized;
 
 	public event Action OnWaveStart;
