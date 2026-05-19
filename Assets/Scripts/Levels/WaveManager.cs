@@ -14,6 +14,8 @@ public class WaveManager {
 	public event Action OnWaveStart;
 	public event Action OnWaveEnd;
 
+	private int waveIndex = 0;
+
 	public void Initialize() {
 		AssetManager.Instance.LoadJson("classes", (loadedJson) => {
 			List<Level> levels = JsonConvert.DeserializeObject<List<Level>>(loadedJson);
@@ -26,8 +28,21 @@ public class WaveManager {
 		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 	}
 
-	// TODO
-	public void StartWave(Level level) { }
+	public void StartWave(Level level) {
+		GameManager.Instance.state = GameManager.GameState.COUNTDOWN;
+
+		new Timer(3000).Elapsed += (_, _) => {
+			GameManager.Instance.state = GameManager.GameState.INWAVE;
+
+			foreach(Spawn spawn in level.Spawns) {
+				EventBus.Instance.RequestSpawnScheduling(waveIndex, spawn);
+			}
+		};
+
+		EventBus.Instance.OnAllEnemiesDefeated += EndWave;
+
+		OnWaveStart?.Invoke();
+	}
 
 	// TODO
 	public void EndWave() { }
