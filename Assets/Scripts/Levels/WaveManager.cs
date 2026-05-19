@@ -9,9 +9,6 @@ public class WaveManager {
 
 	public event Action<List<Level>> OnLevelsDeserialized;
 
-	public event Action OnWaveStart;
-	public event Action OnWaveEnd;
-
 	private int waveIndex = 0;
 
 	public void Initialize() {
@@ -39,12 +36,12 @@ public class WaveManager {
 
 		EventBus.Instance.OnAllEnemiesDefeated += EndWave;
 
-		OnWaveStart?.Invoke();
+		EventBus.Instance.StartWave();
 	}
 
 	public void EndWave() {
 		EventBus.Instance.OnAllEnemiesDefeated -= EndWave;
-		EventBus.Instance.InvokeWaveEnd();
+		EventBus.Instance.EndWave();
 
 		// TODO - move to GameManager so it can control its own state!
 		GameManager.Instance.state = GameManager.GameState.WAVEEND;

@@ -27,6 +27,16 @@ public class EventBus {
 		OnUIStateChanged?.Invoke(newState);
 	}
 
+	public event Action OnWaveStart;
+	public void StartWave() {
+		OnWaveStart?.Invoke();
+	}
+
+	public event Action OnWaveEnd;
+	public void EndWave() {
+		OnWaveEnd?.Invoke();
+	}
+
 	public event Action<int, Spawn> OnSpawnSchedulingRequested;
 	public void RequestSpawnScheduling(int waveIndex, Spawn spawn) {
 		OnSpawnSchedulingRequested?.Invoke(waveIndex, spawn);
@@ -35,11 +45,6 @@ public class EventBus {
 	public event Action OnAllEnemiesDefeated;
 	public void InvokeAllEnemiesDefeated() {
 		OnAllEnemiesDefeated?.Invoke();
-	}
-
-	public event Action OnWaveEnd;
-	public void InvokeWaveEnd() {
-		OnWaveEnd?.Invoke();
 	}
 
 }
