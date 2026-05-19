@@ -2,6 +2,11 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum UIState {
+	REWARD,
+	WAVE,
+}
+
 public class UIObject {
 
 	private Action _show;
@@ -18,11 +23,6 @@ public class UIObject {
 }
 
 public class UIDispatcher {
-	
-	public enum UIState {
-		REWARD,
-		WAVE,
-	}
 
 	private UIState _state;
 
