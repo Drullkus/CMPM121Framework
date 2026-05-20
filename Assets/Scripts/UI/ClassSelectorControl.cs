@@ -9,16 +9,16 @@ namespace UI {
     [RequireComponent(typeof(SpriteRenderer))]
     [RequireComponent(typeof(Button))]
     public class ClassSelectorControl : MonoBehaviour {
-        private PlayerClassData playerClass;
+
         [SerializeField] private Image spriteRenderer;
         [SerializeField] private TextMeshProUGUI textGui;
         [SerializeField] private Button button;
         
         public void SetPlayerClass(string name, PlayerClassData playerClass, UnityAction onClick) {
-            this.playerClass = playerClass;
-            spriteRenderer.sprite = GameManager.Instance.playerSpriteManager.Get(playerClass.sprite);
+            spriteRenderer.sprite = SpriteManager.Instance.RetrievePlayerSprite(playerClass.sprite);
             textGui.text = name;
             button.onClick.AddListener(onClick);
         }
+
     }
 }
