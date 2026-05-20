@@ -28,14 +28,14 @@ public class EventBus {
 		OnDifficultyChosen?.Invoke(level);
 	}
 
-	public event Action OnWaveStart;
-	public void StartWave() {
-		OnWaveStart?.Invoke();
+	public event Action<int> OnWaveStarted;
+	public void StartWave(int totalEnemyCount) {
+		OnWaveStarted?.Invoke(totalEnemyCount);
 	}
 
-	public event Action OnWaveEnd;
+	public event Action OnWaveEnded;
 	public void EndWave() {
-		OnWaveEnd?.Invoke();
+		OnWaveEnded?.Invoke();
 	}
 
 	public event Action<int, Spawn> OnSpawnSchedulingRequested;

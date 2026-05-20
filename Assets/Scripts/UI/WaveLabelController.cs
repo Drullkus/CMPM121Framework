@@ -1,25 +1,27 @@
 using UnityEngine;
 using TMPro;
 
-public class WaveLabelController : MonoBehaviour
-{
-    TextMeshProUGUI tmp;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        tmp = GetComponent<TextMeshProUGUI>();
+[RequireComponent(typeof(TextMeshProUGUI))]
+public class WaveLabelController : MonoBehaviour {
+
+    private TextMeshProUGUI _label;
+
+	private int _enemyCount = 0;
+
+    void Start() {
+        _label = GetComponent<TextMeshProUGUI>();
+
+		EventBus.Instance.OnWaveStarted += (enemyCount) => {
+			_enemyCount = enemyCount;
+		};
+
+		EventBus.Instance.OnEnemyDefeated += () => {
+			_label.text = $"Enemies remaining: {--_enemyCount}";
+		};
+
+		EventBus.Instance.OnWaveEnded += () => {
+			gameObject.SetActive(false);
+		};
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (GameManager.Instance.state == GameManager.GameState.INWAVE)
-        {
-            tmp.text = "Enemies left: " + GameManager.Instance.enemy_count;
-        }
-        if (GameManager.Instance.state == GameManager.GameState.COUNTDOWN)
-        {
-            tmp.text = "Starting in " + GameManager.Instance.countdown;
-        }
-    }
 }

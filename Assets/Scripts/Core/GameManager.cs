@@ -38,8 +38,6 @@ public class GameManager {
     public RelicIconManager relicIconManager;
 
     public Dictionary<string, EnemyStats> enemyStats;
-    private List<GameObject> enemies;
-    public int enemy_count { get { return enemies.Count; } }
 
 	private WaveManager _waveManager = new();
 
@@ -53,22 +51,8 @@ public class GameManager {
         [ "accuracy" ] = ("100 hitCount * shotCount /", "Shot accuracy: {0}%"),
     };
 
-    public void AddEnemy(GameObject enemy) {
-        enemies.Add(enemy);
-    }
-
-    public void RemoveEnemy(GameObject enemy) {
-        enemies.Remove(enemy);
-    }
-
-    public void ClearEnemies() {
-        enemies.Clear();
-    }
-
     public GameObject GetClosestEnemy(Vector3 point) {
-        if (enemies == null || enemies.Count == 0) return null;
-        if (enemies.Count == 1) return enemies[0];
-        return enemies.Aggregate((a,b) => (a.transform.position - point).sqrMagnitude < (b.transform.position - point).sqrMagnitude ? a : b);
+        return null;
     }
 
     public void ClearWaveStatValues() {

@@ -40,11 +40,12 @@ public class WaveManager {
 			_enemyDefeatHandler = HandleEnemyDefeated;
 			EventBus.Instance.OnEnemyDefeated += _enemyDefeatHandler;
 		};
+		timer.AutoReset = false;
 		timer.Enabled = true;
 
 		EventBus.Instance.OnAllEnemiesDefeated += EndWave;
 
-		EventBus.Instance.StartWave();
+		EventBus.Instance.StartWave(remainingEnemyCount);
 
 		return;
 

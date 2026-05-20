@@ -72,7 +72,6 @@ public class EnemySpawner : MonoBehaviour {
         en.hp = new Hittable(hp, Hittable.Team.MONSTERS, new_enemy);
         en.speed = speed;
         en.damage = damage;
-        GameManager.Instance.AddEnemy(new_enemy);
     }
 
 }
