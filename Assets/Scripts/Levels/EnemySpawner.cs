@@ -30,37 +30,6 @@ public class EnemySpawner : MonoBehaviour {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    void Start() {
-        var levelsJsonAsset = Resources.Load<TextAsset>("levels");
-        var levels = JsonConvert.DeserializeObject<List<Level>>(levelsJsonAsset.text);
-
-        for (var index = 0; index < levels.Count; index++) {
-            var level = levels[index];
-
-            var selector = Instantiate(button, level_selector.transform);
-            selector.transform.localPosition = new Vector3(0, 130 - index * 40);
-            selector.GetComponent<MenuSelectorController>().spawner = this;
-            selector.GetComponent<MenuSelectorController>().SetLevel(level);
-        }
-
-        var playerClassJsonAsset = Resources.Load<TextAsset>("classes");
-        var playerClasses = JsonConvert.DeserializeObject<Dictionary<string, PlayerClassData>>(playerClassJsonAsset.text);
-
-        for (var index = 0; index < playerClasses.Count; index++) {
-            var playerClass = playerClasses.ElementAt(index);
-            var playerClassData = playerClass.Value;
-            if (index == 0) { // first is default class
-                chosenPlayerClass = playerClassData;
-            }
-
-            var classSelector = Instantiate(playerClassButton, level_selector.transform);
-            classSelector.transform.localPosition = new Vector3((index - (playerClasses.Count - 1) * 0.5f) * 80f, -50, -100);
-            classSelector.GetComponent<ClassSelectorControl>().SetPlayerClass(playerClass.Key, playerClassData, () => chosenPlayerClass = playerClassData);
-        }
-
-        GameManager.Instance.enemySpawner = this;
-    }
-
     void Update() {
         waveDuration += Time.deltaTime;
         
