@@ -1,7 +1,14 @@
-using UnityEngine;
+using Newtonsoft.Json;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class WaveStat {
+
+	[JsonProperty("evaluationFormat")]
+	private string _evaluationFormat;
+
+	[JsonProperty("displayFormat")]
+	private string _displayFormat;
 
 	// TODO
 	public float Evaluate(
@@ -30,6 +37,10 @@ public class WaveStatTracker {
 
 		EventBus.Instance.OnEnemyHit += () => { _baseStats["hitCount"]++; };
 		EventBus.Instance.OnPlayerShoot += () => { _baseStats["shotCount"]++; };
+
+		AssetManager.Instance.LoadJson("stats", (loadedJson) => {
+			_derivedStats = JsonConvert.DeserializeObject<Dictionary<string, WaveStat>>(loadedJson);
+		});
 	}
 
 	private Dictionary<string, float> _baseStats = new() {
@@ -38,8 +49,7 @@ public class WaveStatTracker {
 		[ "waveDuration" ] = 0.0f,
 	};
 
-	// TODO
-	private Dictionary<string, WaveStat> _derivedStats = new(){ };
+	private Dictionary<string, WaveStat> _derivedStats;
 
 	// TODO
 	public List<string> GetRandomFormattedStats(int max) { return new(); }
