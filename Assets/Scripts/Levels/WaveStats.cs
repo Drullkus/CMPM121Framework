@@ -10,11 +10,24 @@ public class WaveStat {
 	[JsonProperty("displayFormat")]
 	private string _displayFormat;
 
-	// TODO
 	public float Evaluate(
 		Dictionary<string, float> baseStats,
 		Dictionary<string, WaveStat> derivedStats
-	) { return 0.0f; }
+	) {
+		string evaluableString = _evaluationFormat;
+
+		foreach(KeyValuePair<string, WaveStat> derivedStatKeyValue in derivedStats) {
+			string key = derivedStatKeyValue.Key;
+			
+			if(!evaluableString.Contains(key)) { continue; }
+
+			float value = derivedStatKeyValue.Value.Evaluate(baseStats, derivedStats);
+
+			evaluableString = evaluableString.Replace(key, value.ToString());
+		}
+
+		return RPNEvaluator.RPNEvaluator.Evaluatef(evaluableString, baseStats);
+	}
 
 	// TODO
 	public string Format() { return ""; }
