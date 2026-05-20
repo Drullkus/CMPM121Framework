@@ -4,11 +4,12 @@ public class EnemyInstance :
 	MonoBehaviour, IHittable
 {
 
+	private HP _hp;
+
     public string targetTag;
     public int speed;
     public int damage;
-    public Hittable hp;
-    public HealthBar healthui;
+    // public HealthBar healthui;
     public bool dead;
 
 	private Transform _target;
@@ -17,7 +18,7 @@ public class EnemyInstance :
 
     private void Start() {
         _target = GameObject.FindWithTag(targetTag).transform;
-        hp.OnDeath += Die;
+        _hp.OnHPExpended += Die;
         // healthui.SetHealth(hp);
     }
 
@@ -34,9 +35,11 @@ public class EnemyInstance :
         if (lastAttack + 2 < Time.time) {
             lastAttack = Time.time;
 			// TODO - don't depend on _target having a PlayerController
-            _target.gameObject.GetComponent<PlayerController>().hp.Damage(new Damage(damage, Damage.Type.PHYSICAL));
+            _target.gameObject.GetComponent<PlayerController>().Hit(new Damage(damage, Damage.Type.PHYSICAL));
         }
     }
+
+	public void Hit(Damage damage) {}
 
     private void Die() {
         if (!dead) {
