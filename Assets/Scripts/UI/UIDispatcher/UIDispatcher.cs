@@ -18,7 +18,8 @@ public class UIDispatcher {
 
 	private UIDispatcher() {
 		EventBus.Instance.OnUIObjectRegistered += RegisterUIObject;
-		EventBus.Instance.OnUIStateChanged += ChangeState;
+		EventBus.Instance.OnWaveStart += () => { ChangeState(UIState.WAVE); };
+		EventBus.Instance.OnWaveEnd += () => { ChangeState(UIState.REWARD); };
 	}
 
 	private void RegisterUIObject(UIObject uiObject) {

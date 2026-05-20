@@ -22,11 +22,6 @@ public class EventBus {
 		OnUIObjectRegistered?.Invoke(uiObject);
 	}
 
-	public event Action<UIState> OnUIStateChanged;
-	public void ChangeUIState(UIState newState) {
-		OnUIStateChanged?.Invoke(newState);
-	}
-
 	public event Action OnWaveStart;
 	public void StartWave() {
 		OnWaveStart?.Invoke();
