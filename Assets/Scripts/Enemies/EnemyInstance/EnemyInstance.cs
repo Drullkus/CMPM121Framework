@@ -1,6 +1,8 @@
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour {
+public class EnemyInstance :
+	MonoBehaviour, IHittable
+{
 
     public string targetTag;
     public int speed;

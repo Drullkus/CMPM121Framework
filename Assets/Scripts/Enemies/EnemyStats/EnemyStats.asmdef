@@ -1,12 +1,7 @@
 {
-    "name": "Events",
+    "name": "EnemyStats",
     "rootNamespace": "",
-    "references": [
-        "GUID:eb0449366ac8d83d087153d48e30d44e",
-        "GUID:688af199a7fdae7acb6d8d53c75bce1d",
-        "GUID:3900f4bf1578874ad9c3f8bfa25b3f06",
-        "GUID:c7067ed61d43a2ed3b3aa2f3fa97a170"
-    ],
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
