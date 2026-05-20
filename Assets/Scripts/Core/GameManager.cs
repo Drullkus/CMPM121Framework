@@ -19,8 +19,12 @@ public class GameManager {
     private static GameManager theInstance;
     public static GameManager Instance {
         get {
-            if (theInstance == null)
-                theInstance = new GameManager();
+            if (theInstance == null) {
+                theInstance = new();
+
+				theInstance._waveManager.Initialize();
+			}
+
             return theInstance;
         }
     }
@@ -36,6 +40,8 @@ public class GameManager {
     public Dictionary<string, EnemyStats> enemyStats;
     private List<GameObject> enemies;
     public int enemy_count { get { return enemies.Count; } }
+
+	private WaveManager _waveManager = new();
 
     public Dictionary<string, int> waveStatValues = new(){
         [ "hitCount" ] = 0,

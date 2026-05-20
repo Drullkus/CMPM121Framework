@@ -1,0 +1,18 @@
+{
+	"accuracy": {
+		"evaluationFormat": "100 hitCount * shotCount /",
+		"displayFormat": "Shot accuracy: {0}%."
+	},
+	"hitCount": {
+		"evaluationFormat": "hitCount",
+		"displayFormat": "Number of spells that hit: {0}."
+	},
+	"shotCount": {
+		"evaluationFormat": "shotCount",
+		"displayFormat": "Number of spells cast: {0}."
+	},
+	"waveDuration": {
+		"evaluationFormat": "waveDuration",
+		"displayFormat": "Time to complete this wave: {0}s."
+	}
+}

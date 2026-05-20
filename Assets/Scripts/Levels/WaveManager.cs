@@ -6,19 +6,13 @@ using UnityEngine.SceneManagement;
 
 public class WaveManager {
 
-	public event Action<List<Level>> OnLevelsDeserialized;
-
 	private int _waveIndex = 0;
 	private bool _onLastWave = false;
 
 	private Action _enemyDefeatHandler;
 
 	public void Initialize() {
-		AssetManager.Instance.LoadJson("levels", (loadedJson) => {
-			List<Level> levels = JsonConvert.DeserializeObject<List<Level>>(loadedJson);
-
-			OnLevelsDeserialized?.Invoke(levels);
-		});
+		EventBus.Instance.OnDifficultyChosen += StartWave;
 	}
 
 	public void Reset() {
@@ -32,7 +26,8 @@ public class WaveManager {
 
 		int remainingEnemyCount = 0;
 		
-		new Timer(3000).Elapsed += (_, _) => {
+		Timer timer = new Timer(3000);
+		timer.Elapsed += (_, _) => {
 			GameManager.Instance.state = GameManager.GameState.INWAVE;
 
 			foreach(Spawn spawn in level.Spawns) {
@@ -45,6 +40,7 @@ public class WaveManager {
 			_enemyDefeatHandler = HandleEnemyDefeated;
 			EventBus.Instance.OnEnemyDefeated += _enemyDefeatHandler;
 		};
+		timer.Enabled = true;
 
 		EventBus.Instance.OnAllEnemiesDefeated += EndWave;
 
@@ -55,6 +51,7 @@ public class WaveManager {
 		// we need to capture `remainingEnemyCount` while still
 		// being able to unsubscribe from OnEnemyDefeated later
 		void HandleEnemyDefeated() {
+			remainingEnemyCount--;
 			if(remainingEnemyCount < 1) { EndWave(); }
 		}
 	}
