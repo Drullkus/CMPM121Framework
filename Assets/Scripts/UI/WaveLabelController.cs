@@ -13,6 +13,7 @@ public class WaveLabelController : MonoBehaviour {
 
 		EventBus.Instance.OnWaveStarted += (enemyCount) => {
 			_enemyCount = enemyCount;
+			_label.text = $"Enemies remaining: {_enemyCount}";
 		};
 
 		EventBus.Instance.OnEnemyDefeated += () => {
