@@ -1,10 +1,20 @@
-using UnityEngine;
+using System;
 
-public class UIObject : MonoBehaviour {
+public class UIObject {
 
 	public UIState state = UIState.WAVE;
 
-	public void Show() { gameObject.SetActive(true); }
-	public void Hide() { gameObject.SetActive(false); }
+	private readonly Action _show;
+	private readonly Action _hide;
+
+	public UIObject(UIState state, Action show, Action hide) {
+		this.state = state;
+		
+		_show = show;
+		_hide = hide;
+	}
+
+	public void Show() { _show.Invoke(); }
+	public void Hide() { _hide.Invoke(); }
 
 }
