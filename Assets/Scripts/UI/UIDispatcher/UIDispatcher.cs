@@ -6,7 +6,7 @@ public class UIDispatcher {
 
 	private UIState _state;
 
-	private Dictionary<UIState, UIObject> _objectMap = new();
+	private Dictionary<UIState, UIScreen> _objectMap = new();
 
 	private static UIDispatcher _instance;
 	public static UIDispatcher Instance {
@@ -22,8 +22,8 @@ public class UIDispatcher {
 		EventBus.Instance.OnWaveEnd += () => { ChangeState(UIState.REWARD); };
 	}
 
-	private void RegisterUIObject(UIObject uiObject) {
-		if(!_objectMap.TryAdd(uiObject.state, uiObject)) {
+	private void RegisterUIObject(UIScreen uiScreen) {
+		if(!_objectMap.TryAdd(uiScreen.state, uiScreen)) {
 			Debug.LogWarning("Tried to associate 2 UIObjects with the same UIState.");
 		}
 	}
@@ -35,14 +35,14 @@ public class UIDispatcher {
 		Action showAction = () => {};
 
 		if(_state != UIState.WAVE) {
-			hideAction = _objectMap.TryGetValue(_state, out UIObject oldUIObject) ?
-				oldUIObject.Hide :
+			hideAction = _objectMap.TryGetValue(_state, out UIScreen oldUIScreen) ?
+				oldUIScreen.Hide :
 				() => { Debug.LogError("Tried to change UIState to an invalid value!"); };
 		}
 
 		if(newState != UIState.WAVE) {
-			showAction = _objectMap.TryGetValue(newState, out UIObject newUIObject) ?
-				newUIObject.Show :
+			showAction = _objectMap.TryGetValue(newState, out UIScreen newUIScreen) ?
+				newUIScreen.Show :
 				() => { Debug.LogError("Tried to change UIState from an invalid value!"); };
 		}
 

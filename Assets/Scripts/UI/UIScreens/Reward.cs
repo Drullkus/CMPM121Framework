@@ -9,13 +9,13 @@ public class Reward : MonoBehaviour {
 	private List<TextMeshProUGUI> _statDisplayLabels;
 
 	private void Awake() {
-		UIObject uiObject = new(
+		UIScreen uiScreen = new(
 			UIState.REWARD,
 			Show,
 			() => { gameObject.SetActive(false); }
 		);
 
-		EventBus.Instance.RegisterUIObject(uiObject);
+		EventBus.Instance.RegisterUIObject(uiScreen);
 	}
 
 	private void Show() {
