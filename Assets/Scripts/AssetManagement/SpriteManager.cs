@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SpriteManager {
@@ -18,6 +19,29 @@ public class SpriteManager {
 		}
 	}
 
+	// TODO - find a better way to do this. currently we're
+	// hardcoding the indices of the sprites that we want to
+	// load for the spells.
+	private static int[] _spellSpriteSheetIndices = {
+		1910,
+		1908,
+		1915,
+		1911,
+		1906,
+		2002,
+		1951,
+		1998,
+		2005,
+		2027,
+		2031,
+		2037,
+		2039,
+		2041,
+		2130,
+		2132,
+		2198,
+	};
+
 	private Sprite[] _enemySprites;
 	private Sprite[] _playerSprites;
 	private Sprite[] _relicSprites;
@@ -36,7 +60,12 @@ public class SpriteManager {
 	}
 
 	private void RegisterSpellSprites(Sprite[] sprites) {
-		_spellSprites = sprites;
+		List<Sprite> selectedSprites = new();
+		foreach(int index in _spellSpriteSheetIndices) {
+			selectedSprites.Add(sprites[index]);
+		}
+
+		_spellSprites = selectedSprites.ToArray();
 	}
 
 	public Sprite RetrieveEnemySprite(int index) {
