@@ -9,7 +9,7 @@ public class WaveManager {
 
 	public event Action<List<Level>> OnLevelsDeserialized;
 
-	private int waveIndex = 0;
+	private int _waveIndex = 0;
 	private bool _onLastWave = false;
 
 	public void Initialize() {
@@ -25,7 +25,7 @@ public class WaveManager {
 	}
 
 	public void StartWave(Level level) {
-		if(level.Waves == waveIndex + 1) { _onLastWave = true; }
+		if(level.Waves == _waveIndex + 1) { _onLastWave = true; }
 
 		GameManager.Instance.state = GameManager.GameState.COUNTDOWN;
 
@@ -33,7 +33,7 @@ public class WaveManager {
 			GameManager.Instance.state = GameManager.GameState.INWAVE;
 
 			foreach(Spawn spawn in level.Spawns) {
-				EventBus.Instance.RequestSpawnScheduling(waveIndex, spawn);
+				EventBus.Instance.RequestSpawnScheduling(_waveIndex, spawn);
 			}
 		};
 
@@ -46,7 +46,7 @@ public class WaveManager {
 		EventBus.Instance.OnAllEnemiesDefeated -= EndWave;
 		EventBus.Instance.EndWave();
 
-		waveIndex++;
+		_waveIndex++;
 
 		// TODO - move to GameManager so it can control its own state!
 		GameManager.Instance.state = GameManager.GameState.WAVEEND;
