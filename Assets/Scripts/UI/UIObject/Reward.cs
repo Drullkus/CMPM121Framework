@@ -6,7 +6,7 @@ using UnityEngine;
 public class Reward : MonoBehaviour {
 
 	[SerializeField]
-	private List<GameObject> _statDisplaySlots;
+	private List<TextMeshProUGUI> _statDisplayLabels;
 
 	private void Awake() {
 		UIObject uiObject = new(
@@ -19,16 +19,16 @@ public class Reward : MonoBehaviour {
 	}
 
 	private void Show() {
-		List<string> stats = WaveStatTracker.Instance.GetRandomFormattedStats(_statDisplaySlots.Count);
+		List<string> stats = WaveStatTracker.Instance.GetRandomFormattedStats(_statDisplayLabels.Count);
 
-		foreach(GameObject statDisplaySlot in _statDisplaySlots) {
-			statDisplaySlot.SetActive(false);
+		foreach(TextMeshProUGUI statDisplaySlot in _statDisplayLabels) {
+			statDisplaySlot.gameObject.SetActive(false);
 		}
 
 		for(int i = 0; i < stats.Count; i++) {
-			_statDisplaySlots[i].GetComponent<TextMeshProUGUI>().text = stats[i];
+			_statDisplayLabels[i].text = stats[i];
 
-			_statDisplaySlots[i].SetActive(true);
+			_statDisplayLabels[i].gameObject.SetActive(true);
 		}
 
 		gameObject.SetActive(true);
