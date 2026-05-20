@@ -22,6 +22,11 @@ public class EventBus {
 		OnUIScreenRegistered?.Invoke(uiScreen);
 	}
 
+	public event Action<Level> OnDifficultyChosen;
+	public void ChooseDifficulty(Level level) {
+		OnDifficultyChosen?.Invoke(level);
+	}
+
 	public event Action OnWaveStart;
 	public void StartWave() {
 		OnWaveStart?.Invoke();
