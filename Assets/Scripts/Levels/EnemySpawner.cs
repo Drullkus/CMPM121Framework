@@ -11,10 +11,12 @@ public class EnemySpawner : MonoBehaviour {
 
 	public void Initialize() {
 		AssetManager.Instance.LoadJson("enemies", (loadedJson) => {
-			EventBus.Instance.OnSpawnSchedulingRequested += (waveIndex, spawn) => {
-				StartCoroutine(SpawnEnemyType(spawn, waveIndex));
-			};
+
 		});
+
+		EventBus.Instance.OnSpawnSchedulingRequested += (waveIndex, spawn) => {
+			StartCoroutine(SpawnEnemyType(spawn, waveIndex));
+		};
 	}
 
     IEnumerator SpawnEnemyType(Spawn spawn, int waveIndex) {
