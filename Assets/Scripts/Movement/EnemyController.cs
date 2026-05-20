@@ -11,16 +11,15 @@ public class EnemyController : MonoBehaviour {
 
 	private Transform _target;
 
-    public float last_attack;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start() {
+    public float lastAttack;
+
+    private void Start() {
         _target = GameObject.FindWithTag(targetTag).transform;
         hp.OnDeath += Die;
         // healthui.SetHealth(hp);
     }
 
-    // Update is called once per frame
-    void Update() {
+    private void Update() {
         Vector3 direction = _target.position - transform.position;
         if (direction.magnitude < 2f) {
             // DoAttack();
@@ -29,16 +28,15 @@ public class EnemyController : MonoBehaviour {
         }
     }
     
-    void DoAttack() {
-        if (last_attack + 2 < Time.time) {
-            last_attack = Time.time;
+    private void DoAttack() {
+        if (lastAttack + 2 < Time.time) {
+            lastAttack = Time.time;
 			// TODO - don't depend on _target having a PlayerController
             _target.gameObject.GetComponent<PlayerController>().hp.Damage(new Damage(damage, Damage.Type.PHYSICAL));
         }
     }
 
-
-    void Die() {
+    private void Die() {
         if (!dead) {
             dead = true;
             Destroy(gameObject);
