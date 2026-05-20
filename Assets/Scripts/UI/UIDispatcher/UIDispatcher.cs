@@ -35,10 +35,7 @@ public class UIDispatcher : MonoBehaviour {
 		// this is pretty sloppy, we should implement a
 		// default state type thing
 		if(uiScreen.state == UIState.LEVEL_SELECT) {
-			Debug.Log("waow!");
 			uiScreen.Show();
-		} else {
-			Debug.Log("woof");
 		}
 	}
 
