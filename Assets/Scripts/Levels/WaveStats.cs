@@ -43,6 +43,6 @@ public class WaveStatTracker {
 		
 	};
 
-	public string GetRandomFormattedStat() { return ""; }
+	private List<string> GetRandomFormattedStats(int max) { return new(); }
 
 }
