@@ -1,6 +1,14 @@
 using UnityEngine;
 
-public class SpriteManager : MonoBehaviour {
+public class SpriteManager {
+
+	private static SpriteManager _instance;
+	public static SpriteManager Instance {
+		get {
+			_instance ??= new();
+			return _instance;
+		}
+	}
 
 	private void Awake() {
 		AssetManager.Instance.LoadSprites("enemy_sprites", RegisterEnemySprites);
