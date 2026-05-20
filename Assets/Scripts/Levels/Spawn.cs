@@ -49,6 +49,10 @@ public class Spawn {
         damage = RPNEvaluator.RPNEvaluator.Evaluate(this.Damage, new() { ["base"] = enemy.Damage, ["wave"] = wave });
     }
 
+	public int GetSpawnBatchCount(int batchIndex) {
+		return Sequence[batchIndex % Sequence.Length];
+	}
+
     public IEnumerable<int> GetSpawnBatches() {
         while (true) {
             foreach (int batch in Sequence) {

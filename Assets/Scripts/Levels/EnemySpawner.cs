@@ -24,16 +24,12 @@ public class EnemySpawner {
 
 		EventBus.Instance.OnSpawnSchedulingRequested += (waveIndex, spawn) => {
 			spawn.CalculateForWave(waveIndex, out int total, out _);
-			ScheduleSpawning(spawn, waveIndex, total);
+			ScheduleSpawning(spawn, waveIndex, 0, total);
 		};
 	}
 
-	private void ScheduleSpawning(Spawn spawn, int waveIndex, int leftToSpawn) {
-		// TODO - verify that this works! i.e., make sure
-		// that `MoveNext` modifies spawn's cursor pos
-		int batchCount = spawn.GetSpawnBatches().GetEnumerator().Current;
-		spawn.GetSpawnBatches().GetEnumerator().MoveNext();
-
+	private void ScheduleSpawning(Spawn spawn, int waveIndex, int batchIndex, int leftToSpawn) {
+		int batchCount = spawn.GetSpawnBatchCount(batchIndex);
 		int nextLeftToSpawn = leftToSpawn - batchCount;
 
 		spawn.CalculateForWave(waveIndex, out _, out int delay);
@@ -48,7 +44,7 @@ public class EnemySpawner {
 				SpawnEnemy(initialPosition, spawn, waveIndex);
 
 				if(nextLeftToSpawn > 0) {
-					ScheduleSpawning(spawn, waveIndex, nextLeftToSpawn);
+					ScheduleSpawning(spawn, waveIndex, batchIndex + 1, nextLeftToSpawn);
 				}
 			};
 			timer.AutoReset = false;
