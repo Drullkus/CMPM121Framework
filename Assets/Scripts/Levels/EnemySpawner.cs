@@ -30,14 +30,6 @@ public class EnemySpawner : MonoBehaviour {
         GameManager.Instance.ClearEnemies();
     }
 
-    public void StartLevel(Level level) {
-        this.selectedLevel = level;
-        level_selector.gameObject.SetActive(false);
-        // this is not nice: we should not have to be required to tell the player directly that the level is starting
-        playerController.StartLevel(chosenPlayerClass);
-        StartCoroutine(this.StartWave());
-    }
-
     public void NextWave() {
         if (selectedLevel.Waves == this.waveLevel) {
             this.Reset();
