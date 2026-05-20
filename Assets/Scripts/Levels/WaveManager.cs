@@ -13,6 +13,8 @@ public class WaveManager {
 
 	public void Initialize() {
 		EventBus.Instance.OnDifficultyChosen += StartWave;
+
+		new EnemySpawner().Initialize();
 	}
 
 	public void Reset() {

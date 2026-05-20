@@ -4,47 +4,57 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using System.Timers;
 
-public class EnemySpawner : MonoBehaviour {
+public class EnemySpawner {
 
     public GameObject enemy;
     public SpawnPoint[] SpawnPoints;
 
-	private Dictionary<string, EnemyStats> _enemyStats;
+	private Dictionary<string, EnemyStats> _enemyStats = new();
 
 	public void Initialize() {
 		AssetManager.Instance.LoadJson("enemies", (loadedJson) => {
-			_enemyStats = JsonConvert.DeserializeObject<Dictionary<string, EnemyStats>>(loadedJson);
+			List<EnemyStats> stats = JsonConvert.DeserializeObject<List<EnemyStats>>(loadedJson);
+
+			foreach(EnemyStats stat in stats) {
+				_enemyStats[stat.Name] = stat;
+			}
 		});
 
 		EventBus.Instance.OnSpawnSchedulingRequested += (waveIndex, spawn) => {
-			StartCoroutine(SpawnEnemyType(spawn, waveIndex));
+			spawn.CalculateForWave(waveIndex, out int total, out _);
+			ScheduleSpawning(spawn, waveIndex, total);
 		};
 	}
 
-    IEnumerator SpawnEnemyType(Spawn spawn, int waveIndex) {
-        spawn.CalculateForWave(waveIndex, out int totalEnemiesOfType, out int sequenceDelay);
-        int enemyCount = 0;
+	private void ScheduleSpawning(Spawn spawn, int waveIndex, int leftToSpawn) {
+		// TODO - verify that this works! i.e., make sure
+		// that `MoveNext` modifies spawn's cursor pos
+		int batchCount = spawn.GetSpawnBatches().GetEnumerator().Current;
+		spawn.GetSpawnBatches().GetEnumerator().MoveNext();
 
-        foreach (int spawnCount in spawn.GetSpawnBatches()) {
-            for (int countInBatch = 0; countInBatch < spawnCount; countInBatch++) {
-                SpawnPoint spawn_point = this.ChooseSpawnPoint(spawn.Location);
-                Vector2 offset = UnityEngine.Random.insideUnitCircle * 1.8f;
+		int nextLeftToSpawn = leftToSpawn - batchCount;
 
-                Vector3 initial_position = spawn_point.transform.position + new Vector3(offset.x, offset.y, 0);
+		spawn.CalculateForWave(waveIndex, out _, out int delay);
 
-                this.SpawnEnemy(initial_position, spawn, waveIndex);
+		for(int i = 0; i < batchCount && i < leftToSpawn; i++) {
+			SpawnPoint spawnPoint = ChooseSpawnPoint(spawn.Location);
+			Vector2 offset = UnityEngine.Random.insideUnitCircle * 1.8f;
+			Vector2 initialPosition = spawnPoint.transform.position + (Vector3)offset;
 
-                if (++enemyCount >= totalEnemiesOfType) {
-                    yield break;
-                }
-            }
+			Timer timer = new(delay);
+			timer.Elapsed += (_, _) => {
+				SpawnEnemy(initialPosition, spawn, waveIndex);
 
-            yield return new WaitForSeconds(sequenceDelay);
-        }
-
-        yield return null;
-    }
+				if(nextLeftToSpawn > 0) {
+					ScheduleSpawning(spawn, waveIndex, nextLeftToSpawn);
+				}
+			};
+			timer.AutoReset = false;
+			timer.Enabled = true;
+		}
+	}
 
     SpawnPoint ChooseSpawnPoint(string filter) {
         string spawnKey = filter.Split()[^1].ToUpper();
@@ -59,7 +69,7 @@ public class EnemySpawner : MonoBehaviour {
     }
 
     void SpawnEnemy(Vector3 initial_position, Spawn spawn, int waveIndex) {
-        GameObject new_enemy = Instantiate(enemy, initial_position, Quaternion.identity);
+        GameObject new_enemy = GameObject.Instantiate(enemy, initial_position, Quaternion.identity);
 
         if(!_enemyStats.TryGetValue(spawn.Enemy, out EnemyStats enemyStats)) {
             Debug.LogError($"tried to spawn enemy of type \"{spawn.Enemy}\" when no such enemy type exists!");
