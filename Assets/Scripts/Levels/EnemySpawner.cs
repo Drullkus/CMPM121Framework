@@ -26,12 +26,6 @@ public class EnemySpawner : MonoBehaviour {
     public delegate void OnWaveEndHandler();
     public event OnWaveEndHandler onWaveEnd;
 
-    void Update() {
-        waveDuration += Time.deltaTime;
-        
-        GameManager.Instance.waveStatValues["waveDuration"] = (int)Math.Floor(waveDuration);
-    }
-
     public void OnDestroy() {
         GameManager.Instance.ClearEnemies();
     }
