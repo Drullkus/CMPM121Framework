@@ -43,6 +43,8 @@ public class WaveManager {
 		EventBus.Instance.OnAllEnemiesDefeated -= EndWave;
 		EventBus.Instance.EndWave();
 
+		waveIndex++;
+
 		// TODO - move to GameManager so it can control its own state!
 		GameManager.Instance.state = GameManager.GameState.WAVEEND;
 	}
