@@ -15,7 +15,7 @@ public class Reward : MonoBehaviour {
 			() => { gameObject.SetActive(false); }
 		);
 
-		EventBus.Instance.RegisterUIObject(uiScreen);
+		EventBus.Instance.RegisterUIScreen(uiScreen);
 	}
 
 	private void Show() {
