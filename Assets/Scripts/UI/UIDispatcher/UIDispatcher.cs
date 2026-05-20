@@ -17,14 +17,21 @@ public class UIDispatcher {
 	}
 
 	private UIDispatcher() {
-		EventBus.Instance.OnUIObjectRegistered += RegisterUIObject;
+		EventBus.Instance.OnUIScreenRegistered += RegisterUIScreen;
 		EventBus.Instance.OnWaveStart += () => { ChangeState(UIState.WAVE); };
 		EventBus.Instance.OnWaveEnd += () => { ChangeState(UIState.REWARD); };
 	}
 
-	private void RegisterUIObject(UIScreen uiScreen) {
+	private void RegisterUIScreen(UIScreen uiScreen) {
 		if(!_objectMap.TryAdd(uiScreen.state, uiScreen)) {
 			Debug.LogWarning("Tried to associate 2 UIObjects with the same UIState.");
+			return;
+		}
+		
+		// this is pretty sloppy, we should implement a
+		// default state type thing
+		if(uiScreen.state == UIState.LEVEL_SELECT) {
+			uiScreen.Show();
 		}
 	}
 
