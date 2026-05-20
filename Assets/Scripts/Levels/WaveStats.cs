@@ -1,5 +1,7 @@
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class WaveStat {
@@ -68,7 +70,25 @@ public class WaveStatTracker {
 
 	private Dictionary<string, WaveStat> _derivedStats;
 
-	// TODO
-	public List<string> GetRandomFormattedStats(int max) { return new(); }
+	public List<string> GetRandomFormattedStats(int max) {
+		List<int> possibleIndices = Enumerable.Range(0, _derivedStats.Count).ToList();
+
+		List<string> res = new();
+
+		int initialCount = possibleIndices.Count;
+
+		for(int i = 0; i < Math.Min(initialCount, max); i++) {
+			int randomIndexIndex = new System.Random().Next(0, possibleIndices.Count - 1);
+			int randomIndex = possibleIndices[randomIndexIndex];
+
+			possibleIndices.RemoveAt(randomIndexIndex);
+
+			string displayString = _derivedStats.Values.ToArray()[randomIndex].Format(_baseStats, _derivedStats);
+
+			res.Add(displayString);
+		}
+
+		return res;
+	}
 
 }
