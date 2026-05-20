@@ -1,3 +1,4 @@
+using UnityEngine;
 using System.Collections.Generic;
 
 public class WaveStat {
@@ -23,9 +24,12 @@ public class WaveStatTracker {
 		}
 	}
 
-	// TODO
 	private WaveStatTracker() {
-		
+		EventBus.Instance.OnWaveStart += () => { _baseStats["waveDuration"] = Time.time; };
+		EventBus.Instance.OnWaveEnd += () => { _baseStats["waveDuration"] = Time.time - _baseStats["waveDuration"]; };
+
+		EventBus.Instance.OnEnemyHit += () => { _baseStats["hitCount"]++; };
+		EventBus.Instance.OnPlayerShoot += () => { _baseStats["shotCount"]++; };
 	}
 
 	private Dictionary<string, float> _baseStats = new() {
