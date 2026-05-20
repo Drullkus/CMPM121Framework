@@ -66,7 +66,7 @@ public class EnemySpawner : MonoBehaviour {
             return;
         }
 
-        new_enemy.GetComponent<SpriteRenderer>().sprite = GameManager.Instance.enemySpriteManager.Get(enemyStats.SpriteIndex);
+        new_enemy.GetComponent<SpriteRenderer>().sprite = SpriteManager.Instance.RetrieveEnemySprite(enemyStats.SpriteIndex);
         EnemyController en = new_enemy.GetComponent<EnemyController>();
         spawn.CalculateForNewSpawn(enemyStats, waveIndex, out int hp, out int speed, out int damage);
         en.hp = new Hittable(hp, Hittable.Team.MONSTERS, new_enemy);
