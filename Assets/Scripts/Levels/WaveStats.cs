@@ -29,8 +29,12 @@ public class WaveStat {
 		return RPNEvaluator.RPNEvaluator.Evaluatef(evaluableString, baseStats);
 	}
 
-	// TODO
-	public string Format() { return ""; }
+	public string Format(
+		Dictionary<string, float> baseStats,
+		Dictionary<string, WaveStat> derivedStats
+	) {
+		return string.Format(_displayFormat, Evaluate(baseStats, derivedStats));
+	}
 
 }
 
