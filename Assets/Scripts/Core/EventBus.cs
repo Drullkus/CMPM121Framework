@@ -24,7 +24,6 @@ public class EventBus {
 
 	public event Action<Level> OnDifficultyChosen;
 	public void ChooseDifficulty(Level level) {
-		Debug.Log(level.Spawns[0].Enemy);
 		OnDifficultyChosen?.Invoke(level);
 	}
 
@@ -40,7 +39,6 @@ public class EventBus {
 
 	public event Action<int, Spawn> OnSpawnSchedulingRequested;
 	public void RequestSpawnScheduling(int waveIndex, Spawn spawn) {
-		Debug.Log("???");
 		OnSpawnSchedulingRequested?.Invoke(waveIndex, spawn);
 	}
 
