@@ -18,8 +18,8 @@ public class EnemySpawner : MonoBehaviour {
         GameManager.Instance.ClearEnemies();
     }
 
-    IEnumerator SpawnEnemyType(Spawn spawn) {
-        spawn.CalculateForWave(this.waveLevel, out int totalEnemiesOfType, out int sequenceDelay);
+    IEnumerator SpawnEnemyType(Spawn spawn, int waveIndex) {
+        spawn.CalculateForWave(waveIndex, out int totalEnemiesOfType, out int sequenceDelay);
         int enemyCount = 0;
 
         foreach (int spawnCount in spawn.GetSpawnBatches()) {
@@ -29,7 +29,7 @@ public class EnemySpawner : MonoBehaviour {
 
                 Vector3 initial_position = spawn_point.transform.position + new Vector3(offset.x, offset.y, 0);
 
-                this.SpawnEnemy(initial_position, spawn);
+                this.SpawnEnemy(initial_position, spawn, waveIndex);
 
                 if (++enemyCount >= totalEnemiesOfType) {
                     yield break;
