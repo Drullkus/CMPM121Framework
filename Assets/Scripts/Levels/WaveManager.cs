@@ -12,6 +12,8 @@ public class WaveManager {
 	private int _waveIndex = 0;
 	private bool _onLastWave = false;
 
+	private Action _enemyDefeatHandler;
+
 	public void Initialize() {
 		AssetManager.Instance.LoadJson("levels", (loadedJson) => {
 			List<Level> levels = JsonConvert.DeserializeObject<List<Level>>(loadedJson);
@@ -29,20 +31,37 @@ public class WaveManager {
 
 		GameManager.Instance.state = GameManager.GameState.COUNTDOWN;
 
+		int remainingEnemyCount = 0;
+		
 		new Timer(3000).Elapsed += (_, _) => {
 			GameManager.Instance.state = GameManager.GameState.INWAVE;
 
 			foreach(Spawn spawn in level.Spawns) {
 				EventBus.Instance.RequestSpawnScheduling(_waveIndex, spawn);
+
+				spawn.CalculateForWave(_waveIndex, out int spawnCount, out _);
+				remainingEnemyCount += spawnCount;
 			}
+
+			_enemyDefeatHandler = HandleEnemyDefeated;
+			EventBus.Instance.OnEnemyDefeated += _enemyDefeatHandler;
 		};
 
 		EventBus.Instance.OnAllEnemiesDefeated += EndWave;
 
 		EventBus.Instance.StartWave();
+
+		return;
+
+		// we need to capture `remainingEnemyCount` while still
+		// being able to unsubscribe from OnEnemyDefeated later
+		void HandleEnemyDefeated() {
+			if(remainingEnemyCount < 1) { EndWave(); }
+		}
 	}
 
 	public void EndWave() {
+		EventBus.Instance.OnEnemyDefeated -= _enemyDefeatHandler;
 		EventBus.Instance.OnAllEnemiesDefeated -= EndWave;
 		EventBus.Instance.EndWave();
 

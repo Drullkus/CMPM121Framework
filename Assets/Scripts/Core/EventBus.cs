@@ -42,6 +42,11 @@ public class EventBus {
 		OnSpawnSchedulingRequested?.Invoke(waveIndex, spawn);
 	}
 
+	public event Action OnEnemyDefeated;
+	public void InvokeEnemyDefeated() {
+		OnEnemyDefeated?.Invoke();
+	}
+
 	public event Action OnAllEnemiesDefeated;
 	public void InvokeAllEnemiesDefeated() {
 		OnAllEnemiesDefeated?.Invoke();
