@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,9 +10,11 @@ public class EnemySpawner : MonoBehaviour {
     public GameObject enemy;
     public SpawnPoint[] SpawnPoints;
 
+	private Dictionary<string, EnemyStats> _enemyStats;
+
 	public void Initialize() {
 		AssetManager.Instance.LoadJson("enemies", (loadedJson) => {
-
+			_enemyStats = JsonConvert.DeserializeObject<Dictionary<string, EnemyStats>>(loadedJson);
 		});
 
 		EventBus.Instance.OnSpawnSchedulingRequested += (waveIndex, spawn) => {
