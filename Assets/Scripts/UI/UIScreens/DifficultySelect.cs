@@ -9,7 +9,7 @@ public class DifficultySelect : MonoBehaviour {
 	[SerializeField]
 	private DifficultySelectButton _buttonPrefab;
 
-	private void Awake() {
+	private void Start() {
 		AssetManager.Instance.LoadJson("levels", (loadedJson) => {
 			 _levels = JsonConvert.DeserializeObject<List<Level>>(loadedJson);
 		});
