@@ -30,20 +30,6 @@ public class EnemySpawner : MonoBehaviour {
         GameManager.Instance.ClearEnemies();
     }
 
-    public void NextWave() {
-        if (selectedLevel.Waves == this.waveLevel) {
-            this.Reset();
-        }
-
-        this.waveLevel++;
-
-        if (selectedLevel.Waves == 0 || selectedLevel.Waves <= this.waveLevel) {
-            this.playerController.OnNextWave(this.waveLevel);
-            StartCoroutine(this.StartWave());
-        }
-    }
-
-
     IEnumerator StartWave() {
         waveDuration = 0;
 
