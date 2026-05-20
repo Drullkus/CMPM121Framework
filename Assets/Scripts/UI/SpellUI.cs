@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine.InputSystem;
 
 public class SpellUI : MonoBehaviour {
+
     public GameObject icon;
     public RectTransform cooldown;
     public TextMeshProUGUI manacost;
@@ -40,4 +41,5 @@ public class SpellUI : MonoBehaviour {
         }
         cooldown.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 48 * perc);
     }
+
 }
