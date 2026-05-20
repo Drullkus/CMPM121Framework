@@ -30,23 +30,6 @@ public class EnemySpawner : MonoBehaviour {
         GameManager.Instance.ClearEnemies();
     }
 
-    IEnumerator StartWave() {
-        waveDuration = 0;
-
-        GameManager.Instance.state = GameManager.GameState.COUNTDOWN;
-        GameManager.Instance.countdown = 3;
-        for (int i = 3; i > 0; i--) {
-            yield return new WaitForSeconds(1);
-            GameManager.Instance.countdown--;
-        }
-        GameManager.Instance.state = GameManager.GameState.INWAVE;
-        yield return this.SpawnWave();
-        yield return new WaitWhile(() => GameManager.Instance.enemy_count > 0);
-        
-        GameManager.Instance.state = GameManager.GameState.WAVEEND;
-        onWaveEnd.Invoke();
-    }
-
     IEnumerator SpawnWave() {
         List<Coroutine> coroutines = new List<Coroutine>();
         foreach (Spawn spawn in this.selectedLevel.Spawns)
