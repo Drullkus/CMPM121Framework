@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour {
         manaui.SetSpellCaster(spellcaster);
         spellui.SetSpell(spellcaster.spell);
 
-        gameObject.GetComponent<SpriteRenderer>().sprite = GameManager.Instance.playerSpriteManager.Get(data.sprite);
+        gameObject.GetComponent<SpriteRenderer>().sprite = SpriteManager.Instance.RetrievePlayerSprite(data.sprite);
     }
 
     public void OnNextWave(int wave) {
