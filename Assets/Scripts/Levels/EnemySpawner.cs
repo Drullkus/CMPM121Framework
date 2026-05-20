@@ -85,9 +85,5 @@ public class EnemySpawner : MonoBehaviour {
         GameManager.Instance.AddEnemy(new_enemy);
     }
 
-    public bool WavesCompleted() {
-        return selectedLevel.Waves == this.waveLevel;
-    }
-
 }
 
