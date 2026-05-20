@@ -1,9 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using System.IO;
-using System.Collections.Generic;
 using Player;
 
 public class PlayerController : MonoBehaviour {
@@ -48,9 +44,9 @@ public class PlayerController : MonoBehaviour {
     public void OnNextWave(int wave) {
         data.CalculatePlayerStatsForWave(wave, out int health, out int mana, out int mana_reg, out int spellpower, out int speed); // FIXME spellpower unused, needs wiring into spellcasting
         
-        this.hp.hp = health;
-        this.spellcaster.mana = mana;
-        this.spellcaster.mana_reg = mana_reg;
+        hp.hp = health;
+        spellcaster.mana = mana;
+        spellcaster.mana_reg = mana_reg;
         this.speed = speed;
     }
 
