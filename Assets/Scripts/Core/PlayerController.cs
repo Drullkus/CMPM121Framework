@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour {
         // FIXME remove GameManager.GameState.COUNTDOWN from among the checks and find out what's actually null
         if (GameManager.Instance.state == GameManager.GameState.PREGAME || GameManager.Instance.state == GameManager.GameState.COUNTDOWN || GameManager.Instance.state == GameManager.GameState.GAMEOVER) return;
 
-        GameManager.Instance.waveStatValues["shotCount"]++;
+		EventBus.Instance.InvokePlayerShoot();
 
         Vector2 mouseScreen = Mouse.current.position.value;
         Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(mouseScreen);
