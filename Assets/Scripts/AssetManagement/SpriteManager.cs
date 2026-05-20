@@ -5,16 +5,17 @@ public class SpriteManager {
 	private static SpriteManager _instance;
 	public static SpriteManager Instance {
 		get {
-			_instance ??= new();
+			if(_instance == null) {
+				_instance = new();
+
+				AssetManager.Instance.LoadSprites("enemy_sprites", _instance.RegisterEnemySprites);
+				AssetManager.Instance.LoadSprites("player_sprites", _instance.RegisterPlayerSprites);
+				AssetManager.Instance.LoadSprites("relic_sprites", _instance.RegisterRelicSprites);
+				AssetManager.Instance.LoadSprites("spell_sprites", _instance.RegisterSpellSprites);
+			}
+
 			return _instance;
 		}
-	}
-
-	private void Awake() {
-		AssetManager.Instance.LoadSprites("enemy_sprites", RegisterEnemySprites);
-		AssetManager.Instance.LoadSprites("player_sprites", RegisterPlayerSprites);
-		AssetManager.Instance.LoadSprites("relic_sprites", RegisterRelicSprites);
-		AssetManager.Instance.LoadSprites("spell_sprites", RegisterSpellSprites);
 	}
 
 	private Sprite[] _enemySprites;
