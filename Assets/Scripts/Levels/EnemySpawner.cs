@@ -61,7 +61,7 @@ public class EnemySpawner : MonoBehaviour {
     void SpawnEnemy(Vector3 initial_position, Spawn spawn, int waveIndex) {
         GameObject new_enemy = Instantiate(enemy, initial_position, Quaternion.identity);
 
-        if(!GameManager.Instance.enemyStats.TryGetValue(spawn.Enemy, out EnemyStats enemyStats)) {
+        if(!_enemyStats.TryGetValue(spawn.Enemy, out EnemyStats enemyStats)) {
             Debug.LogError($"tried to spawn enemy of type \"{spawn.Enemy}\" when no such enemy type exists!");
             return;
         }
