@@ -1,13 +1,8 @@
 using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 using System;
 using System.Linq;
-using Player;
-using UI;
-using UnityEngine.SceneManagement;
 
 public class EnemySpawner : MonoBehaviour {
 
