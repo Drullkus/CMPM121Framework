@@ -43,4 +43,6 @@ public class WaveStatTracker {
 		
 	};
 
+	public string GetRandomFormattedStat() { return ""; }
+
 }
