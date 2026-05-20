@@ -24,6 +24,10 @@ public class EnemySpawner {
 			}
 		});
 
+		AssetManager.Instance.LoadPrefab("enemy", (loadedPrefab) => {
+			enemy = loadedPrefab;
+		});
+
 		EventBus.Instance.OnSpawnSchedulingRequested += (waveIndex, spawn) => {
 			spawn.CalculateForWave(waveIndex, out int total, out _);
 			ScheduleSpawning(spawn, waveIndex, 0, total);
@@ -43,7 +47,7 @@ public class EnemySpawner {
 
 			Timer timer = new(delay);
 			timer.Elapsed += (_, _) => {
-				SpawnEnemy(initialPosition, spawn, waveIndex);
+				ExecutionQueue.Instance.Enqueue(() => { SpawnEnemy(initialPosition, spawn, waveIndex); });
 
 				if(nextLeftToSpawn > 0) {
 					ScheduleSpawning(spawn, waveIndex, batchIndex + 1, nextLeftToSpawn);
