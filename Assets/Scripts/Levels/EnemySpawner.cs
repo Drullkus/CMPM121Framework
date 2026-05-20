@@ -14,6 +14,8 @@ public class EnemySpawner {
 	private Dictionary<string, EnemyStats> _enemyStats = new();
 
 	public void Initialize() {
+		SpawnPoints = GameObject.FindObjectsByType<SpawnPoint>(FindObjectsSortMode.None);
+
 		AssetManager.Instance.LoadJson("enemies", (loadedJson) => {
 			List<EnemyStats> stats = JsonConvert.DeserializeObject<List<EnemyStats>>(loadedJson);
 
