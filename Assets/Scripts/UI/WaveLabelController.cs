@@ -5,24 +5,32 @@ using TMPro;
 public class WaveLabelController : MonoBehaviour {
 
     private TextMeshProUGUI _label;
+	private string _newText = "";
 
 	private int _enemyCount = 0;
 
-    void Start() {
+    private void Awake() {
         _label = GetComponent<TextMeshProUGUI>();
 
 		EventBus.Instance.OnWaveStarted += (enemyCount) => {
 			_enemyCount = enemyCount;
-			_label.text = $"Enemies remaining: {_enemyCount}";
+			_newText = $"Enemies remaining: {_enemyCount}";
 		};
 
 		EventBus.Instance.OnEnemyDefeated += () => {
-			_label.text = $"Enemies remaining: {--_enemyCount}";
+			_newText = $"Enemies remaining: {--_enemyCount}";
 		};
 
 		EventBus.Instance.OnWaveEnded += () => {
 			gameObject.SetActive(false);
 		};
     }
+
+	private void Update() {
+		if(_newText == "") { return; }
+
+		_label.SetText(_newText);
+		_newText = "";
+	}
 
 }

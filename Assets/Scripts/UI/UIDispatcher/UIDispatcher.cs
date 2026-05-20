@@ -20,7 +20,7 @@ public class UIDispatcher : MonoBehaviour {
 		}
 
 		EventBus.Instance.OnUIScreenRegistered += RegisterUIScreen;
-		EventBus.Instance.OnWaveStarted += (_) => { ChangeState(UIState.WAVE); };
+		EventBus.Instance.OnUIScreenClosed += () => { ChangeState(UIState.WAVE); };
 		EventBus.Instance.OnWaveEnded += () => { ChangeState(UIState.REWARD); };
 
 		Instance = this;

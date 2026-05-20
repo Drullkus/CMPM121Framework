@@ -27,6 +27,11 @@ public class EventBus {
 		OnDifficultyChosen?.Invoke(level);
 	}
 
+	public event Action OnUIScreenClosed;
+	public void CloseUIScreen() {
+		OnUIScreenClosed?.Invoke();
+	}
+
 	public event Action<int> OnWaveStarted;
 	public void StartWave(int totalEnemyCount) {
 		OnWaveStarted?.Invoke(totalEnemyCount);
