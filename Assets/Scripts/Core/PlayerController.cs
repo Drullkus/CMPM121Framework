@@ -27,10 +27,8 @@ public class PlayerController : MonoBehaviour {
     void Start() {
         unit = GetComponent<Unit>();
         GameManager.Instance.player = gameObject;
-    }
 
-    public void StartLevel(PlayerClassData data) {
-        this.data = data;
+        this.data = new();
         
         spellcaster = new SpellCaster(125, 8, Hittable.Team.PLAYER);
         StartCoroutine(spellcaster.ManaRegeneration());

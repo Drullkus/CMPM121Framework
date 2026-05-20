@@ -22,7 +22,7 @@ public class EnemyController : MonoBehaviour {
     private void Update() {
         Vector3 direction = _target.position - transform.position;
         if (direction.magnitude < 2f) {
-            // DoAttack();
+            DoAttack();
         } else {
             GetComponent<Unit>().movement = direction.normalized * speed;
         }
