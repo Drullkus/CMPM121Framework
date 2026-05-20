@@ -3,7 +3,10 @@ using System.Collections.Generic;
 public class WaveStat {
 
 	// TODO
-	public float Evaluate(Dictionary<string, WaveStat> variables) { return 0.0f; }
+	public float Evaluate(
+		Dictionary<string, float> baseStats,
+		Dictionary<string, WaveStat> derivedStats
+	) { return 0.0f; }
 
 	// TODO
 	public string Format() { return ""; }
@@ -21,10 +24,18 @@ public class WaveStatTracker {
 	}
 
 	// TODO
-	private WaveStatTracker() { }
+	private WaveStatTracker() {
+		
+	}
+
+	private Dictionary<string, float> _baseStats = new() {
+		[ "hitCount" ] = 0.0f,
+		[ "shotCount" ] = 0.0f,
+		[ "waveDuration" ] = 0.0f,
+	};
 
 	// TODO
-	public Dictionary<string, WaveStat> statValues = new(){ };
+	private Dictionary<string, WaveStat> _derivedStats = new(){ };
 
 	// TODO
 	public List<string> GetRandomFormattedStats(int max) { return new(); }
