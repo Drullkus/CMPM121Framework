@@ -17,10 +17,6 @@ public class EnemySpawner : MonoBehaviour {
 		});
 	}
 
-    public void OnDestroy() {
-        GameManager.Instance.ClearEnemies();
-    }
-
     IEnumerator SpawnEnemyType(Spawn spawn, int waveIndex) {
         spawn.CalculateForWave(waveIndex, out int totalEnemiesOfType, out int sequenceDelay);
         int enemyCount = 0;
