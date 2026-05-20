@@ -21,7 +21,7 @@ public class SpellUI : MonoBehaviour {
 
     public void SetSpell(Spell spell) {
         this.spell = spell;
-        GameManager.Instance.spellIconManager.PlaceSprite(spell.GetIcon(), icon.GetComponent<Image>());
+		icon.GetComponent<Image>().sprite = SpriteManager.Instance.RetrieveSpellSprite(spell.GetIcon());
     }
 
     void Update() {
