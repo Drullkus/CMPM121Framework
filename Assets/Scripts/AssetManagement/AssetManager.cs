@@ -19,5 +19,9 @@ public class AssetManager {
 		onLoad.Invoke(Resources.Load<TextAsset>(jsonPath).text);
 	}
 
+	public void LoadPrefab(string prefabPath, Action<GameObject> onLoad) {
+		onLoad.Invoke(Resources.Load<GameObject>(prefabPath));
+	}
+
 }
 
