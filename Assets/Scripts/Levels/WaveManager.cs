@@ -10,6 +10,7 @@ public class WaveManager {
 	public event Action<List<Level>> OnLevelsDeserialized;
 
 	private int waveIndex = 0;
+	private bool _onLastWave = false;
 
 	public void Initialize() {
 		AssetManager.Instance.LoadJson("levels", (loadedJson) => {
@@ -24,6 +25,8 @@ public class WaveManager {
 	}
 
 	public void StartWave(Level level) {
+		if(level.Waves == waveIndex + 1) { _onLastWave = true; }
+
 		GameManager.Instance.state = GameManager.GameState.COUNTDOWN;
 
 		new Timer(3000).Elapsed += (_, _) => {
@@ -47,6 +50,8 @@ public class WaveManager {
 
 		// TODO - move to GameManager so it can control its own state!
 		GameManager.Instance.state = GameManager.GameState.WAVEEND;
+
+		// TODO - handle last wave
 	}
 
 }
