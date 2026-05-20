@@ -30,8 +30,7 @@ public class ProjectileManager : MonoBehaviour {
 		Vector3 where,
 		Vector3 direction,
 		float speed,
-		Action<Hittable,
-		Vector3> onHit,
+		Action<Hittable, Vector3> onHit,
 		float lifetime
 	) {
         GameObject new_projectile = Instantiate(projectiles[which], where + direction.normalized * 1.1f, Quaternion.Euler(0, 0, Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg));
