@@ -17,9 +17,9 @@ public class EventBus {
         OnDamage?.Invoke(where, dmg, target);
     }
 
-	public event Action<UIObject> OnUIObjectRegistered;
-	public void RegisterUIObject(UIObject uiObject) {
-		OnUIObjectRegistered?.Invoke(uiObject);
+	public event Action<UIScreen> OnUIScreenRegistered;
+	public void RegisterUIScreen(UIScreen uiScreen) {
+		OnUIScreenRegistered?.Invoke(uiScreen);
 	}
 
 	public event Action OnWaveStart;
