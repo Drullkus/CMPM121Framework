@@ -1,31 +1,12 @@
 using System.Collections.Generic;
 
-public abstract class WaveStat {
+public class WaveStat {
 
-	public abstract float Evaluate();
-	public abstract string Format();
+	// TODO
+	public float Evaluate(Dictionary<string, WaveStat> variables) { return 0.0f; }
 
-}
-
-public class SimpleWaveStat : WaveStat {
-
-	private float _value;
-	private string _format;
-
-	public SimpleWaveStat(ref float valueToTrack, string format) {
-		_value = valueToTrack;
-		_format = format;
-	}
-
-	public override float Evaluate() { return _value; }
-	public override string Format() { return ""; }
-
-}
-
-public class CompoundWaveStat : WaveStat {
-
-	public override float Evaluate() { return 0.0f; }
-	public override string Format() { return ""; }
+	// TODO
+	public string Format() { return ""; }
 
 }
 
@@ -39,10 +20,13 @@ public class WaveStatTracker {
 		}
 	}
 
-	public Dictionary<string, WaveStat> statValues = new(){
-		
-	};
+	// TODO
+	private WaveStatTracker() { }
 
+	// TODO
+	public Dictionary<string, WaveStat> statValues = new(){ };
+
+	// TODO
 	public List<string> GetRandomFormattedStats(int max) { return new(); }
 
 }
