@@ -9,6 +9,14 @@ public class EnemySpawner : MonoBehaviour {
     public GameObject enemy;
     public SpawnPoint[] SpawnPoints;
 
+	public void Initialize() {
+		AssetManager.Instance.LoadJson("enemies", (loadedJson) => {
+			EventBus.Instance.OnSpawnSchedulingRequested += (waveIndex, spawn) => {
+				StartCoroutine(SpawnEnemyType(spawn, waveIndex));
+			};
+		});
+	}
+
     public void OnDestroy() {
         GameManager.Instance.ClearEnemies();
     }
