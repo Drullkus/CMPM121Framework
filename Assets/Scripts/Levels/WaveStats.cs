@@ -23,6 +23,8 @@ public class WaveStat {
 			
 			if(!evaluableString.Contains(key)) { continue; }
 
+			if(derivedStatKeyValue.Value == this) { continue; }
+
 			float value = derivedStatKeyValue.Value.Evaluate(baseStats, derivedStats);
 
 			evaluableString = evaluableString.Replace(key, value.ToString());
