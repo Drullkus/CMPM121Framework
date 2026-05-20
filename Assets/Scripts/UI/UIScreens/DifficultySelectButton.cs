@@ -17,6 +17,7 @@ public class DifficultySelectButton : MonoBehaviour {
 
 		button.onClick.AddListener(() => {
 			EventBus.Instance.ChooseDifficulty(level);
+			EventBus.Instance.CloseUIScreen();
 		});
 	}
 
