@@ -5,10 +5,6 @@ public class ProjectileManager : MonoBehaviour {
 
     public GameObject[] projectiles;
 
-    void Start() {
-        GameManager.Instance.projectileManager = this;
-    }
-
     public void CreateProjectile(
 		int which,
 		string trajectory,

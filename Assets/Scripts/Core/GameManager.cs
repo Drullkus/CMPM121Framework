@@ -31,12 +31,6 @@ public class GameManager {
 
     public GameObject player;
     
-    public ProjectileManager projectileManager;
-    public SpellIconManager spellIconManager;
-    public EnemySpriteManager enemySpriteManager;
-    public PlayerSpriteManager playerSpriteManager;
-    public RelicIconManager relicIconManager;
-
     public Dictionary<string, EnemyStats> enemyStats;
 
 	private WaveManager _waveManager = new();
