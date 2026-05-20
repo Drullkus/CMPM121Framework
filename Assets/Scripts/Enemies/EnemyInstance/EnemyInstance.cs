@@ -39,7 +39,9 @@ public class EnemyInstance :
         }
     }
 
-	public void Hit(Damage damage) {}
+	public void Hit(Damage damage) {
+		_hp.TakeDamage(damage);
+	}
 
     private void Die() {
         if (!dead) {
