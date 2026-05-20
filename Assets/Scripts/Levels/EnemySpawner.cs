@@ -26,10 +26,6 @@ public class EnemySpawner : MonoBehaviour {
     public delegate void OnWaveEndHandler();
     public event OnWaveEndHandler onWaveEnd;
 
-    public void Reset() {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
     void Update() {
         waveDuration += Time.deltaTime;
         
