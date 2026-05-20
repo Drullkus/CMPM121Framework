@@ -39,13 +39,3 @@ public class EnemyStats {
 	}
 
 }
-
-public class Enemy {
-
-	EnemyStats stats;
-
-	Enemy(EnemyStats stats) {
-		this.stats = stats;
-	}
-
-}
