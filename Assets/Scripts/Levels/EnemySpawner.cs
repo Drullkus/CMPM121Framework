@@ -11,20 +11,8 @@ using UnityEngine.SceneManagement;
 
 public class EnemySpawner : MonoBehaviour {
 
-    public Image level_selector;
-    public GameObject button;
-    public GameObject playerClassButton;
     public GameObject enemy;
-    public GameObject defeatScreen;
     public SpawnPoint[] SpawnPoints;
-    private Level selectedLevel;
-    private PlayerClassData chosenPlayerClass;
-    private int waveLevel = 1;
-    private float waveDuration = 0;
-    public PlayerController playerController;
-
-    public delegate void OnWaveEndHandler();
-    public event OnWaveEndHandler onWaveEnd;
 
     public void OnDestroy() {
         GameManager.Instance.ClearEnemies();
@@ -66,7 +54,7 @@ public class EnemySpawner : MonoBehaviour {
         return SpawnPoints[UnityEngine.Random.Range(0, SpawnPoints.Length)];
     }
 
-    void SpawnEnemy(Vector3 initial_position, Spawn spawn) {
+    void SpawnEnemy(Vector3 initial_position, Spawn spawn, int waveIndex) {
         GameObject new_enemy = Instantiate(enemy, initial_position, Quaternion.identity);
 
         EnemyStats enemyStats;
@@ -78,7 +66,7 @@ public class EnemySpawner : MonoBehaviour {
 
         new_enemy.GetComponent<SpriteRenderer>().sprite = GameManager.Instance.enemySpriteManager.Get(enemyStats.SpriteIndex);
         EnemyController en = new_enemy.GetComponent<EnemyController>();
-        spawn.CalculateForNewSpawn(enemyStats, this.waveLevel, out int hp, out int speed, out int damage);
+        spawn.CalculateForNewSpawn(enemyStats, waveIndex, out int hp, out int speed, out int damage);
         en.hp = new Hittable(hp, Hittable.Team.MONSTERS, new_enemy);
         en.speed = speed;
         en.damage = damage;
