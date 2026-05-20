@@ -2,24 +2,28 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIDispatcher {
+public class UIDispatcher : MonoBehaviour {
 
 	private UIState _state;
 
 	private Dictionary<UIState, UIScreen> _objectMap = new();
 
-	private static UIDispatcher _instance;
-	public static UIDispatcher Instance {
-		get {
-			_instance ??= new();
-			return _instance;
-		}
-	}
+	public static UIDispatcher Instance;
 
-	private UIDispatcher() {
+	private void Awake() {
+		if(Instance != null) {
+			if(Instance != this) {
+				Destroy(this);
+			}
+
+			return;
+		}
+
 		EventBus.Instance.OnUIScreenRegistered += RegisterUIScreen;
 		EventBus.Instance.OnWaveStart += () => { ChangeState(UIState.WAVE); };
 		EventBus.Instance.OnWaveEnd += () => { ChangeState(UIState.REWARD); };
+
+		Instance = this;
 	}
 
 	private void RegisterUIScreen(UIScreen uiScreen) {
@@ -31,7 +35,10 @@ public class UIDispatcher {
 		// this is pretty sloppy, we should implement a
 		// default state type thing
 		if(uiScreen.state == UIState.LEVEL_SELECT) {
+			Debug.Log("waow!");
 			uiScreen.Show();
+		} else {
+			Debug.Log("woof");
 		}
 	}
 
