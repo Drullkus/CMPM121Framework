@@ -34,8 +34,7 @@ public class EnemyInstance :
     private void DoAttack() {
         if (lastAttack + 2 < Time.time) {
             lastAttack = Time.time;
-			// TODO - don't depend on _target having a PlayerController
-            _target.gameObject.GetComponent<PlayerController>().Hit(new Damage(damage, Damage.Type.PHYSICAL));
+            _target.gameObject.GetComponent<IHittable>().Hit(new Damage(damage, Damage.Type.PHYSICAL));
         }
     }
 
