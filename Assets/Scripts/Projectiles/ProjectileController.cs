@@ -5,7 +5,7 @@ using System.Collections;
 public class ProjectileController : MonoBehaviour {
 
     public float lifetime;
-    public event Action<Hittable,Vector3> OnHit;
+    public event Action<IHittable,Vector3> OnHit;
     public ProjectileMovement movement;
 
     void Update() {

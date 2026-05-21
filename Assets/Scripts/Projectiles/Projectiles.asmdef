@@ -1,10 +1,8 @@
 {
-    "name": "Spells",
+    "name": "Projectiles",
     "rootNamespace": "",
     "references": [
-        "GUID:eb0449366ac8d83d087153d48e30d44e",
-        "GUID:77f55ace9ee14a46dbefad5325a1cdae",
-        "GUID:8135cc3b8a349b117a1546eb39176f7a"
+        "GUID:eb0449366ac8d83d087153d48e30d44e"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
