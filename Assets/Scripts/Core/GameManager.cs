@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Relic;
 
 public class GameManager {
 
@@ -21,6 +22,9 @@ public class GameManager {
         get {
             if (theInstance == null)
                 theInstance = new GameManager();
+
+            RelicManager.Instance.GetHashCode(); // Observe class so that it registers events
+            
             return theInstance;
         }
     }
