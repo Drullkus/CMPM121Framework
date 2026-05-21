@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour {
     void OnMove(InputValue value) {
         if (GameManager.Instance.state == GameManager.GameState.PREGAME || GameManager.Instance.state == GameManager.GameState.GAMEOVER) { return; }
 
-        unit.movement = value.Get<Vector2>() * speed;
+        unit.SetMovement(value.Get<Vector2>() * speed);
     }
 
     void OnChangeSpell(InputValue value) {

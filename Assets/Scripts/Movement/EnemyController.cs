@@ -23,7 +23,7 @@ public class EnemyController : MonoBehaviour {
         if (direction.magnitude < 2f) {
             DoAttack();
         } else {
-            GetComponent<Unit>().movement = direction.normalized * speed;
+            GetComponent<Unit>().SetMovement(direction.normalized * speed);
         }
     }
     

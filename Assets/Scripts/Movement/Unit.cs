@@ -27,6 +27,19 @@ public class Unit : MonoBehaviour {
             transform.Translate(ds);
         }
     }
+    
+    public void SetMovement(Vector2 ds) {
+        bool movingPreviously = movement.magnitude >= 0.000001;
+        bool newMovement = ds.magnitude >= 0.000001;
+
+        movement = ds;
+
+        if (movingPreviously && !newMovement) {
+            EventBus.Instance.DoMovementStopped(this);
+        } else if (!movingPreviously && newMovement) {
+            EventBus.Instance.DoMovementStarted(this);
+        }
+    }
 
 }
 
