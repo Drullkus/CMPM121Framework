@@ -17,7 +17,15 @@ public class PlayerInstance :
     private int _speed;
 
     void Start() {
+		PlayerClassManager.GetClasses((Dictionary<string, PlayerClassData> classData) => {
+			SetClass(classData["mage"]);
+		});
+
 		EventBus.Instance.OnWaveStarted += OnWaveChanged;
+	}
+
+	public void SetClass(PlayerClassData classData) {
+		_classData = classData;
 	}
 
 	private void Attack() {
