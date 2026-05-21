@@ -5,7 +5,7 @@ using System.Collections;
 public class ProjectileController : MonoBehaviour {
 
     public float lifetime;
-    public event Action<IHittable,Vector3> OnHit;
+    public event Action<IHittable, Vector3> OnHit;
     public ProjectileMovement movement;
 
     void Update() {
@@ -15,15 +15,15 @@ public class ProjectileController : MonoBehaviour {
     private void OnCollisionEnter2D(Collision2D collision) {
         if (collision.gameObject.CompareTag("projectile")) { return; };
         if (collision.gameObject.CompareTag("unit")) {
-            var ec = collision.gameObject.GetComponent<EnemyController>();
+            IHittable enemy = collision.gameObject.GetComponent<IHittable>();
 
-            if (ec != null) {
-                OnHit(ec.hp, transform.position);
-                GameManager.Instance.waveStatValues["hitCount"]++;
+            if (enemy != null) {
+                OnHit(enemy, transform.position);
+                EventBus.Instance.InvokeEnemyHit();
             } else {
-                var pc = collision.gameObject.GetComponent<PlayerController>();
-                if (pc != null) {
-                    OnHit(pc.hp, transform.position);
+				IHittable player = collision.gameObject.GetComponent<IHittable>();
+                if (player != null) {
+                    OnHit(player, transform.position);
                 }
             }
 

@@ -1,6 +1,5 @@
 using Newtonsoft.Json;
-using UnityEngine;
-
+using System.Linq;
 using System.Collections.Generic;
 
 public class DeserializedDataContainer {
@@ -43,7 +42,7 @@ public class DeserializedDataContainer {
 	[JsonProperty("cooldown_multiplier")]
 	public string cooldownMultiplier;
 	[JsonProperty("projectile_trajectory")]
-	public Spells.Trajectory projectileTrajectory;
+	public Trajectory projectileTrajectory;
 
 	// spell damage fields
 	[JsonProperty("amount")]
@@ -55,7 +54,7 @@ public class DeserializedDataContainer {
 	[JsonProperty("sprite")]
 	public int sprite;
 	[JsonProperty("trajectory")]
-	public Spells.Trajectory trajectory;
+	public Trajectory trajectory;
 	[JsonProperty("speed")]
 	public string speed;
 	[JsonProperty("lifetime")]
@@ -71,62 +70,14 @@ public class DeserializedDataContainer {
 			manaAdder != "" ||
 			manaMultiplier != "" ||
 			cooldownMultiplier != "" ||
-			projectileTrajectory != Spells.Trajectory.UNDEFINED;
+			projectileTrajectory != Trajectory.UNDEFINED;
 	}
 
-	public Spells.SpellData AsSpellData() {
-		return new Spells.SpellData(this);
-	}
-
-	public Spells.ProjectileData AsProjectileData() {
-		return new Spells.ProjectileData(this);
-	}
-
-	public Spells.Modifier AsModifier() {
-		string target = "";
-		string format = "";
-
-		if(angle != "") {
-			target = "angle";
-			format = $"{angle}";
-		} else if(delay != "") {
-			target = "delay";
-			format = $"{delay}";
-		} else if(manaAdder != "") {
-			target = "manaCost";
-			format = $"{{value}} {manaAdder} +";
-		} else if(manaMultiplier != "") {
-			target = "manaCost";
-			format = $"{{value}} {manaMultiplier} *";
-		} else if(cooldownMultiplier != "") {
-			target = "cooldownMultiplier";
-			format = $"{{value}} {cooldownMultiplier} *";
-		} else if(projectileTrajectory != Spells.Trajectory.UNDEFINED) {
-			target = "projectileTrajectory";
-			format = $"{projectileTrajectory}";
-		}
-
-		return new Spells.Modifier(name, description, target, format);
-	}
-
-	public static List<Spells.SpellData> baseSpellData = new();
-	public static List<Spells.Modifier> modifiers = new();
-
-	public static void ReadFromJson(string json) {
+	public static List<DeserializedDataContainer> ReadFromJson(string json) {
 		Dictionary<string, DeserializedDataContainer> deserializedData = JsonConvert.DeserializeObject<Dictionary<string, DeserializedDataContainer>>(json);
 
-		foreach(DeserializedDataContainer data in deserializedData.Values) {
-			if(data.IsSpell()) {
-				baseSpellData.Add(data.AsSpellData());
-				continue;
-			}
-
-			if(data.IsSpellModifier()) {
-				modifiers.Add(data.AsModifier());
-				continue;
-			}
-		}
+		return deserializedData.Values.ToList();
 	}
-
 }
+
 

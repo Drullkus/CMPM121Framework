@@ -1,12 +1,8 @@
 {
-    "name": "Spells",
+    "name": "DeserializedDataContainer",
     "rootNamespace": "",
     "references": [
-        "GUID:eb0449366ac8d83d087153d48e30d44e",
-        "GUID:77f55ace9ee14a46dbefad5325a1cdae",
-        "GUID:8135cc3b8a349b117a1546eb39176f7a",
-        "GUID:3303e98de118330d6abd6d943bcd878c",
-        "GUID:ecd3e3d717aba4594beec206083c9bdd"
+        "GUID:3303e98de118330d6abd6d943bcd878c"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
