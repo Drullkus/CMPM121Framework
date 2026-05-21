@@ -71,20 +71,15 @@ public class EnemySpawner {
     }
 
     void SpawnEnemy(Vector3 initial_position, Spawn spawn, int waveIndex) {
-        GameObject new_enemy = GameObject.Instantiate(enemy, initial_position, Quaternion.identity);
+        GameObject newEnemy = GameObject.Instantiate(enemy, initial_position, Quaternion.identity);
 
         if(!_enemyStats.TryGetValue(spawn.Enemy, out EnemyStats enemyStats)) {
             Debug.LogError($"tried to spawn enemy of type \"{spawn.Enemy}\" when no such enemy type exists!");
             return;
         }
 
-        new_enemy.GetComponent<SpriteRenderer>().sprite = SpriteManager.Instance.RetrieveEnemySprite(enemyStats.SpriteIndex);
-        EnemyController en = new_enemy.GetComponent<EnemyController>();
+        newEnemy.GetComponent<SpriteRenderer>().sprite = SpriteManager.Instance.RetrieveEnemySprite(enemyStats.SpriteIndex);
         spawn.CalculateForNewSpawn(enemyStats, waveIndex, out int hp, out int speed, out int damage);
-        en.hp = new Hittable(hp, Hittable.Team.MONSTERS, new_enemy);
-        en.speed = speed;
-        en.damage = damage;
     }
 
 }
-
