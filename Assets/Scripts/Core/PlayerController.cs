@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour {
     public void OnNextWave(int wave) {
         data.CalculatePlayerStatsForWave(wave, out int health, out int mana, out int mana_reg, out int spellpower, out int speed); // FIXME spellpower unused, needs wiring into spellcasting
         
-        this.hp.hp = health;
+        this.hp.SetMaxHP(health);
         this.spellcaster.mana = mana;
         this.spellcaster.mana_reg = mana_reg;
         this.speed = speed;
