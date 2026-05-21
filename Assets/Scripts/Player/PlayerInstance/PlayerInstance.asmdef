@@ -1,0 +1,16 @@
+{
+    "name": "PlayerInstance",
+    "rootNamespace": "",
+    "references": [
+        "GUID:eb0449366ac8d83d087153d48e30d44e"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

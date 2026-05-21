@@ -1,18 +1,19 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Player;
 
-public class PlayerInstance :
+public class PlayerController :
 	MonoBehaviour, IHittable
 {
 
-    public HealthBar healthui;
-    public ManaBar manaui;
+	private HP _hp;
 
-    public SpellCaster spellcaster;
-    public SpellUIContainer SpellUIContainer;
-    public SpellUI spellui;
-    public GameObject defeatScreen;
+    // public HealthBar healthui;
+    // public ManaBar manaui;
+
+    // public SpellCaster spellcaster;
+    // public SpellUIContainer SpellUIContainer;
+    // public SpellUI spellui;
+    // public GameObject defeatScreen;
 
     public PlayerClassData data;
 
@@ -72,6 +73,10 @@ public class PlayerInstance :
     void OnChangeSpell(InputValue value) {
         SpellUIContainer.ChangeSpell();
     }
+
+	public void Hit(Damage damage) {
+		_hp.TakeDamage(damage);
+	}
 
     void Die() {
         GameManager.Instance.state = GameManager.GameState.GAMEOVER;
