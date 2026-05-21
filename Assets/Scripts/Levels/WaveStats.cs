@@ -53,7 +53,7 @@ public class WaveStatTracker {
 	}
 
 	private WaveStatTracker() {
-		EventBus.Instance.OnWaveStarted += (_) => { _baseStats["waveDuration"] = Time.time; };
+		EventBus.Instance.OnWaveStarted += (_, _) => { _baseStats["waveDuration"] = Time.time; };
 		EventBus.Instance.OnWaveEnded += () => { _baseStats["waveDuration"] = Time.time - _baseStats["waveDuration"]; };
 
 		EventBus.Instance.OnEnemyHit += () => { _baseStats["hitCount"]++; };

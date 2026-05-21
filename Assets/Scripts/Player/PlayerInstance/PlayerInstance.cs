@@ -25,6 +25,7 @@ public class PlayerInstance :
 	}
 
 	public void SetClass(PlayerClassData classData) {
+		Debug.Log("setting class");
 		_classData = classData;
 	}
 
@@ -34,7 +35,8 @@ public class PlayerInstance :
 		Vector2 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.value);
 	}
 
-	private void OnWaveChanged(int newWaveIndex) {
+	private void OnWaveChanged(int newWaveIndex, int _) {
+		Debug.Log("changing stats");
 		_classData.CalculatePlayerStatsForWave(
 			newWaveIndex,
 			out int hpValue,

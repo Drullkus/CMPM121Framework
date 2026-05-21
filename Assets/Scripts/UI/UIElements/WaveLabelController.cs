@@ -12,7 +12,7 @@ public class WaveLabelController : MonoBehaviour {
     private void Awake() {
         _label = GetComponent<TextMeshProUGUI>();
 
-		EventBus.Instance.OnWaveStarted += (enemyCount) => {
+		EventBus.Instance.OnWaveStarted += (_, enemyCount) => {
 			_enemyCount = enemyCount;
 			_newText = $"Enemies remaining: {_enemyCount}";
 		};

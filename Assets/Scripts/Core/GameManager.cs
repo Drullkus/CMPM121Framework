@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public class GameManager {
+public class GameManager : MonoBehaviour {
 
     public enum GameState {
         PREGAME,
@@ -16,18 +16,20 @@ public class GameManager {
     public GameState state;
 
     public int countdown;
-    private static GameManager theInstance;
-    public static GameManager Instance {
-        get {
-            if (theInstance == null) {
-                theInstance = new();
+    public static GameManager Instance;
 
-				theInstance._waveManager.Initialize();
+	private void Awake() {
+		if(Instance != null) {
+			if(Instance != this) {
+				Destroy(this);
 			}
+			
+			return;
+		}
 
-            return theInstance;
-        }
-    }
+		Instance = this;
+		_waveManager.Initialize();
+	}
 
     public GameObject player;
     
