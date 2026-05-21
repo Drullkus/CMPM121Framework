@@ -6,22 +6,39 @@ public class PlayerInstance :
 	MonoBehaviour, IHittable
 {
 
-	private HP _hp;
-
 	private Vector2 _movement;
 
-    private PlayerClassData _data;
+    private PlayerClassData _classData;
 
-    public int speed;
+	private HP _health;
+	private int _mana;
+	private int _manaRegeneration;
+	private int _spellpower;
+    private int _speed;
 
     void Start() {
-		_hp = new(100);
+		EventBus.Instance.OnWaveStarted += OnWaveChanged;
 	}
 
 	private void Attack() {
 		EventBus.Instance.InvokePlayerShoot();
 
 		Vector2 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.value);
+	}
+
+	private void OnWaveChanged(int newWaveIndex) {
+		int hpValue;
+
+		_classData.CalculatePlayerStatsForWave(
+			newWaveIndex,
+			out hpValue,
+			out _mana,
+			out _manaRegeneration,
+			out _spellpower,
+			out _speed
+		);
+
+		_health = new(hpValue);
 	}
 
 	public void OnMove(InputAction.CallbackContext context) {
@@ -38,12 +55,12 @@ public class PlayerInstance :
 	}
 
 	private void FixedUpdate() {
-		Move(new Vector2(_movement.x, 0.0f) * Time.fixedDeltaTime);
-		Move(new Vector2(0.0f, _movement.y) * Time.fixedDeltaTime);
+		Move(new Vector2(_movement.x, 0.0f) * (Time.fixedDeltaTime * _speed));
+		Move(new Vector2(0.0f, _movement.y) * (Time.fixedDeltaTime * _speed));
 	}
 
 	public void Hit(Damage damage) {
-		_hp.TakeDamage(damage);
+		_health.TakeDamage(damage);
 	}
 
     void Die() {
