@@ -27,11 +27,9 @@ public class PlayerInstance :
 	}
 
 	private void OnWaveChanged(int newWaveIndex) {
-		int hpValue;
-
 		_classData.CalculatePlayerStatsForWave(
 			newWaveIndex,
-			out hpValue,
+			out int hpValue,
 			out _mana,
 			out _manaRegeneration,
 			out _spellpower,
