@@ -9,7 +9,6 @@ public class EnemyInstance :
     public string targetTag;
     public int speed;
     public int damage;
-    // public HealthBar healthui;
     public bool dead;
 
 	private Transform _target;
@@ -17,17 +16,16 @@ public class EnemyInstance :
     public float lastAttack;
 
     private void Start() {
+		_hp = new(0);
+
         _target = GameObject.FindWithTag(targetTag).transform;
         _hp.OnExpended += Die;
-        // healthui.SetHealth(hp);
     }
 
     private void Update() {
         Vector3 direction = _target.position - transform.position;
         if (direction.magnitude < 2f) {
             DoAttack();
-        } else {
-            GetComponent<Unit>().movement = direction.normalized * speed;
         }
     }
     
