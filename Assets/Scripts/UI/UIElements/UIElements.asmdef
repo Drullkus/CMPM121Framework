@@ -1,11 +1,8 @@
 {
-    "name": "PlayerInstance",
+    "name": "UIEllements",
     "rootNamespace": "",
     "references": [
-        "GUID:eb0449366ac8d83d087153d48e30d44e",
-        "GUID:75469ad4d38634e559750d17036d5f7c",
-        "GUID:91315b42758ef3ffe8c0b6c6d7e2977a",
-        "GUID:236bf6164d119014da821266d303b193"
+        "GUID:6055be8ebefd69e48b49212b09b47b2f"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
