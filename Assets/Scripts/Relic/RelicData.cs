@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel;
 using Newtonsoft.Json;
 
@@ -16,5 +17,11 @@ namespace Relic {
         
         [JsonProperty("effect")]
         public RelicEffectData Effect { get; set; }
+
+        public void GetEffectAmount(int wave, out int amount) {
+            Dictionary<string, int> variables = new() { ["wave"] = wave };
+            
+            amount = RPNEvaluator.RPNEvaluator.Evaluate(this.Effect.Amount, variables);
+        }
     }
 }
