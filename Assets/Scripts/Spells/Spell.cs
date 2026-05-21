@@ -7,7 +7,7 @@ public class Spell {
 
     public float last_cast;
     public SpellCaster owner;
-    public Hittable.Team team;
+    public Team team;
 
     public Spell(SpellCaster owner) {
         this.owner = owner;
@@ -38,14 +38,14 @@ public class Spell {
     }
 
 	// TODO
-    public virtual IEnumerator Cast(Vector3 where, Vector3 target, Hittable.Team team) {
+    public virtual IEnumerator Cast(Vector3 where, Vector3 target, Team team) {
         this.team = team;
         yield return new WaitForEndOfFrame();
     }
 
-    void OnHit(Hittable other, Vector3 impact) {
-        if (other.team != team) {
-            other.Damage(new Damage(GetDamage(), Damage.Type.ARCANE));
+    void OnHit(Team otherTeam, IHittable other, Vector3 impact) {
+        if (otherTeam != team) {
+            other.Hit(new Damage(GetDamage(), Damage.Type.ARCANE));
         }
     }
 
