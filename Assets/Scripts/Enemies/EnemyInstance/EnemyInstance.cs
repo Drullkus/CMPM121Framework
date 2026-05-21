@@ -18,7 +18,7 @@ public class EnemyInstance :
 
     private void Start() {
         _target = GameObject.FindWithTag(targetTag).transform;
-        _hp.OnHPExpended += Die;
+        _hp.OnExpended += Die;
         // healthui.SetHealth(hp);
     }
 
