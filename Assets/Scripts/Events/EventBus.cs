@@ -47,6 +47,11 @@ public class EventBus {
 		OnSpawnSchedulingRequested?.Invoke(waveIndex, spawn);
 	}
 
+	public event Action OnPlayerDeath;
+	public void InvokePlayerDeath() {
+		OnPlayerDeath?.Invoke();
+	}
+
 	public event Action OnPlayerShoot;
 	public void InvokePlayerShoot() {
 		OnPlayerShoot?.Invoke();
