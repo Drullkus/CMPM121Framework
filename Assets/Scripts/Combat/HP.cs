@@ -5,10 +5,20 @@ public class HP {
 	private int _maxValue;
 	private int _value;
 
+	private HealthBar _healthBar;
+
 	public event Action OnExpended;
+
+	public HP(int value) {
+		_maxValue = value;
+		_value = value;
+	}
 
 	public virtual void TakeDamage(Damage damage) {
 		_value -= damage.amount;
+
+		HPChanged();
+
 		if(_value <= 0) {
 			_value = 0;
 			OnExpended?.Invoke();
@@ -18,15 +28,20 @@ public class HP {
 	public void Recover(int amount) {
 		_value += amount;
 		Math.Clamp(_value, 0, _maxValue);
+
+		HPChanged();
 	}
 
 	public void RecoverFull() {
 		_value = _maxValue;
+
+		HPChanged();
 	}
 
-	public HP(int value) {
-		_maxValue = value;
-		_value = value;
+	private void HPChanged() {
+		if(_healthBar == null) { return; }
+
+		_healthBar.SetHealth((float)_value / (float)_maxValue);
 	}
 
 }
