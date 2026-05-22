@@ -22,6 +22,8 @@ public class PlayerInstance :
 		});
 
 		EventBus.Instance.OnWaveStarted += OnWaveChanged;
+
+		_health.OnExpended += Die;
 	}
 
 	public void SetClass(PlayerClassData classData) {
