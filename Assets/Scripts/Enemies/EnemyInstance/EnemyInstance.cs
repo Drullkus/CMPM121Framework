@@ -41,9 +41,6 @@ public class EnemyInstance :
 			GameObject newEnemyObject = GameObject.Instantiate(_enemyPrefab);
 			EnemyInstance newEnemy = newEnemyObject.GetComponent<EnemyInstance>();
 
-			Debug.Log(newEnemyObject);
-			Debug.Log(newEnemy);
-
 			newEnemy._damage = statData.Damage;
 			newEnemy._health = new(statData.HP);
 			newEnemy._speed = statData.Speed;
