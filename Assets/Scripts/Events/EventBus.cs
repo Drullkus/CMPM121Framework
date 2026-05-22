@@ -42,9 +42,9 @@ public class EventBus {
 		OnWaveEnded?.Invoke();
 	}
 
-	public event Action<int, Spawn> OnSpawnSchedulingRequested;
-	public void RequestSpawnScheduling(int waveIndex, Spawn spawn) {
-		OnSpawnSchedulingRequested?.Invoke(waveIndex, spawn);
+	public event Action<int, BatchSpawnData> OnSpawnSchedulingRequested;
+	public void RequestSpawnScheduling(int waveIndex, BatchSpawnData batchSpawnData) {
+		OnSpawnSchedulingRequested?.Invoke(waveIndex, batchSpawnData);
 	}
 
 	public event Action OnPlayerDeath;

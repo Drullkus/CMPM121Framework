@@ -11,6 +11,6 @@ public class Level {
     public int Waves { get; set; } = 0; // 0 means endless
 
     [JsonProperty("spawns")]
-    public List<Spawn> Spawns { get; set; }
+    public List<BatchSpawnData> batchSpawnData { get; set; }
 
 }

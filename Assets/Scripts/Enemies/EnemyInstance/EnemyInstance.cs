@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyInstance :
@@ -6,34 +8,66 @@ public class EnemyInstance :
 
 	private HP _health;
 
-    private string _targetTag;
+    public string targetTag;
     private int _speed;
     private int _damage;
     private bool _dead;
 
 	private Transform _target;
 
-    public float lastAttack;
+	private static GameObject _enemyPrefab;
+
+	public static void Instantiate(EnemyStatData statData, Action<EnemyInstance> onInstantiation) {
+		if(_enemyPrefab == null) {
+			_LoadPrefab(_Instantiate);
+
+			return;
+		}
+
+		_Instantiate();
+
+		return;
+
+		void _LoadPrefab(Action onLoaded) {
+			AssetManager.Instance.LoadPrefab("enemy", (loadedPrefab) => {
+				_enemyPrefab = loadedPrefab;
+				onLoaded.Invoke();
+			});
+
+			return;
+		}
+
+		void _Instantiate() {
+			GameObject newEnemyObject = GameObject.Instantiate(_enemyPrefab);
+			EnemyInstance newEnemy = newEnemyObject.GetComponent<EnemyInstance>();
+
+			Debug.Log(newEnemyObject);
+			Debug.Log(newEnemy);
+
+			newEnemy._damage = statData.Damage;
+			newEnemy._health = new(statData.HP);
+			newEnemy._speed = statData.Speed;
+
+			newEnemy.GetComponent<SpriteRenderer>().sprite = SpriteManager.Instance.RetrieveEnemySprite(statData.SpriteIndex);
+
+			onInstantiation.Invoke(newEnemy);
+
+			return;
+		}
+	}
 
     private void Start() {
-		_health = new(0);
-
-        _target = GameObject.FindWithTag(_targetTag).transform;
+        _target = GameObject.FindWithTag(targetTag).transform;
         _health.OnExpended += Die;
     }
 
     private void Update() {
-        Vector3 direction = _target.position - transform.position;
-        if (direction.magnitude < 2f) {
-            DoAttack();
-        }
-    }
-    
-    private void DoAttack() {
-        if (lastAttack + 2 < Time.time) {
-            lastAttack = Time.time;
-            _target.gameObject.GetComponent<IHittable>().Hit(new Damage(_damage, Damage.Type.PHYSICAL));
-        }
+        Vector3 direction = (_target.position - transform.position).normalized;
+
+		List<RaycastHit2D> hits = new List<RaycastHit2D>();
+		int collisionCount = GetComponent<Rigidbody2D>().Cast(direction, hits, 2.0f);
+
+		if(collisionCount == 0) { transform.Translate(direction * (_speed * Time.deltaTime)); }
     }
 
 	public void Hit(Damage damage) {

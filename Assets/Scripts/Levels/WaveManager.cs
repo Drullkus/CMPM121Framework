@@ -34,12 +34,12 @@ public class WaveManager {
 		timer.Elapsed += (_, _) => {
 			GameManager.Instance.state = GameManager.GameState.INWAVE;
 
-			foreach(Spawn spawn in level.Spawns) {
+			foreach(BatchSpawnData batchSpawnData in level.batchSpawnData) {
 				ExecutionQueue.Instance.Enqueue(() => {
-					EventBus.Instance.RequestSpawnScheduling(waveIndexReadOnly, spawn);
+					EventBus.Instance.RequestSpawnScheduling(waveIndexReadOnly, batchSpawnData);
 				});
 
-				spawn.CalculateForWave(waveIndexReadOnly, out int spawnCount, out _);
+				batchSpawnData.CalculateForWave(waveIndexReadOnly, out int spawnCount, out _);
 				remainingEnemyCount += spawnCount;
 			}
 			
