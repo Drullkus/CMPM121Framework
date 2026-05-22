@@ -4,22 +4,22 @@ public class EnemyInstance :
 	MonoBehaviour, IHittable
 {
 
-	private HP _hp;
+	private HP _health;
 
-    public string targetTag;
-    public int speed;
-    public int damage;
-    public bool dead;
+    private string _targetTag;
+    private int _speed;
+    private int _damage;
+    private bool _dead;
 
 	private Transform _target;
 
     public float lastAttack;
 
     private void Start() {
-		_hp = new(0);
+		_health = new(0);
 
-        _target = GameObject.FindWithTag(targetTag).transform;
-        _hp.OnExpended += Die;
+        _target = GameObject.FindWithTag(_targetTag).transform;
+        _health.OnExpended += Die;
     }
 
     private void Update() {
@@ -32,17 +32,17 @@ public class EnemyInstance :
     private void DoAttack() {
         if (lastAttack + 2 < Time.time) {
             lastAttack = Time.time;
-            _target.gameObject.GetComponent<IHittable>().Hit(new Damage(damage, Damage.Type.PHYSICAL));
+            _target.gameObject.GetComponent<IHittable>().Hit(new Damage(_damage, Damage.Type.PHYSICAL));
         }
     }
 
 	public void Hit(Damage damage) {
-		_hp.TakeDamage(damage);
+		_health.TakeDamage(damage);
 	}
 
     private void Die() {
-        if (!dead) {
-            dead = true;
+        if (!_dead) {
+            _dead = true;
             Destroy(gameObject);
         }
     }
