@@ -33,8 +33,6 @@ public class GameManager : MonoBehaviour {
 
     public GameObject player;
     
-    public Dictionary<string, EnemyStats> enemyStats;
-
 	private WaveManager _waveManager = new();
 
     public Dictionary<string, int> waveStatValues = new(){

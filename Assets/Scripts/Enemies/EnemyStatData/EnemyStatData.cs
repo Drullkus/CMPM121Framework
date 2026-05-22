@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel;
 
-public class EnemyStats {
+public class EnemyStatData{
 
 	[DefaultValue(0)]
 	[JsonProperty("sprite", DefaultValueHandling = DefaultValueHandling.Populate)]
@@ -24,13 +24,13 @@ public class EnemyStats {
 	[JsonProperty("damage", DefaultValueHandling = DefaultValueHandling.Populate)]
 	public int Damage { get; set; }
 
-	public static bool CreateEnemyStatDictionaryFromJson(string statsJson, out Dictionary<string, EnemyStats> enemyStatDictionary) {
-		enemyStatDictionary = new Dictionary<string, EnemyStats>();
+	public static bool CreateEnemyStatDictionaryFromJson(string statsJson, out Dictionary<string, EnemyStatData> enemyStatDictionary) {
+		enemyStatDictionary = new Dictionary<string, EnemyStatData>();
 
-		List<EnemyStats> enemyStatsList = JsonConvert.DeserializeObject<List<EnemyStats>>(statsJson);
+		List<EnemyStatData> enemyStatsList = JsonConvert.DeserializeObject<List<EnemyStatData>>(statsJson);
 
-		foreach(EnemyStats enemyStats in enemyStatsList) {
-			if(enemyStatDictionary.TryAdd(enemyStats.Name, enemyStats)) { continue; }
+		foreach(EnemyStatData statData in enemyStatsList) {
+			if(enemyStatDictionary.TryAdd(statData.Name, statData)) { continue; }
 			return false;
 		}
 

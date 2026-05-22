@@ -11,15 +11,15 @@ public class EnemySpawner {
     public GameObject enemy;
     public SpawnPoint[] SpawnPoints;
 
-	private Dictionary<string, EnemyStats> _enemyStats = new();
+	private Dictionary<string, EnemyStatData> _enemyStats = new();
 
 	public void Initialize() {
 		SpawnPoints = GameObject.FindObjectsByType<SpawnPoint>(FindObjectsSortMode.None);
 
 		AssetManager.Instance.LoadJson("enemies", (loadedJson) => {
-			List<EnemyStats> stats = JsonConvert.DeserializeObject<List<EnemyStats>>(loadedJson);
+			List<EnemyStatData> stats = JsonConvert.DeserializeObject<List<EnemyStatData>>(loadedJson);
 
-			foreach(EnemyStats stat in stats) {
+			foreach(EnemyStatData stat in stats) {
 				_enemyStats[stat.Name] = stat;
 			}
 		});
@@ -73,7 +73,7 @@ public class EnemySpawner {
     void SpawnEnemy(Vector3 initial_position, Spawn spawn, int waveIndex) {
         GameObject newEnemy = GameObject.Instantiate(enemy, initial_position, Quaternion.identity);
 
-        if(!_enemyStats.TryGetValue(spawn.Enemy, out EnemyStats enemyStats)) {
+        if(!_enemyStats.TryGetValue(spawn.Enemy, out EnemyStatData enemyStats)) {
             Debug.LogError($"tried to spawn enemy of type \"{spawn.Enemy}\" when no such enemy type exists!");
             return;
         }

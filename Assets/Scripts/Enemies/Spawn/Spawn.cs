@@ -43,10 +43,10 @@ public class Spawn {
         delay = RPNEvaluator.RPNEvaluator.Evaluate(this.Delay, variables);
     }
 
-    public void CalculateForNewSpawn(EnemyStats enemy, int wave, out int hp, out int speed, out int damage) {
-        hp = RPNEvaluator.RPNEvaluator.Evaluate(this.Hp, new() { ["base"] = enemy.HP, ["wave"] = wave });
-        speed = RPNEvaluator.RPNEvaluator.Evaluate(this.Speed, new() { ["base"] = enemy.Speed, ["wave"] = wave });
-        damage = RPNEvaluator.RPNEvaluator.Evaluate(this.Damage, new() { ["base"] = enemy.Damage, ["wave"] = wave });
+    public void CalculateForNewSpawn(EnemyStatData enemyStats, int wave, out int hp, out int speed, out int damage) {
+        hp = RPNEvaluator.RPNEvaluator.Evaluate(this.Hp, new() { ["base"] = enemyStats.HP, ["wave"] = wave });
+        speed = RPNEvaluator.RPNEvaluator.Evaluate(this.Speed, new() { ["base"] = enemyStats.Speed, ["wave"] = wave });
+        damage = RPNEvaluator.RPNEvaluator.Evaluate(this.Damage, new() { ["base"] = enemyStats.Damage, ["wave"] = wave });
     }
 
 	public int GetSpawnBatchCount(int batchIndex) {
