@@ -10,12 +10,12 @@ public class AttackRadius : MonoBehaviour {
 	public event Action<GameObject> OnRadiusEntered;
 	public event Action<GameObject> OnRadiusExited;
 
-	private void OnTriggerEnter(Collider2D other) {
+	private void OnTriggerEnter2D(Collider2D other) {
 		_overlappingWith.Add(other.gameObject);
 		OnRadiusEntered.Invoke(other.gameObject);
 	}
 
-	private void OnTriggerExit(Collider2D other) {
+	private void OnTriggerExit2D(Collider2D other) {
 		_overlappingWith.Remove(other.gameObject);
 		OnRadiusExited.Invoke(other.gameObject);
 	}
