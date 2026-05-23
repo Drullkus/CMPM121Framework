@@ -13,6 +13,8 @@ public class EnemyInstance :
     private int _damage;
     private bool _dead;
 
+	private AttackRadius _attackRadius;
+
 	private Transform _target;
 
 	private static GameObject _enemyPrefab;
