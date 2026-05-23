@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+[RequireComponent(typeof(CircleCollider2D))]
 public class AttackRadius : MonoBehaviour {
 
 	private List<GameObject> _overlappingWith = new();
