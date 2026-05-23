@@ -7,8 +7,6 @@ public class AttackRadius : MonoBehaviour {
 
 	private List<GameObject> _overlappingWith = new();
 
-	private float _radius = 2.0f;
-
 	public event Action<GameObject> OnRadiusEntered;
 	public event Action<GameObject> OnRadiusExited;
 
@@ -30,6 +28,10 @@ public class AttackRadius : MonoBehaviour {
 		}
 
 		return result;
+	}
+
+	private void SetRadius(float newRadius) {
+		GetComponent<CircleCollider2D>().radius = newRadius;
 	}
     
 }
