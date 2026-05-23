@@ -9,12 +9,17 @@ public class AttackRadius : MonoBehaviour {
 
 	private float _radius = 2.0f;
 
+	public event Action<GameObject> OnRadiusEntered;
+	public event Action<GameObject> OnRadiusExited;
+
 	private void OnTriggerEnter(Collider2D other) {
 		_overlappingWith.Add(other.gameObject);
+		OnRadiusEntered.Invoke(other.gameObject);
 	}
 
 	private void OnTriggerExit(Collider2D other) {
 		_overlappingWith.Remove(other.gameObject);
+		OnRadiusExited.Invoke(other.gameObject);
 	}
 
 	public List<GameObject> FindWithFilter(Func<GameObject, bool> filter) {
