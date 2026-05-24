@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using Relic.RelicEffect;
 using Relic.RelicTrigger;
 using Random = UnityEngine.Random;
 
@@ -10,7 +11,7 @@ namespace Relic {
     public class RelicManager {
         private static readonly Dictionary<string, RelicData> RelicRegistry = new();
         private static readonly Dictionary<string, Action<RelicTriggerData, Action<GameObject>>> RelicTriggerRegistry = new();
-        private static readonly Dictionary<string, Action<GameObject>> RelicEffectRegistry = new();
+        private static readonly Dictionary<string, Func<RelicEffectData, RelicEffect.RelicEffect>> RelicEffectRegistry = new();
 
         private static RelicManager _theInstance;
         public static RelicManager Instance {
@@ -31,7 +32,8 @@ namespace Relic {
             RelicTriggerRegistry.Add("stand-still", (data, gameObjectEffect) => new StandStill(data, gameObjectEffect));
             RelicTriggerRegistry.Add("on-kill", (_, gameObjectEffect) => EventBus.Instance.OnKill += gameObjectEffect);
 
-            //RelicEffectRegistry;
+            RelicEffectRegistry.Add("gain-mana", data => new GainManaEffect(data));
+            RelicEffectRegistry.Add("gain-spellpower", data => new GainSpellpowerEffect(data));
         }
 
         private void LoadRelics() {
@@ -59,7 +61,7 @@ namespace Relic {
             return RelicTriggerRegistry[triggerName];
         }
 
-        public Action<GameObject> GetEffect(string triggerName) {
+        public Func<RelicEffectData, RelicEffect.RelicEffect> GetEffect(string triggerName) {
             return RelicEffectRegistry[triggerName];
         }
 

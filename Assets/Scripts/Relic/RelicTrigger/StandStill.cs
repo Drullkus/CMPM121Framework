@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 
 namespace Relic.RelicTrigger {
-    public class StandStill : RelicTrigger {
+    public class StandStill {
         private readonly Action<GameObject> _onComplete;
         private readonly int _seconds;
         private bool interrupt = false;
