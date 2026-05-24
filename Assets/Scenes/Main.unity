@@ -573,6 +573,7 @@ MonoBehaviour:
   playerSpellContainer: {fileID: 1982188287}
   spellChoicePrefab: {fileID: 643726664618755391, guid: 6a95f615084af4625b0d1ea88cc56e4e, type: 3}
   relicChoicePrefab: {fileID: 643726664618755391, guid: 1f22b3cab102d45b6b76b9935a95eb97, type: 3}
+  playerController: {fileID: 1718273952}
 --- !u!4 &220180078
 Transform:
   m_ObjectHideFlags: 0
