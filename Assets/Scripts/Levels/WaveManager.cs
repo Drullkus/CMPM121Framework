@@ -24,16 +24,12 @@ public class WaveManager {
 	public void StartWave(Level level) {
 		if(level.Waves == _waveIndex + 1) { _onLastWave = true; }
 
-		GameManager.Instance.state = GameManager.GameState.COUNTDOWN;
-
 		int remainingEnemyCount = 0;
 
 		int waveIndexReadOnly = _waveIndex;
 		
 		Timer timer = new Timer(3000);
 		timer.Elapsed += (_, _) => {
-			GameManager.Instance.state = GameManager.GameState.INWAVE;
-
 			foreach(BatchSpawnData batchSpawnData in level.batchSpawnData) {
 				ExecutionQueue.Instance.Enqueue(() => {
 					EventBus.Instance.RequestSpawnScheduling(waveIndexReadOnly, batchSpawnData);
@@ -69,9 +65,6 @@ public class WaveManager {
 		EventBus.Instance.EndWave();
 
 		_waveIndex++;
-
-		// TODO - move to GameManager so it can control its own state!
-		GameManager.Instance.state = GameManager.GameState.WAVEEND;
 
 		// TODO - handle last wave
 	}
