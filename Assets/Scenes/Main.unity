@@ -567,6 +567,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
   m_Asset: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_ActionId: 24908448-c609-4bc3-a128-ea258674378a
+  m_Script: {fileID: 11500000, guid: 889e30827d3de8847b0caf6a2d04eb83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rewardUI: {fileID: 1709288111}
+  statDisplayPrefab: {fileID: 5522675815205433113, guid: c7e083f3addae75f3a940bde800c6f18, type: 3}
+  playerSpellContainer: {fileID: 1982188287}
+  spellChoicePrefab: {fileID: 643726664618755391, guid: 6a95f615084af4625b0d1ea88cc56e4e, type: 3}
 --- !u!1 &254615548
 GameObject:
   m_ObjectHideFlags: 0
