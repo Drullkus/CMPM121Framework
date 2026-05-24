@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour {
     public SpellUIContainer SpellUIContainer;
     public SpellUI spellui;
     public GameObject defeatScreen;
+    
+    public List<Relic.Relic> relics;
 
     public PlayerClassData data;
 

@@ -22,6 +22,9 @@ public class RewardScreenManager : MonoBehaviour
 
     [SerializeField]
     private GameObject relicChoicePrefab;
+    
+    [SerializeField]
+    private PlayerController playerController;
 
     private List<GameObject> displayObjects = new List<GameObject>();
 
@@ -91,6 +94,10 @@ public class RewardScreenManager : MonoBehaviour
             imageComponent.sprite = GameManager.Instance.relicIconManager.Get(relicData.Sprite);
             var textComponent = newRelicChoice.GetComponentInChildren<TextMeshProUGUI>();
             textComponent.text = relicData.Name;
+            var buttonComponent = newRelicChoice.GetComponentInChildren<Button>();
+            buttonComponent.onClick.AddListener(() => {
+                Debug.Log($"Relic {relicData.Name} clicked");
+            });
                 
             displayObjects.Add(newRelicChoice);
         }
