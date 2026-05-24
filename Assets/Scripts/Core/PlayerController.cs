@@ -1,8 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using System.IO;
 using System.Collections.Generic;
 using Player;
 
@@ -79,6 +76,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Die() {
+        EventBus.Instance.DoGameStopped();
         GameManager.Instance.state = GameManager.GameState.GAMEOVER;
         defeatScreen.SetActive(true);
     }

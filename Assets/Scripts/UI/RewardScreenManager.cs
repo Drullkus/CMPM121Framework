@@ -40,8 +40,6 @@ public class RewardScreenManager : MonoBehaviour
             textObject.text = "U WINNER";
 
             displayObjects.Add(newStatDisplay);
-
-            EventBus.Instance.DoGameStopped();
         }
         else
         {
