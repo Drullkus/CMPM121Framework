@@ -16,19 +16,29 @@ public class EventBus {
         OnDamage?.Invoke(where, dmg, target);
     }
     
-    public event Action<Unit> MovementStarted;
-    public void DoMovementStarted(Unit unit) {
+    public event Action<GameObject> MovementStarted;
+    public void DoMovementStarted(GameObject unit) {
         MovementStarted?.Invoke(unit);
     }
     
-    public event Action<Unit> MovementStopped;
-    public void DoMovementStopped(Unit unit) {
+    public event Action<GameObject> MovementStopped;
+    public void DoMovementStopped(GameObject unit) {
         MovementStopped?.Invoke(unit);
     }
     
-    public event Action<Unit, Unit> OnKill;
-    public void DoOnKill(Unit killer, Unit victim) {
-        OnKill?.Invoke(killer, victim);
+    public event Action<GameObject> OnTakeHit;
+    public void DoOnTakeHit(GameObject dying) {
+        OnDeath?.Invoke(dying);
+    }
+    
+    public event Action<GameObject> OnKill;
+    public void DoOnKill(GameObject killer) {
+        OnKill?.Invoke(killer);
+    }
+    
+    public event Action<GameObject> OnDeath;
+    public void DoOnDeath(GameObject dying) {
+        OnDeath?.Invoke(dying);
     }
     
     public event Action GameStarted;

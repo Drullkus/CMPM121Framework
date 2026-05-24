@@ -3,30 +3,38 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using Relic.RelicTrigger;
 using Random = UnityEngine.Random;
 
 namespace Relic {
     public class RelicManager {
         private static readonly Dictionary<string, RelicData> RelicRegistry = new();
-        private static readonly Dictionary<string, Action<Action>> RelicTriggerRegistry = new();
-        private static readonly Dictionary<string, Action> RelicEffectRegistry = new();
+        private static readonly Dictionary<string, Action<RelicTriggerData, Action<GameObject>>> RelicTriggerRegistry = new();
+        private static readonly Dictionary<string, Action<GameObject>> RelicEffectRegistry = new();
 
         private static RelicManager _theInstance;
         public static RelicManager Instance {
             get {
                 if (_theInstance != null) return _theInstance;
-                
-                Debug.Log("Creating RelicManager");
 
                 _theInstance = new RelicManager();
-                EventBus.Instance.GameStarted += LoadRelics;
-                EventBus.Instance.GameStopped += UnloadRelics;
+                _theInstance.InitializeTypes();
+                EventBus.Instance.GameStarted += _theInstance.LoadRelics;
+                EventBus.Instance.GameStopped += _theInstance.UnloadRelics;
                 
                 return _theInstance;
             }
         }
 
-        private static void LoadRelics() {
+        private void InitializeTypes() {
+            RelicTriggerRegistry.Add("take-damage", (_, gameObjectEffect) => EventBus.Instance.OnTakeHit += gameObjectEffect);
+            RelicTriggerRegistry.Add("stand-still", (data, gameObjectEffect) => new StandStill(data, gameObjectEffect));
+            RelicTriggerRegistry.Add("on-kill", (_, gameObjectEffect) => EventBus.Instance.OnKill += gameObjectEffect);
+
+            //RelicEffectRegistry;
+        }
+
+        private void LoadRelics() {
             var relicsJsonAsset = Resources.Load<TextAsset>("relics");
             var relicDatas = JsonConvert.DeserializeObject<List<RelicData>>(relicsJsonAsset.text);
             foreach (var relicData in relicDatas) {
@@ -35,7 +43,7 @@ namespace Relic {
             Debug.Log($"Loaded {relicDatas.Count} Relics: {string.Join(", ", relicDatas.Select(d => d.Name))}");
         }
         
-        private static void UnloadRelics() {
+        private void UnloadRelics() {
             RelicRegistry.Clear();
         }
 
@@ -47,11 +55,11 @@ namespace Relic {
                 .ToList();
         }
 
-        public Action<Action> GetTrigger(string triggerName) {
+        public Action<RelicTriggerData, Action<GameObject>> GetTrigger(string triggerName) {
             return RelicTriggerRegistry[triggerName];
         }
 
-        public Action GetEffect(string triggerName) {
+        public Action<GameObject> GetEffect(string triggerName) {
             return RelicEffectRegistry[triggerName];
         }
 

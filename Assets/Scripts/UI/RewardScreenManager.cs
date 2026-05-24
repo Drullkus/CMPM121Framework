@@ -28,6 +28,8 @@ public class RewardScreenManager : MonoBehaviour
 
     private List<GameObject> displayObjects = new List<GameObject>();
 
+    private bool relicChosen = false;
+
     void Start() {
         GameManager.Instance.rewardScreenManager = this;
     }
@@ -46,6 +48,7 @@ public class RewardScreenManager : MonoBehaviour
         }
         else
         {
+            relicChosen = false;
             float statSpacing = 40; // TODO make this depend on stats.Count
             float statStartingYOffset = 190 - statSpacing * stats.Count;
 
@@ -96,7 +99,9 @@ public class RewardScreenManager : MonoBehaviour
             textComponent.text = relicData.Name;
             var buttonComponent = newRelicChoice.GetComponentInChildren<Button>();
             buttonComponent.onClick.AddListener(() => {
-                Debug.Log($"Relic {relicData.Name} clicked");
+                if (relicChosen) return;
+                playerController.relics.Add(RelicManager.Instance.InstantiateRelic(relicData.Name));
+                relicChosen = true;
             });
                 
             displayObjects.Add(newRelicChoice);

@@ -35,9 +35,9 @@ public class Unit : MonoBehaviour {
         movement = ds;
 
         if (movingPreviously && !newMovement) {
-            EventBus.Instance.DoMovementStopped(this);
+            EventBus.Instance.DoMovementStopped(gameObject);
         } else if (!movingPreviously && newMovement) {
-            EventBus.Instance.DoMovementStarted(this);
+            EventBus.Instance.DoMovementStarted(gameObject);
         }
     }
 
