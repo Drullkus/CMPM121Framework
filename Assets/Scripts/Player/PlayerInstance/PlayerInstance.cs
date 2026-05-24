@@ -76,6 +76,7 @@ public class PlayerInstance :
 	}
 
 	public void Hit(Damage damage) {
+		// TODO - remove
 		Debug.Log("ouch!");
 		_health.TakeDamage(damage);
 	}
