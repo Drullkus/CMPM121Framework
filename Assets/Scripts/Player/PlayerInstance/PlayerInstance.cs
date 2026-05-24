@@ -19,6 +19,7 @@ public class PlayerInstance :
     void Start() {
 		PlayerClassManager.GetClasses((Dictionary<string, PlayerClassData> classData) => {
 			SetClass(classData["mage"]);
+			SetStats(0);
 		});
 
 		EventBus.Instance.OnWaveStarted += OnWaveChanged;
@@ -30,15 +31,9 @@ public class PlayerInstance :
 		_classData = classData;
 	}
 
-	private void Attack() {
-		EventBus.Instance.InvokePlayerShoot();
-
-		Vector2 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.value);
-	}
-
-	private void OnWaveChanged(int newWaveIndex, int _) {
+	private void SetStats(int waveIndex) {
 		_classData.CalculatePlayerStatsForWave(
-			newWaveIndex,
+			waveIndex,
 			out int hpValue,
 			out _mana,
 			out _manaRegeneration,
@@ -49,13 +44,26 @@ public class PlayerInstance :
 		_health = new(hpValue);
 	}
 
+	private void Attack() {
+		EventBus.Instance.InvokePlayerShoot();
+
+		Vector2 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.value);
+	}
+
+	private void OnWaveChanged(int newWaveIndex, int _) {
+		SetStats(newWaveIndex);
+	}
+
 	public void OnMove(InputAction.CallbackContext context) {
 		_movement = context.ReadValue<Vector2>();
 	}
 
 	private void Move(Vector2 direction) {
 		List<RaycastHit2D> hits = new List<RaycastHit2D>();
-		int collisionCount = GetComponent<Rigidbody2D>().Cast(direction, hits, direction.magnitude * 2.0f);
+		ContactFilter2D filter = new();
+		filter.useTriggers = false;
+		
+		int collisionCount = GetComponent<Rigidbody2D>().Cast(direction, filter, hits, direction.magnitude * 2.0f);
 
 		if(collisionCount > 0) { return; }
 
@@ -68,6 +76,7 @@ public class PlayerInstance :
 	}
 
 	public void Hit(Damage damage) {
+		Debug.Log("ouch!");
 		_health.TakeDamage(damage);
 	}
 
