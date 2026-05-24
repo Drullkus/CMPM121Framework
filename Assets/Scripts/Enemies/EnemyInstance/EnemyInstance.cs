@@ -1,4 +1,5 @@
 using System;
+using System.Timers;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -71,12 +72,13 @@ public class EnemyInstance :
 		List<RaycastHit2D> hits = new List<RaycastHit2D>();
 		ContactFilter2D filter = new();
 		filter.useTriggers = false;
-		int collisionCount = GetComponent<Rigidbody2D>().Cast(direction, filter, hits, 2.0f);
+		int collisionCount = GetComponent<Rigidbody2D>().Cast(direction, filter, hits, 1.0f);
 
 		if(collisionCount == 0) { transform.Translate(direction * (_speed * Time.deltaTime)); }
     }
 
 	private void TryAttack(GameObject potentialTarget) {
+		// TODO - factor this and Attack's similar lambda
 		if(potentialTarget.CompareTag("Player")) {
 			Attack(potentialTarget);
 		}
@@ -85,6 +87,27 @@ public class EnemyInstance :
 	private void Attack(GameObject target) {
 		IHittable hittable = target.GetComponent<IHittable>();
 		if(hittable != null) { hittable.Hit(new Damage(5, Damage.Type.PHYSICAL)); }
+
+		_attackRadius.OnRadiusEntered -= TryAttack;
+		Timer cooldown = new(2000);
+		cooldown.Elapsed += (_, _) => {
+			_attackRadius.OnRadiusEntered += TryAttack;
+
+			// TODO - factor this lambda and TryAttack's similar code
+			_attackRadius.FindWithFilter(
+				(GameObject gameObject) => {
+					return gameObject.CompareTag("Player");
+				},
+				(List<GameObject> filterResults) => {
+				// TODO - allow for more robust selection
+					if(filterResults.Count > 0) {
+						Attack(filterResults[0]);
+					}
+				}
+			);
+		};
+		cooldown.AutoReset = false;
+		cooldown.Enabled = true;
 	}
 
 	public void Hit(Damage damage) {

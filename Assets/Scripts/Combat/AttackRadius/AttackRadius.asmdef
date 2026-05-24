@@ -2,7 +2,7 @@
     "name": "AttackRadius",
     "rootNamespace": "",
     "references": [
-        ""
+        "ExecutionQueue"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

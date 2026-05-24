@@ -11,23 +11,27 @@ public class AttackRadius : MonoBehaviour {
 	public event Action<GameObject> OnRadiusExited;
 
 	private void OnTriggerEnter2D(Collider2D other) {
+		if(other.gameObject == this) { return; }
 		_overlappingWith.Add(other.gameObject);
 		OnRadiusEntered?.Invoke(other.gameObject);
 	}
 
 	private void OnTriggerExit2D(Collider2D other) {
+		if(other.gameObject == this) { return; }
 		_overlappingWith.Remove(other.gameObject);
 		OnRadiusExited?.Invoke(other.gameObject);
 	}
 
-	public List<GameObject> FindWithFilter(Func<GameObject, bool> filter) {
+	public void FindWithFilter(Func<GameObject, bool> filter, Action<List<GameObject>> onFiltered) {
 		List<GameObject> result = new();
 
-		foreach(GameObject gameObject in _overlappingWith) {
-			if(filter(gameObject)) { result.Add(gameObject); }
-		}
+		ExecutionQueue.Instance.Enqueue(() => {
+			foreach(GameObject gameObject in _overlappingWith) {
+				if(filter(gameObject)) { result.Add(gameObject); }
+			}
 
-		return result;
+			onFiltered.Invoke(result);
+		});
 	}
 
 	private void SetRadius(float newRadius) {
