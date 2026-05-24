@@ -28,7 +28,7 @@ public class EventBus {
     
     public event Action<GameObject> OnTakeHit;
     public void DoOnTakeHit(GameObject dying) {
-        OnDeath?.Invoke(dying);
+        OnTakeHit?.Invoke(dying);
     }
     
     public event Action<GameObject> OnKill;
