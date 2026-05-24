@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AttackRadius))]
 public class EnemyInstance :
 	MonoBehaviour, IHittable
 {
@@ -47,6 +48,8 @@ public class EnemyInstance :
 			newEnemy._health = new(statData.HP);
 			newEnemy._speed = statData.Speed;
 
+			newEnemy.GetComponent<AttackRadius>().OnRadiusEntered += newEnemy.TryAttack;
+
 			newEnemy.GetComponent<SpriteRenderer>().sprite = SpriteManager.Instance.RetrieveEnemySprite(statData.SpriteIndex);
 
 			onInstantiation.Invoke(newEnemy);
@@ -56,6 +59,8 @@ public class EnemyInstance :
 	}
 
     private void Start() {
+		_attackRadius = GetComponent<AttackRadius>();
+
         _target = GameObject.FindWithTag(targetTag).transform;
         _health.OnExpended += Die;
     }
@@ -64,10 +69,23 @@ public class EnemyInstance :
         Vector3 direction = (_target.position - transform.position).normalized;
 
 		List<RaycastHit2D> hits = new List<RaycastHit2D>();
-		int collisionCount = GetComponent<Rigidbody2D>().Cast(direction, hits, 2.0f);
+		ContactFilter2D filter = new();
+		filter.useTriggers = false;
+		int collisionCount = GetComponent<Rigidbody2D>().Cast(direction, filter, hits, 2.0f);
 
 		if(collisionCount == 0) { transform.Translate(direction * (_speed * Time.deltaTime)); }
     }
+
+	private void TryAttack(GameObject potentialTarget) {
+		if(potentialTarget.CompareTag("Player")) {
+			Attack(potentialTarget);
+		}
+	}
+
+	private void Attack(GameObject target) {
+		IHittable hittable = target.GetComponent<IHittable>();
+		if(hittable != null) { hittable.Hit(new Damage(5, Damage.Type.PHYSICAL)); }
+	}
 
 	public void Hit(Damage damage) {
 		_health.TakeDamage(damage);
