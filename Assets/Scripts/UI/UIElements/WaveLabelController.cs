@@ -18,7 +18,6 @@ public class WaveLabelController : MonoBehaviour {
 		};
 
 		EventBus.Instance.OnEnemyDefeated += () => {
-			Debug.Log("enemy defeated");
 			_newText = $"Enemies remaining: {--_enemyCount}";
 		};
 
