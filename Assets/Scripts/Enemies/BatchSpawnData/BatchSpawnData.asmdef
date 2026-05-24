@@ -1,0 +1,16 @@
+{
+    "name": "BatchSpawnData",
+    "rootNamespace": "",
+    "references": [
+        "GUID:9cb78ce5e7c5cb122875f03ad46deb9a"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
