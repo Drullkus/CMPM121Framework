@@ -1,36 +1,13 @@
 using UnityEngine;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 public class GameManager : MonoBehaviour {
 
-    public enum GameState {
-        PREGAME,
-        INWAVE,
-        WAVEEND,
-        COUNTDOWN,
-        GAMEOVER
-    }
-
-    public GameState state;
-
-    public int countdown;
-    public static GameManager Instance;
-
-	private void Awake() {
-		if(Instance != null) {
-			if(Instance != this) {
-				Destroy(this);
-			}
-			
-			return;
-		}
-
-		Instance = this;
-		_waveManager.Initialize();
-	}
-
-	private WaveManager _waveManager = new();
+	// we need to instantiate the WaveManager singleton
+	// somewhere. this feels like an okay place for it,
+	// but suggestions are welcome.
+	// don't attempt to access this. ever. just get the
+	// static WaveManager.Instance if you need a reference
+	// to the WaveManager.
+	private WaveManager _tempWaveManager = new();
 
 }
