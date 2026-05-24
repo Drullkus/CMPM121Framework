@@ -32,6 +32,11 @@ public class EventBus {
 		OnUIScreenClosed?.Invoke();
 	}
 
+	public event Action OnWaveRequested;
+	public void RequestNextWave() {
+		OnWaveRequested?.Invoke();
+	}
+
 	public event Action<int, int> OnWaveStarted;
 	public void StartWave(int waveIndex, int totalEnemyCount) {
 		OnWaveStarted?.Invoke(waveIndex, totalEnemyCount);

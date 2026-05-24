@@ -13,7 +13,7 @@ public class EnemyInstance :
     public string targetTag;
     private int _speed;
     private int _damage;
-    private bool _dead;
+    private bool _dead = false;
 
 	private AttackRadius _attackRadius;
 
@@ -64,6 +64,8 @@ public class EnemyInstance :
 
         _target = GameObject.FindWithTag(targetTag).transform;
         _health.OnExpended += Die;
+
+		Die();
     }
 
     private void Update() {
@@ -116,6 +118,8 @@ public class EnemyInstance :
 
     private void Die() {
         if (!_dead) {
+			EventBus.Instance.InvokeEnemyDefeated();
+
             _dead = true;
             Destroy(gameObject);
         }

@@ -9,10 +9,17 @@ public class WaveManager {
 	private int _waveIndex = 0;
 	private bool _onLastWave = false;
 
+	private Level _level;
+
 	private Action _enemyDefeatHandler;
 
 	public void Initialize() {
-		EventBus.Instance.OnDifficultyChosen += StartWave;
+		EventBus.Instance.OnDifficultyChosen += (level) => {
+			_level = level;
+			StartWave();
+		};
+
+		EventBus.Instance.OnWaveRequested += StartWave;
 
 		new EnemySpawner().Initialize();
 	}
@@ -21,8 +28,8 @@ public class WaveManager {
 		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 	}
 
-	public void StartWave(Level level) {
-		if(level.Waves == _waveIndex + 1) { _onLastWave = true; }
+	public void StartWave() {
+		if(_level.Waves == _waveIndex + 1) { _onLastWave = true; }
 
 		int remainingEnemyCount = 0;
 
@@ -30,7 +37,7 @@ public class WaveManager {
 		
 		Timer timer = new Timer(3000);
 		timer.Elapsed += (_, _) => {
-			foreach(BatchSpawnData batchSpawnData in level.batchSpawnData) {
+			foreach(BatchSpawnData batchSpawnData in _level.batchSpawnData) {
 				ExecutionQueue.Instance.Enqueue(() => {
 					EventBus.Instance.RequestSpawnScheduling(waveIndexReadOnly, batchSpawnData);
 				});

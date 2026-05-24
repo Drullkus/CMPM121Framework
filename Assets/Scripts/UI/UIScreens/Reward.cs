@@ -2,11 +2,15 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Reward : MonoBehaviour {
 
 	[SerializeField]
 	private List<TextMeshProUGUI> _statDisplayLabels;
+
+	[SerializeField]
+	private Button _nextWaveButton;
 
 	private void Awake() {
 		UIScreen uiScreen = new(
@@ -15,7 +19,14 @@ public class Reward : MonoBehaviour {
 			() => { gameObject.SetActive(false); }
 		);
 
+		_nextWaveButton.onClick.AddListener(() => {
+			EventBus.Instance.RequestNextWave();
+			EventBus.Instance.CloseUIScreen();
+		});
+
 		EventBus.Instance.RegisterUIScreen(uiScreen);
+
+		gameObject.SetActive(false);
 	}
 
 	private void Show() {
