@@ -45,7 +45,7 @@ public class EnemyInstance :
 			EnemyInstance newEnemy = newEnemyObject.GetComponent<EnemyInstance>();
 
 			newEnemy._damage = statData.Damage;
-			newEnemy._health = new(statData.HP);
+			newEnemy._health = new(statData.HP, newEnemy.GetComponent<HealthBar>());
 			newEnemy._speed = statData.Speed;
 
 			newEnemy.GetComponent<AttackRadius>().OnRadiusEntered += newEnemy.TryAttack;

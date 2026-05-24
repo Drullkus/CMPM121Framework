@@ -9,9 +9,12 @@ public class HP {
 
 	public event Action OnExpended;
 
-	public HP(int value) {
+	public HP(int value, HealthBar healthBar) {
 		_maxValue = value;
 		_value = value;
+
+		_healthBar = healthBar;
+		HPChanged();
 	}
 
 	public virtual void TakeDamage(Damage damage) {

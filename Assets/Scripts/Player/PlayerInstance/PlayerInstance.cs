@@ -41,7 +41,7 @@ public class PlayerInstance :
 			out _speed
 		);
 
-		_health = new(hpValue);
+		_health = new(hpValue, GetComponent<HealthBar>());
 	}
 
 	private void Attack() {
@@ -76,8 +76,6 @@ public class PlayerInstance :
 	}
 
 	public void Hit(Damage damage) {
-		// TODO - remove
-		Debug.Log("ouch!");
 		_health.TakeDamage(damage);
 	}
 
