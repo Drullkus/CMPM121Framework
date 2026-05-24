@@ -8,13 +8,15 @@ using Random = UnityEngine.Random;
 namespace Relic {
     public class RelicManager {
         private static readonly Dictionary<string, RelicData> RelicRegistry = new();
-        private static readonly Dictionary<string, Action> RelicTriggerRegistry = new();
+        private static readonly Dictionary<string, Action<Action>> RelicTriggerRegistry = new();
         private static readonly Dictionary<string, Action> RelicEffectRegistry = new();
 
         private static RelicManager _theInstance;
         public static RelicManager Instance {
             get {
                 if (_theInstance != null) return _theInstance;
+                
+                Debug.Log("Creating RelicManager");
 
                 _theInstance = new RelicManager();
                 EventBus.Instance.GameStarted += LoadRelics;
@@ -30,26 +32,31 @@ namespace Relic {
             foreach (var relicData in relicDatas) {
                 RelicRegistry[relicData.Name] = relicData;
             }
+            Debug.Log($"Loaded {relicDatas.Count} Relics: {string.Join(", ", relicDatas.Select(d => d.Name))}");
         }
         
         private static void UnloadRelics() {
             RelicRegistry.Clear();
         }
 
-        public List<RelicData> GetRandomRelics(HashSet<string> alreadyOwned, int rolls = 3) {
+        public List<RelicData> GetRandomRelicOptions(HashSet<string> alreadyOwned, int rolls = 3) {
             var listRelics = new List<RelicData>(RelicRegistry.Values).Where(r => !alreadyOwned.Contains(r.Name));
 
-            return listRelics.OrderBy(_ => Random.value)
+            return listRelics.OrderBy(_ => Random.value).ToList()
                 .Take(rolls)
                 .ToList();
         }
 
-        public Action GetTrigger(string triggerName) {
+        public Action<Action> GetTrigger(string triggerName) {
             return RelicTriggerRegistry[triggerName];
         }
 
         public Action GetEffect(string triggerName) {
             return RelicEffectRegistry[triggerName];
+        }
+
+        public Relic InstantiateRelic(string relicName) {
+            return new Relic(RelicRegistry[relicName]);
         }
     }
 }
