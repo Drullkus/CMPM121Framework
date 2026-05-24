@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System;
 using System.Linq;
 using Player;
+using Relic;
 using UI;
 using UnityEngine.SceneManagement;
 
@@ -31,6 +32,9 @@ public class EnemySpawner : MonoBehaviour {
     }
 
     void Start() {
+        RelicManager.Instance.GetHashCode(); // Observe class so that it registers events
+        EventBus.Instance.DoGameStarted();
+        
         var levelsJsonAsset = Resources.Load<TextAsset>("levels");
         var levels = JsonConvert.DeserializeObject<List<Level>>(levelsJsonAsset.text);
 
