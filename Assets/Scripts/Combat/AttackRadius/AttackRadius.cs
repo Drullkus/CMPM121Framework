@@ -12,12 +12,12 @@ public class AttackRadius : MonoBehaviour {
 
 	private void OnTriggerEnter2D(Collider2D other) {
 		_overlappingWith.Add(other.gameObject);
-		OnRadiusEntered.Invoke(other.gameObject);
+		OnRadiusEntered?.Invoke(other.gameObject);
 	}
 
 	private void OnTriggerExit2D(Collider2D other) {
 		_overlappingWith.Remove(other.gameObject);
-		OnRadiusExited.Invoke(other.gameObject);
+		OnRadiusExited?.Invoke(other.gameObject);
 	}
 
 	public List<GameObject> FindWithFilter(Func<GameObject, bool> filter) {
