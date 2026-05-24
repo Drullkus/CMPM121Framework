@@ -1,6 +1,8 @@
 using TMPro;
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
+using Relic;
 using UnityEngine.UI;
 
 public class RewardScreenManager : MonoBehaviour
@@ -17,6 +19,9 @@ public class RewardScreenManager : MonoBehaviour
 
     [SerializeField]
     private GameObject spellChoicePrefab;
+
+    [SerializeField]
+    private GameObject relicChoicePrefab;
 
     private List<GameObject> displayObjects = new List<GameObject>();
 
@@ -35,6 +40,8 @@ public class RewardScreenManager : MonoBehaviour
             textObject.text = "U WINNER";
 
             displayObjects.Add(newStatDisplay);
+
+            EventBus.Instance.DoGameStopped();
         }
         else
         {
@@ -54,6 +61,16 @@ public class RewardScreenManager : MonoBehaviour
             
             // display spell reward
             InstantiateSpellReward(-96);
+
+            var randomRelicOptions = RelicManager.Instance.GetRandomRelicOptions(new HashSet<string>());
+            
+            Debug.Log($"{randomRelicOptions.Count} Relic rewards: {string.Join(", ", randomRelicOptions.Select(d => d.Name))}");
+
+            // display relic rewards
+            for (var index = 0; index < randomRelicOptions.Count; index++) {
+                var relicOption = randomRelicOptions[index];
+                InstantiateRelicRewards(relicOption, (index - (randomRelicOptions.Count - 1) * 0.5f) * 128, -64);   
+            }
         }
 
         rewardUI.SetActive(true);
@@ -66,6 +83,18 @@ public class RewardScreenManager : MonoBehaviour
             imageComponent.sprite = GameManager.Instance.spellIconManager.Get(0);
                 
             displayObjects.Add(newSpellChoice);
+        }
+
+        void InstantiateRelicRewards(RelicData relicData, float xPos, float yPos)
+        {
+            var newRelicChoice = Instantiate(relicChoicePrefab, rewardUI.transform);
+            newRelicChoice.transform.localPosition = new Vector3(xPos, yPos, 0);
+            var imageComponent = newRelicChoice.GetComponent<Image>();
+            imageComponent.sprite = GameManager.Instance.relicIconManager.Get(relicData.Sprite);
+            var textComponent = newRelicChoice.GetComponentInChildren<TextMeshProUGUI>();
+            textComponent.text = relicData.Name;
+                
+            displayObjects.Add(newRelicChoice);
         }
     }
 
