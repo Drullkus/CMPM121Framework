@@ -3,11 +3,11 @@ using System;
 
 public class EventBus {
 
-    private static EventBus theInstance;
+    private static EventBus _instance;
     public static EventBus Instance {
         get {
-            theInstance ??= new EventBus();
-            return theInstance;
+            _instance ??= new EventBus();
+            return _instance;
         }
     }
 
@@ -90,6 +90,12 @@ public class EventBus {
 	public event Action OnRestartRequested;
 	public void RequestRestart() {
 		OnRestartRequested?.Invoke();
+
+		// this is a little sloppy. instead of unsubscribing from
+		// all the events we've subscribed to in the scripts that
+		// subscribed to those events on reset, we just clear the
+		// old EventManager instance.
+		_instance = new();
 	}
 
 	public void InvokeDebugMessage(string s) {
