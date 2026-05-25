@@ -38,11 +38,15 @@ public class WaveLabelController : MonoBehaviour {
 				timer.AutoReset = false;
 				timer.Enabled = true;
 			}
+
+			gameObject.SetActive(true);
 		};
 
 		EventBus.Instance.OnWaveEnded += () => {
 			gameObject.SetActive(false);
 		};
+
+		gameObject.SetActive(false);
     }
 
 	private void Update() {
