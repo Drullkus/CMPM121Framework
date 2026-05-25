@@ -37,6 +37,11 @@ public class EventBus {
 		OnWaveRequested?.Invoke();
 	}
 
+	public event Action OnCountdownStarted;
+	public void StartCountdown() {
+		OnCountdownStarted?.Invoke();
+	}
+
 	public event Action<int, int> OnWaveStarted;
 	public void StartWave(int waveIndex, int totalEnemyCount) {
 		OnWaveStarted?.Invoke(waveIndex, totalEnemyCount);
@@ -75,6 +80,16 @@ public class EventBus {
 	public event Action OnAllEnemiesDefeated;
 	public void InvokeAllEnemiesDefeated() {
 		OnAllEnemiesDefeated?.Invoke();
+	}
+
+	public event Action OnLastWaveEnded;
+	public void EndLastWave() {
+		OnLastWaveEnded?.Invoke();
+	}
+
+	public event Action OnRestartRequested;
+	public void RequestRestart() {
+		OnRestartRequested?.Invoke();
 	}
 
 	public void InvokeDebugMessage(string s) {

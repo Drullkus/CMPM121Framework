@@ -12,17 +12,15 @@ public class Reward : MonoBehaviour {
 	[SerializeField]
 	private Button _nextWaveButton;
 
-	private void Awake() {
+	private void Start() {
 		UIScreen uiScreen = new(
 			UIState.REWARD,
 			Show,
 			() => { gameObject.SetActive(false); }
 		);
 
-		_nextWaveButton.onClick.AddListener(() => {
-			EventBus.Instance.RequestNextWave();
-			EventBus.Instance.CloseUIScreen();
-		});
+		_nextWaveButton.onClick.AddListener(EventBus.Instance.RequestNextWave);
+		_nextWaveButton.onClick.AddListener(EventBus.Instance.CloseUIScreen);
 
 		EventBus.Instance.RegisterUIScreen(uiScreen);
 

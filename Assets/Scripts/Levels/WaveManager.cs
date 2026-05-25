@@ -20,6 +20,7 @@ public class WaveManager {
 		};
 
 		EventBus.Instance.OnWaveRequested += StartWave;
+		EventBus.Instance.OnRestartRequested += Reset;
 
 		new EnemySpawner().Initialize();
 	}
@@ -34,6 +35,8 @@ public class WaveManager {
 		int remainingEnemyCount = 0;
 
 		int waveIndexReadOnly = _waveIndex;
+
+		EventBus.Instance.StartCountdown();
 		
 		Timer timer = new Timer(3000);
 		timer.Elapsed += (_, _) => {
@@ -69,11 +72,15 @@ public class WaveManager {
 	public void EndWave() {
 		EventBus.Instance.OnEnemyDefeated -= _enemyDefeatHandler;
 		EventBus.Instance.OnAllEnemiesDefeated -= EndWave;
-		EventBus.Instance.EndWave();
 
 		_waveIndex++;
 
-		// TODO - handle last wave
+		if(_onLastWave) {
+			EventBus.Instance.EndLastWave();
+			return;
+		}
+
+		EventBus.Instance.EndWave();
 	}
 
 }

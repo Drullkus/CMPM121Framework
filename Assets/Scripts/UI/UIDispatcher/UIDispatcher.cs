@@ -22,6 +22,7 @@ public class UIDispatcher : MonoBehaviour {
 		EventBus.Instance.OnUIScreenRegistered += RegisterUIScreen;
 		EventBus.Instance.OnUIScreenClosed += () => { ChangeState(UIState.WAVE); };
 		EventBus.Instance.OnWaveEnded += () => { ChangeState(UIState.REWARD); };
+		EventBus.Instance.OnLastWaveEnded += () => { ChangeState(UIState.WIN); };
 
 		Instance = this;
 	}
@@ -48,13 +49,13 @@ public class UIDispatcher : MonoBehaviour {
 		if(_state != UIState.WAVE) {
 			hideAction = _objectMap.TryGetValue(_state, out UIScreen oldUIScreen) ?
 				oldUIScreen.Hide :
-				() => { Debug.LogError("Tried to change UIState to an invalid value!"); };
+				() => { Debug.LogError("Tried to change UIState from an invalid value!"); };
 		}
 
 		if(newState != UIState.WAVE) {
 			showAction = _objectMap.TryGetValue(newState, out UIScreen newUIScreen) ?
 				newUIScreen.Show :
-				() => { Debug.LogError("Tried to change UIState from an invalid value!"); };
+				() => { Debug.LogError("Tried to change UIState to an invalid value!"); };
 		}
 
 		hideAction.Invoke();
