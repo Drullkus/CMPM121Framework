@@ -64,8 +64,6 @@ public class EnemyInstance :
 
         _target = GameObject.FindWithTag(targetTag).transform;
         _health.OnExpended += Die;
-
-		Die();
     }
 
     private void Update() {
