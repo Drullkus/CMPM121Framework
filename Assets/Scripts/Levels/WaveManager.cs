@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class WaveManager {
 
-	private int _waveIndex = 0;
+	private int _waveIndex = 1;
 	private bool _onLastWave = false;
 
 	private Level _level;
@@ -30,7 +30,7 @@ public class WaveManager {
 	}
 
 	public void StartWave() {
-		if(_level.Waves == _waveIndex + 1) { _onLastWave = true; }
+		if(_level.Waves == _waveIndex) { _onLastWave = true; }
 
 		int remainingEnemyCount = 0;
 
