@@ -85,8 +85,10 @@ public class EnemyInstance :
 	}
 
 	private void Attack(GameObject target) {
+		Debug.Log("a");
 		IHittable hittable = target.GetComponent<IHittable>();
 		if(hittable != null) { hittable.Hit(new Damage(5, Damage.Type.PHYSICAL)); }
+		Debug.Log("b");
 
 		_attackRadius.OnRadiusEntered -= TryAttack;
 		Timer cooldown = new(2000);
@@ -112,6 +114,8 @@ public class EnemyInstance :
 
 	public void Hit(Damage damage) {
 		_health.TakeDamage(damage);
+
+		EventBus.Instance.DoDamage(transform.position, damage, this);
 	}
 
     private void Die() {

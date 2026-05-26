@@ -77,6 +77,8 @@ public class PlayerInstance :
 
 	public void Hit(Damage damage) {
 		_health.TakeDamage(damage);
+
+		EventBus.Instance.DoDamage(transform.position, damage, this);
 	}
 
     void Die() {

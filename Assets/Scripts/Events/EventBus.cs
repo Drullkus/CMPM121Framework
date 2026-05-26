@@ -12,7 +12,6 @@ public class EventBus {
     }
 
     public event Action<Vector3, Damage, IHittable> OnDamage;
-    
     public void DoDamage(Vector3 where, Damage dmg, IHittable target) {
         OnDamage?.Invoke(where, dmg, target);
     }
