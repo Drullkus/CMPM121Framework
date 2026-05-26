@@ -36,16 +36,18 @@ public class EnemySpawner {
 		batchSpawnData.CalculateForWave(waveIndex, out _, out int delay);
 
 		for(int i = 0; i < batchCount && i < leftToSpawn; i++) {
-			SpawnPoint spawnPoint = ChooseSpawnPoint(batchSpawnData.Location);
-			Vector2 offset = UnityEngine.Random.insideUnitCircle * 1.8f;
-			Vector2 initialPosition = spawnPoint.transform.position + (Vector3)offset;
-
 			Timer timer = new(delay);
 			timer.Elapsed += (_, _) => {
 				ExecutionQueue.Instance.Enqueue(() => {
+					SpawnPoint spawnPoint = ChooseSpawnPoint(batchSpawnData.Location);
+					Vector2 offset = UnityEngine.Random.insideUnitCircle * 1.8f;
+					Vector2 initialPosition = spawnPoint.transform.position + (Vector3)offset;
+
 					EnemyInstance.Instantiate(
 						_enemyStats[batchSpawnData.Enemy],
-						(_) => {}
+						(enemyInstance) => {
+							enemyInstance.gameObject.transform.position = initialPosition;
+						}
 					);
 				});
 

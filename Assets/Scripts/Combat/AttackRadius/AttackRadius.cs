@@ -23,9 +23,9 @@ public class AttackRadius : MonoBehaviour {
 	}
 
 	public void FindWithFilter(Func<GameObject, bool> filter, Action<List<GameObject>> onFiltered) {
-		List<GameObject> result = new();
-
 		ExecutionQueue.Instance.Enqueue(() => {
+			List<GameObject> result = new();
+
 			foreach(GameObject gameObject in _overlappingWith) {
 				if(filter(gameObject)) { result.Add(gameObject); }
 			}
