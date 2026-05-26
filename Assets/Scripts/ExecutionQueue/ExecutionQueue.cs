@@ -1,12 +1,12 @@
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using UnityEngine;
 
 public class ExecutionQueue : MonoBehaviour {
 
 	public static ExecutionQueue Instance;
 
-	private Queue<Action> _queue = new();
+	private ConcurrentQueue<Action> _queue = new();
 
 	public void Enqueue(Action action) { _queue.Enqueue(action); }
 
@@ -20,8 +20,8 @@ public class ExecutionQueue : MonoBehaviour {
 	}
 
 	private void Update() {
-		while(_queue.Count > 0) {
-			_queue.Dequeue().Invoke();
+		while(_queue.TryDequeue(out Action action)) {
+			action.Invoke();
 		}
 	}
 
