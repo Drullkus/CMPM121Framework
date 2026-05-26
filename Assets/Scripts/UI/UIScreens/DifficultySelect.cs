@@ -17,7 +17,7 @@ public class DifficultySelect : MonoBehaviour {
 		UIScreen uiScreen = new(
 			UIState.LEVEL_SELECT,
 			Show,
-			() => { gameObject.SetActive(false); }
+			() => { gameObject.SetActive(false); Debug.Log("wha"); }
 		);
 
 		EventBus.Instance.RegisterUIScreen(uiScreen);

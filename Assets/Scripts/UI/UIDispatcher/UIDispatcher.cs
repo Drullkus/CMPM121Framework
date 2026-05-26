@@ -25,6 +25,7 @@ public class UIDispatcher : MonoBehaviour {
 		EventBus.Instance.OnUIScreenClosed += () => { ChangeState(UIState.WAVE); };
 		EventBus.Instance.OnWaveEnded += () => { ChangeState(UIState.REWARD); };
 		EventBus.Instance.OnLastWaveEnded += () => { ChangeState(UIState.WIN); };
+		EventBus.Instance.OnPlayerDeath += () => { ChangeState(UIState.DEATH); };
 
 		Instance = this;
 	}
@@ -38,6 +39,7 @@ public class UIDispatcher : MonoBehaviour {
 		// this is pretty sloppy, we should implement a
 		// default state type thing
 		if(uiScreen.state == UIState.LEVEL_SELECT) {
+			_state = UIState.LEVEL_SELECT;
 			uiScreen.Show();
 		}
 	}
@@ -60,8 +62,8 @@ public class UIDispatcher : MonoBehaviour {
 				() => { Debug.LogError("Tried to change UIState to an invalid value!"); };
 		}
 
-		hideAction.Invoke();
 		showAction.Invoke();
+		hideAction.Invoke();
 
 		_state = newState;
 	}
