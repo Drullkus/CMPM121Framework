@@ -12,6 +12,20 @@
         ]
    },
    {
+		"name": "Debug",
+		"waves": 10,
+		"spawns": [
+			{
+				"enemy": "kobold",
+				"count": "wave 2 * 7 +",
+				"hp": "base 2 wave * +",
+				"delay": "3",
+				"sequence": [ 4, 3, 2, 1 ],
+				"location": "random green"
+			}
+		]
+   },
+   {
        "name": "Easy",
        "waves": 10,
        "spawns": [

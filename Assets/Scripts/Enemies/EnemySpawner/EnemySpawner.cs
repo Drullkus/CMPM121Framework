@@ -36,7 +36,7 @@ public class EnemySpawner {
 		batchSpawnData.CalculateForWave(waveIndex, out _, out int delay);
 
 		for(int i = 0; i < batchCount && i < leftToSpawn; i++) {
-			Timer timer = new(delay * 1000);
+			Timer timer = new(Math.Max(10, batchIndex * delay * 1000));
 			timer.Elapsed += (_, _) => {
 				ExecutionQueue.Instance.Enqueue(() => {
 					SpawnPoint spawnPoint = ChooseSpawnPoint(batchSpawnData.Location);
@@ -50,13 +50,13 @@ public class EnemySpawner {
 						}
 					);
 				});
-
-				if(nextLeftToSpawn > 0) {
-					ScheduleSpawning(batchSpawnData, waveIndex, batchIndex + 1, nextLeftToSpawn);
-				}
 			};
 			timer.AutoReset = false;
 			timer.Enabled = true;
+		}
+		
+		if(nextLeftToSpawn > 0) {
+			ScheduleSpawning(batchSpawnData, waveIndex, batchIndex + 1, nextLeftToSpawn);
 		}
 	}
 
