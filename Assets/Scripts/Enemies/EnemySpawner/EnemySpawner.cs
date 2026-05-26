@@ -36,7 +36,7 @@ public class EnemySpawner {
 		batchSpawnData.CalculateForWave(waveIndex, out _, out int delay);
 
 		for(int i = 0; i < batchCount && i < leftToSpawn; i++) {
-			Timer timer = new(delay);
+			Timer timer = new(delay * 1000);
 			timer.Elapsed += (_, _) => {
 				ExecutionQueue.Instance.Enqueue(() => {
 					SpawnPoint spawnPoint = ChooseSpawnPoint(batchSpawnData.Location);
