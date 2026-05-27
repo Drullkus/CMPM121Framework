@@ -13,6 +13,11 @@ public class SpellTrait {
 
 	public string traitValue;
 
+	public SpellTrait(SpellTraitType type, string traitValue) {
+		this.type = type;
+		this.traitValue = traitValue;
+	}
+
 }
 
 public class Spell {
