@@ -23,6 +23,17 @@ public class Spell {
 
 	private Dictionary<string, SpellTrait> _traits;
 
+	public Spell(string name, string description, int icon) {
+		this.name = name;
+		this.description = description;
+		this.icon = icon;
+	}
+
+	public void AddTrait(string traitName, SpellTrait trait) {
+		// TODO - warn about duplicate `traitName`s
+		_traits.TryAdd(traitName, trait);
+	}
+
 	// TODO
 	public List<(string, SpellTrait)> GetTraits(List<string> traitNames) { return null; }
 
