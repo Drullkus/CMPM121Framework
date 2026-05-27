@@ -27,8 +27,14 @@ public class PlayerInstance :
 		EventBus.Instance.OnWaveStarted += OnWaveChanged;
 
 		EventBus.Instance.OnCountdownStarted += () => { _movementBlocked = false; };
-		EventBus.Instance.OnWaveEnded += () => { _movementBlocked = true; };
-		EventBus.Instance.OnPlayerDeath += () => { _movementBlocked = true; };
+		EventBus.Instance.OnWaveEnded += () => {
+			_movementBlocked = true;
+			_movement = Vector2.zero;
+		};
+		EventBus.Instance.OnPlayerDeath += () => {
+			_movementBlocked = true;
+			_movement = Vector2.zero;
+		};
 
 		_health.OnExpended += Die;
 	}
