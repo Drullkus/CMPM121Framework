@@ -16,6 +16,8 @@ public class PlayerInstance :
 	private int _spellpower;
     private int _speed;
 
+	private bool _movementBlocked = true;
+
     void Start() {
 		PlayerClassManager.GetClasses((Dictionary<string, PlayerClassData> classData) => {
 			SetClass(classData["mage"]);
@@ -23,6 +25,10 @@ public class PlayerInstance :
 		});
 
 		EventBus.Instance.OnWaveStarted += OnWaveChanged;
+
+		EventBus.Instance.OnCountdownStarted += () => { _movementBlocked = false; };
+		EventBus.Instance.OnWaveEnded += () => { _movementBlocked = true; };
+		EventBus.Instance.OnPlayerDeath += () => { _movementBlocked = true; };
 
 		_health.OnExpended += Die;
 	}
@@ -55,6 +61,7 @@ public class PlayerInstance :
 	}
 
 	public void OnMove(InputAction.CallbackContext context) {
+		if(_movementBlocked) { return; }
 		_movement = context.ReadValue<Vector2>();
 	}
 
