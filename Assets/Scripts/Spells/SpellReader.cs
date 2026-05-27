@@ -32,12 +32,12 @@ public class JsonSpellData {
 
 	[JsonProperty("damage")]
 	public JsonSpellDamageData primaryDamage;
-	[JsonProperty("secondarydamage")]
+	[JsonProperty("secondary_damage")]
 	public JsonSpellDamageData secondaryDamage;
 
 	[JsonProperty("projectile")]
 	public JsonSpellProjectileData primaryProjectile;
-	[JsonProperty("secondaryprojectile")]
+	[JsonProperty("secondary_projectile")]
 	public JsonSpellProjectileData secondaryProjectile;
 
 	[JsonProperty("cooldown")]
