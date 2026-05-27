@@ -42,7 +42,7 @@ public class JsonSpellData {
 
 	[JsonProperty("cooldown")]
 	public string cooldown;
-	[JsonProperty("manacost")]
+	[JsonProperty("mana_cost")]
 	public string manaCost;
 
 	[JsonProperty("delay")]
