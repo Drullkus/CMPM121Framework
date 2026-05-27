@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 
 public class JsonSpellDamageData {
 	
@@ -56,8 +57,27 @@ public class JsonSpellData {
 
 public class SpellReader {
 
+	List<JsonSpellData> _jsonSpellData;
+
+	private static SpellReader _instance;
+	public static SpellReader Instance {
+		get {
+			if(_instance == null) {
+				_instance = new();
+
+				AssetManager.Instance.LoadJson("spells", (loadedJson) => {
+					_instance._jsonSpellData = JsonConvert.DeserializeObject<List<JsonSpellData>>(loadedJson);
+				});
+			}
+
+			return _instance;
+		}
+	}
+
 	// TODO
-	public void FetchRandomSpell(Action<Spell> onSpellFetched) { }
+	public void FetchRandomSpell(Action<Spell> onSpellFetched) {
+		onSpellFetched.Invoke(new Spell("debug spell", "debug spell", 0));
+	}
 
 	// TODO
 	public void FetchRandomModifer(Action<SpellModifier> onModifierFetched) { }
