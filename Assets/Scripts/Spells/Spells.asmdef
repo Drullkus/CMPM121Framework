@@ -1,0 +1,16 @@
+{
+    "name": "Spells",
+    "rootNamespace": "",
+    "references": [
+        "GUID:9397746fed330d927bb1180313d75262"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
