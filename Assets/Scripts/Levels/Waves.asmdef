@@ -1,0 +1,21 @@
+{
+    "name": "Waves",
+    "rootNamespace": "",
+    "references": [
+        "GUID:3900f4bf1578874ad9c3f8bfa25b3f06",
+        "GUID:cac2b8cda57893a1da15521c3850f3a3",
+        "GUID:185a6bbe8335b3102ad856d07b3d8f08",
+        "GUID:9397746fed330d927bb1180313d75262",
+        "GUID:c7067ed61d43a2ed3b3aa2f3fa97a170",
+        "GUID:de2972e8b4347f75385a63f8fc28fa25"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

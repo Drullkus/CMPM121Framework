@@ -7,7 +7,7 @@ public class SpellCaster {
     public int mana;
     public int max_mana;
     public int mana_reg;
-    public Hittable.Team team;
+    public Team team;
     public Spell spell;
 
     public IEnumerator ManaRegeneration() {
@@ -18,7 +18,7 @@ public class SpellCaster {
         }
     }
 
-    public SpellCaster(int mana, int mana_reg, Hittable.Team team) {
+    public SpellCaster(int mana, int mana_reg, Team team) {
         this.mana = mana;
         this.max_mana = mana;
         this.mana_reg = mana_reg;

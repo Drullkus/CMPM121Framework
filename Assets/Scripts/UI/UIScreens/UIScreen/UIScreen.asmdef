@@ -1,0 +1,16 @@
+{
+    "name": "UIScreen",
+    "rootNamespace": "",
+    "references": [
+        "GUID:864373a217d8afb448e74d9866dc5aab"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

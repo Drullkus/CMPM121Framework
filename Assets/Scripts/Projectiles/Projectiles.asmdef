@@ -1,0 +1,19 @@
+{
+    "name": "Projectiles",
+    "rootNamespace": "",
+    "references": [
+        "GUID:eb0449366ac8d83d087153d48e30d44e",
+        "GUID:cac2b8cda57893a1da15521c3850f3a3",
+        "GUID:ecd3e3d717aba4594beec206083c9bdd",
+        "GUID:3303e98de118330d6abd6d943bcd878c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
