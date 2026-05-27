@@ -66,15 +66,19 @@ public class EnemyInstance :
         _health.OnExpended += Die;
     }
 
-    private void Update() {
-        Vector3 direction = (_target.position - transform.position).normalized;
-
-		List<RaycastHit2D> hits = new List<RaycastHit2D>();
+	private void Move(Vector2 direction) {
+		List<RaycastHit2D> hits = new();
 		ContactFilter2D filter = new();
 		filter.useTriggers = false;
 		int collisionCount = GetComponent<Rigidbody2D>().Cast(direction, filter, hits, 1.0f);
-
 		if(collisionCount == 0) { transform.Translate(direction * (_speed * Time.deltaTime)); }
+	}
+
+    private void Update() {
+        Vector3 direction = (_target.position - transform.position).normalized;
+
+		Move(new Vector2(direction.x, 0.0f));
+		Move(new Vector2(0.0f, direction.y));
     }
 
 	private void TryAttack(GameObject potentialTarget) {
