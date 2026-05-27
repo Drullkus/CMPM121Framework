@@ -1,6 +1,8 @@
+using System;
+
 public class SpellBuilder {
 
 	// TODO
-	public Spell GenerateSpell() { return null; }
+	public void GenerateSpell(Action<Spell> onSpellGenerated) { }
     
 }
