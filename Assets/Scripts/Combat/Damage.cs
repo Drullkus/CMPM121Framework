@@ -1,11 +1,34 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System.Runtime.Serialization;
 using UnityEngine;
 
 public class Damage {
 
     public int amount;
 
+	[JsonConverter(typeof(StringEnumConverter))]
     public enum Type {
-        PHYSICAL, ARCANE, NATURE, FIRE, ICE, DARK, LIGHT
+		[EnumMember(Value = "physical")]
+        PHYSICAL,
+
+		[EnumMember(Value = "arcane")]
+		ARCANE,
+
+		[EnumMember(Value = "nature")]
+		NATURE,
+
+		[EnumMember(Value = "fire")]
+		FIRE,
+
+		[EnumMember(Value = "ice")]
+		ICE,
+
+		[EnumMember(Value = "dark")]
+		DARK,
+
+		[EnumMember(Value = "light")]
+		LIGHT
     }
 
     public Type type;
