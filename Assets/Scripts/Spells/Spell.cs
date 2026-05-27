@@ -1,5 +1,18 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
+
+[JsonConverter(typeof(StringEnumConverter))]
+public enum ProjectileTrajectory {
+	[EnumMember(Value = "homing")]
+	HOMING,
+	[EnumMember(Value = "spiraling")]
+	SPIRALING,
+	[EnumMember(Value = "straight")]
+	STRAIGHT
+}
 
 public enum SpellTraitType {
 	TRAJECTORY,
