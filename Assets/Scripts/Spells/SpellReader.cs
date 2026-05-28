@@ -31,12 +31,12 @@ public class JsonSpellData {
 	[JsonProperty("description")]
 	public string description;
 	[JsonProperty("icon")]
-	public int icon;
+	public int icon = -1;
 
 	[JsonProperty("damage")]
 	public JsonSpellDamageData primaryDamage;
 	[JsonProperty("secondary_damage")]
-	public JsonSpellDamageData secondaryDamage;
+	public string secondaryDamage;
 
 	[JsonProperty("projectile")]
 	public JsonSpellProjectileData primaryProjectile;
@@ -68,7 +68,7 @@ public class SpellReader {
 			if(_instance == null) {
 				_instance = new();
 
-				AssetManager.Instance.Deserialize<List<JsonSpellData>>("spells", _instance.RegisterSpells);
+				AssetManager.Instance.Deserialize<Dictionary<string, JsonSpellData>>("spells", _instance.RegisterSpells);
 			}
 
 			return _instance;
@@ -95,18 +95,20 @@ public class SpellReader {
 		return _spellModifierFactories[spellName];
 	}
 
-	private void RegisterSpells(List<JsonSpellData> spellDatas) {
+	private void RegisterSpells(Dictionary<string, JsonSpellData> spellDatas) {
 		_spellBaseFactories.Clear();
 		_spellModifierFactories.Clear();
-		
-		// TODO print error message if spellDatas is empty
-		
-		foreach (var spellBasePrototype in spellDatas.Where(o => o.icon > -1)) {
-			_spellBaseFactories.Add(spellBasePrototype.name, () => InstantiateSpellBase(spellBasePrototype));
+
+		if (spellDatas.Count == 0) {
+			Debug.LogError("Zero Spell Data registered!");
 		}
 
-		foreach (var spellBasePrototype in spellDatas.Where(o => o.icon == -1)) {
-			_spellModifierFactories.Add(spellBasePrototype.name, () => InstantiateSpellModifier(spellBasePrototype));
+		foreach (var spellBasePrototype in spellDatas.Where(o => o.Value.icon > -1)) {
+			_spellBaseFactories.Add(spellBasePrototype.Key, () => InstantiateSpellBase(spellBasePrototype.Value));
+		}
+		
+		foreach (var spellModifierPrototype in spellDatas.Where(o => o.Value.icon == -1)) {
+			_spellModifierFactories.Add(spellModifierPrototype.Key, () => InstantiateSpellModifier(spellModifierPrototype.Value));
 		}
 	}
 
