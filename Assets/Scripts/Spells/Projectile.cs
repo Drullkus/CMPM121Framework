@@ -16,6 +16,8 @@ public class Projectile : MonoBehaviour {
 
 			newProjectile.team = team;
 			newProjectile.trajectory = trajectory;
+
+			onSpawn.Invoke(newProjectile);
 		});
 	}
 
