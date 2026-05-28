@@ -1,6 +1,8 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 public class JsonSpellDamageData {
 	
@@ -57,7 +59,8 @@ public class JsonSpellData {
 
 public class SpellReader {
 
-	List<JsonSpellData> _jsonSpellData;
+	private Dictionary<string, Func<Spell>> _spellBaseFactories = new();
+	private Dictionary<string, Func<SpellModifier>> _spellModifierFactories = new();
 
 	private static SpellReader _instance;
 	public static SpellReader Instance {
@@ -65,21 +68,62 @@ public class SpellReader {
 			if(_instance == null) {
 				_instance = new();
 
-				AssetManager.Instance.LoadJson("spells", (loadedJson) => {
-					_instance._jsonSpellData = JsonConvert.DeserializeObject<List<JsonSpellData>>(loadedJson);
-				});
+				AssetManager.Instance.Deserialize<List<JsonSpellData>>("spells", _instance.RegisterSpells);
 			}
 
 			return _instance;
 		}
 	}
 
-	// TODO
-	public void FetchRandomSpell(Action<Spell> onSpellFetched) {
-		onSpellFetched.Invoke(new Spell("debug spell", "debug spell", 0));
+	public Spell randomSpellBase {
+		get {
+			return _spellBaseFactories.ElementAt(UnityEngine.Random.Range(0, _spellBaseFactories.Count)).Value();
+		}
 	}
 
-	// TODO
-	public void FetchRandomModifer(Action<SpellModifier> onModifierFetched) { }
+	public SpellModifier randomSpellModifier {
+		get {
+			return _spellModifierFactories.ElementAt(UnityEngine.Random.Range(0, _spellModifierFactories.Count)).Value();
+		}
+	}
+
+	public Func<Spell> getSpellBaseFactory(string spellName) {
+		return _spellBaseFactories[spellName];
+	}
+
+	public Func<SpellModifier> getSpellModifierFactory(string spellName) {
+		return _spellModifierFactories[spellName];
+	}
+
+	private void RegisterSpells(List<JsonSpellData> spellDatas) {
+		_spellBaseFactories.Clear();
+		_spellModifierFactories.Clear();
+		
+		// TODO print error message if spellDatas is empty
+		
+		foreach (var spellBasePrototype in spellDatas.Where(o => o.icon > -1)) {
+			_spellBaseFactories.Add(spellBasePrototype.name, () => InstantiateSpellBase(spellBasePrototype));
+		}
+
+		foreach (var spellBasePrototype in spellDatas.Where(o => o.icon == -1)) {
+			_spellModifierFactories.Add(spellBasePrototype.name, () => InstantiateSpellModifier(spellBasePrototype));
+		}
+	}
+
+	private Spell InstantiateSpellBase(JsonSpellData spellBasePrototype) {
+		var newSpell = new Spell(spellBasePrototype.name, spellBasePrototype.description, spellBasePrototype.icon);
+				
+		// TODO Handle: N, damage, secondary_damage, spray, manacost, cooldown, projectile, secondary_projectile
+				
+		return newSpell;
+	}
+
+	private SpellModifier InstantiateSpellModifier(JsonSpellData spellBasePrototype) {
+		var newSpellModifier = new SpellModifier();
+				
+		// TODO handle all of the spell modifier info
+				
+		return newSpellModifier;
+	}
     
 }
