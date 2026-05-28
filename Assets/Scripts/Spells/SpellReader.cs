@@ -120,8 +120,8 @@ public class SpellReader {
 		return newSpell;
 	}
 
-	private SpellModifier InstantiateSpellModifier(JsonSpellData spellBasePrototype) {
-		var newSpellModifier = new SpellModifier();
+	private SpellModifier InstantiateSpellModifier(JsonSpellData spellModifierPrototype) {
+		var newSpellModifier = new SpellModifier(spellModifierPrototype.name, spellModifierPrototype.description);
 				
 		// TODO handle all of the spell modifier info
 				
