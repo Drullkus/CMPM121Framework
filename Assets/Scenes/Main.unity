@@ -377,7 +377,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d565eb67d0847ec418fbe309768000ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 932068598}
 --- !u!212 &71109455
 SpriteRenderer:
   serializedVersion: 2
@@ -462,7 +461,6 @@ GameObject:
   - component: {fileID: 96316928}
   - component: {fileID: 96316931}
   - component: {fileID: 96316930}
-  - component: {fileID: 96316929}
   m_Layer: 5
   m_Name: spell2
   m_TagString: Untagged
@@ -497,24 +495,6 @@ RectTransform:
   m_AnchoredPosition: {x: 104, y: 32}
   m_SizeDelta: {x: 64, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &96316929
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 96316927}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2241b04a7862be447a62c9acb60823e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  icon: {fileID: 334187433}
-  cooldown: {fileID: 1468482023}
-  manacost: {fileID: 11042825}
-  damage: {fileID: 757752468}
-  highlight: {fileID: 279594428}
-  dropbutton: {fileID: 426128245}
 --- !u!114 &96316930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1788,7 +1768,6 @@ GameObject:
   - component: {fileID: 457295003}
   - component: {fileID: 457295006}
   - component: {fileID: 457295005}
-  - component: {fileID: 457295004}
   m_Layer: 5
   m_Name: spell3
   m_TagString: Untagged
@@ -1823,24 +1802,6 @@ RectTransform:
   m_AnchoredPosition: {x: 176, y: 32}
   m_SizeDelta: {x: 64, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &457295004
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 457295002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2241b04a7862be447a62c9acb60823e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  icon: {fileID: 1298929768}
-  cooldown: {fileID: 1528674329}
-  manacost: {fileID: 532755681}
-  damage: {fileID: 1860547075}
-  highlight: {fileID: 1477215737}
-  dropbutton: {fileID: 1528944909}
 --- !u!114 &457295005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3077,7 +3038,6 @@ GameObject:
   - component: {fileID: 797691354}
   - component: {fileID: 797691357}
   - component: {fileID: 797691356}
-  - component: {fileID: 797691355}
   m_Layer: 5
   m_Name: spell4
   m_TagString: Untagged
@@ -3112,24 +3072,6 @@ RectTransform:
   m_AnchoredPosition: {x: 248, y: 32}
   m_SizeDelta: {x: 64, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &797691355
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 797691353}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2241b04a7862be447a62c9acb60823e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  icon: {fileID: 1218915916}
-  cooldown: {fileID: 1610884461}
-  manacost: {fileID: 2070572078}
-  damage: {fileID: 989605413}
-  highlight: {fileID: 12506828}
-  dropbutton: {fileID: 578112679}
 --- !u!114 &797691356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3398,7 +3340,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -30}
+  m_AnchoredPosition: {x: 123, y: 369}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &941266775
@@ -4532,7 +4474,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 30}
+  m_AnchoredPosition: {x: -112, y: 369}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1232109553
@@ -57033,12 +56975,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65137bb55ab2f454e9ae3dcb7ee7f513, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spellUIs:
-  - {fileID: 2085212183}
-  - {fileID: 96316927}
-  - {fileID: 457295002}
-  - {fileID: 797691353}
-  activeSlot: 0
 --- !u!1 &1987132274
 GameObject:
   m_ObjectHideFlags: 0
@@ -57534,7 +57470,6 @@ GameObject:
   - component: {fileID: 2085212184}
   - component: {fileID: 2085212187}
   - component: {fileID: 2085212186}
-  - component: {fileID: 2085212185}
   m_Layer: 5
   m_Name: spell1
   m_TagString: Untagged
@@ -57569,24 +57504,6 @@ RectTransform:
   m_AnchoredPosition: {x: 32, y: 32}
   m_SizeDelta: {x: 64, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2085212185
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2085212183}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2241b04a7862be447a62c9acb60823e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  icon: {fileID: 1727109217}
-  cooldown: {fileID: 1669142557}
-  manacost: {fileID: 400786126}
-  damage: {fileID: 982783696}
-  highlight: {fileID: 1270515289}
-  dropbutton: {fileID: 672798488}
 --- !u!114 &2085212186
 MonoBehaviour:
   m_ObjectHideFlags: 0
