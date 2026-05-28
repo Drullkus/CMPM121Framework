@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using UnityEngine;
 
@@ -17,6 +18,10 @@ public class AssetManager {
 
 	public void LoadJson(string jsonPath, Action<string> onLoad) {
 		onLoad.Invoke(Resources.Load<TextAsset>(jsonPath).text);
+	}
+
+	public void Deserialize<T>(string jsonPath, Action<T> onLoad) {
+		onLoad.Invoke(JsonConvert.DeserializeObject<T>(Resources.Load<TextAsset>(jsonPath).text));
 	}
 
 	public void LoadPrefab(string prefabPath, Action<GameObject> onLoad) {

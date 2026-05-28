@@ -1,0 +1,18 @@
+{
+    "name": "UIDispatcher",
+    "rootNamespace": "",
+    "references": [
+        "GUID:864373a217d8afb448e74d9866dc5aab",
+        "GUID:688af199a7fdae7acb6d8d53c75bce1d",
+        "GUID:cac2b8cda57893a1da15521c3850f3a3"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
