@@ -2,7 +2,11 @@ using System;
 
 public class SpellBuilder {
 
-	// TODO
-	public void GenerateSpell(Action<Spell> onSpellGenerated) { }
+	public Spell GenerateSpell() {
+		Spell spell = SpellReader.Instance.FetchRandomSpell();
+		SpellModifier modifier = SpellReader.Instance.FetchRandomModifier();
+
+		return modifier.ModifySpell(spell);
+	}
     
 }

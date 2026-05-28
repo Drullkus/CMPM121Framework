@@ -52,8 +52,17 @@ public class Spell {
 		_traits.TryAdd(traitName, trait);
 	}
 
-	// TODO
-	public List<(string, SpellTrait)> GetTraits(List<string> traitNames) { return null; }
+	public List<(string, SpellTrait)> GetTraits(List<string> traitNames) {
+		List<(string, SpellTrait)> traits = new();
+		
+		foreach(string traitName in traitNames) {
+			if(_traits.TryGetValue(traitName, out SpellTrait trait)) {
+				traits.Add((traitName, trait));
+			}
+		}
+
+		return traits;
+	}
 
 	public List<string> GetTraitNames() { return _traits.Keys.ToList(); }
 
