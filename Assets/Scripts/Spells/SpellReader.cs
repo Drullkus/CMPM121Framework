@@ -75,11 +75,13 @@ public class SpellReader {
 	}
 
 	// TODO
-	public void FetchRandomSpell(Action<Spell> onSpellFetched) {
-		onSpellFetched.Invoke(new Spell("debug spell", "debug spell", 0));
+	public Spell FetchRandomSpell() {
+		return new Spell("debug spell", "debug spell", 0);
 	}
 
 	// TODO
-	public void FetchRandomModifer(Action<SpellModifier> onModifierFetched) { }
+	public SpellModifier FetchRandomModifier() {
+		return new SpellModifier("debug modifier", "debug modifier");
+	}
     
 }
