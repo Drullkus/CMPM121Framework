@@ -9,7 +9,9 @@ public class SpellModifier {
 	public string name;
 	public string description;
 
-	public SpellModifier(string name, string description) {
+	public SpellModifier() { }
+
+	public void SetData(string name, string description) {
 		this.name = name;
 		this.description = description;
 	}
