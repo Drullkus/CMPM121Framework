@@ -39,7 +39,7 @@ public class Spell {
 	public string description;
 	public int icon;
 
-	private Dictionary<string, SpellTrait> _traits;
+	private Dictionary<string, SpellTrait> _traits = new();
 
 	public Spell(string name, string description, int icon) {
 		this.name = name;
