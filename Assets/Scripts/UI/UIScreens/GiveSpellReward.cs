@@ -12,6 +12,8 @@ public class GiveSpellReward : MonoBehaviour {
     [Header("Hidden upon collecting spell reward")]
     [SerializeField] GameObject deactivatedUponClick;
 
+    [SerializeField] UI.SpellBarManager spellBarManager;
+
     public void RollOption() {
         deactivatedUponClick.SetActive(true);
         _spell = _spellBuilder.GenerateSpell(out string modifierInfo);
@@ -25,8 +27,12 @@ public class GiveSpellReward : MonoBehaviour {
     }
 
     public void OnClick() {
-        Debug.Log("TODO add _spell into player's spell deck");
+        if (!spellBarManager.CanAddSpell()) {
+            Debug.LogWarning("All out of slots on the spell bar");
+            return;
+        }
 
         deactivatedUponClick.SetActive(false);
+        spellBarManager.AddSpell(_spell);
     }
 }
