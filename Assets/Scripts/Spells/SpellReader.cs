@@ -158,7 +158,7 @@ public class SpellReader {
 			traits.Add(("projectile.secondary.trajectory", new(SpellTraitType.TRAJECTORY, spellBasePrototype.secondaryProjectile.trajectory.ToString())));
 
 			if(spellBasePrototype.secondaryProjectile.lifetime != null) {
-				traits.Add(("projectile.lifetime", new(SpellTraitType.RPN_FLOAT, spellBasePrototype.secondaryProjectile.lifetime)));
+				traits.Add(("projectile.secondary.lifetime", new(SpellTraitType.RPN_FLOAT, spellBasePrototype.secondaryProjectile.lifetime)));
 			}
 		}
 
@@ -186,7 +186,6 @@ public class SpellReader {
 		if(spellModifierPrototype.angle != null) { traits.Add(("angle", new(SpellTraitType.RPN_FLOAT, spellModifierPrototype.angle))); }
 		if(spellModifierPrototype.projectileTrajectory != null)  { traits.Add(("projectile.trajectory", new(SpellTraitType.TRAJECTORY, spellModifierPrototype.projectileTrajectory))); }
 		if(spellModifierPrototype.manaAdder != null) { traits.Add(("manaAdder", new(SpellTraitType.RPN_FLOAT, "{0} " + spellModifierPrototype.manaAdder + " +"))); }
-		if(spellModifierPrototype.lifetime != null) { traits.Add(("projectile.lifetime", new (SpellTraitType.RPN_FLOAT, spellModifierPrototype.lifetime)));
 
 		foreach((string key, SpellTrait trait) in traits) {
 			newSpellModifier.AddModifier(key, trait.traitValue);
