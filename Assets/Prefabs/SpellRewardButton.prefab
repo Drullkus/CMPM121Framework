@@ -147,6 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d84ada3377ab4ea3ae1cc5a797c31165, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UIDispatcher::UI.UIDispatcher.GiveSpellReward
+  deactivatedUponClick: {fileID: 643726664618755391}
 --- !u!1 &3256149430769192245
 GameObject:
   m_ObjectHideFlags: 0
