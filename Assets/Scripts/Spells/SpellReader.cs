@@ -175,7 +175,7 @@ public class SpellReader {
 		if(spellModifierPrototype.cooldownMultiplier != "") { traits.Add(("cooldown", new(SpellTraitType.RPN_FLOAT, "{0} " + spellModifierPrototype.cooldownMultiplier + " *"))); }
 		if(spellModifierPrototype.angle != "") { traits.Add(("angle", new(SpellTraitType.RPN_FLOAT, spellModifierPrototype.angle))); }
 		if(spellModifierPrototype.projectileTrajectory != "")  { traits.Add(("projectile.trajectory", new(SpellTraitType.TRAJECTORY, spellModifierPrototype.projectileTrajectory))); }
-		if(spellModifierPrototype.manaAdder != "") { traits.Add(("manaAdder", new(SpellTraitType.RPN_FLOAT, "{0} " + spellModifierPrototype.manaAdder + " *"))); }
+		if(spellModifierPrototype.manaAdder != "") { traits.Add(("manaAdder", new(SpellTraitType.RPN_FLOAT, "{0} " + spellModifierPrototype.manaAdder + " +"))); }
 
 		foreach((string key, SpellTrait trait) in traits) {
 			newSpellModifier.AddModifier(key, trait.traitValue);
