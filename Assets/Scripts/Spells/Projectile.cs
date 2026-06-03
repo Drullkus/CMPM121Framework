@@ -75,21 +75,20 @@ public class ProjectileData {
 [RequireComponent(typeof(SpriteRenderer))]
 public class Projectile : MonoBehaviour {
     
+	private ProjectileTrajectory trajectory;
 	public Team team;
 
-	private ProjectileTrajectory trajectory;
+	public static Projectile Spawn(Vector2 spawnPosition, ProjectileData spawnData) {
+		GameObject projectilePrefab = AssetManager.Instance.projectilePrefab;
 
-	public static void Spawn(Vector2 spawnPosition, ProjectileTrajectory trajectory, int spriteIndex, Team team, Action<Projectile> onSpawn) {
-		AssetManager.Instance.LoadPrefab("projectile", (loadedPrefab) => {
-			Projectile newProjectile = Instantiate(loadedPrefab, spawnPosition, Quaternion.identity).GetComponent<Projectile>();
+		Projectile newProjectile = Instantiate(projectilePrefab, spawnPosition, Quaternion.identity).GetComponent<Projectile>();
 
-			newProjectile.GetComponent<SpriteRenderer>().sprite = SpriteManager.Instance.RetrieveSpellSprite(spriteIndex);
+		newProjectile.team = spawnData.team;
 
-			newProjectile.team = team;
-			newProjectile.trajectory = trajectory;
+		Enum.TryParse(spawnData.trajectory, out newProjectile.trajectory);
+		newProjectile.GetComponent<SpriteRenderer>().sprite = SpriteManager.Instance.RetrieveSpellSprite(spawnData.spriteIndex);
 
-			onSpawn.Invoke(newProjectile);
-		});
+		return newProjectile;
 	}
 
 	private void Update() {
