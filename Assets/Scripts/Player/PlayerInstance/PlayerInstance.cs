@@ -60,6 +60,8 @@ public class PlayerInstance :
 	}
 
 	public void OnAttack(InputAction.CallbackContext context) {
+		if(Mouse.current.leftButton.wasPressedThisFrame) { return; }
+
 		EventBus.Instance.InvokePlayerShoot();
 
 		Vector2 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.value);
@@ -67,8 +69,6 @@ public class PlayerInstance :
 
 		UI.SpellBarManager spellBarManager = FindFirstObjectByType<UI.SpellBarManager>();
 		spellBarManager.activeSpell.Cast(transform.position, castDirection, Team.PLAYER, 100, 1);
-
-		Debug.Log("wow!");
 	}
 
 	private void OnWaveChanged(int newWaveIndex, int _) {
