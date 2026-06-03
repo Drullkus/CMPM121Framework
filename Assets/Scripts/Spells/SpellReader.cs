@@ -19,6 +19,8 @@ public class JsonSpellProjectileData {
 	public ProjectileTrajectory trajectory;
 	[JsonProperty("speed")]
 	public string speed;
+	[JsonProperty("lifetime")]
+	public string lifetime;
 	[JsonProperty("sprite")]
 	public int sprite;
 
