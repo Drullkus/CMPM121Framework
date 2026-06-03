@@ -72,11 +72,34 @@ public class ProjectileData {
 
 }
 
+public abstract class ProjectileMovement {
+
+	public abstract void Move(Transform transform);
+
+}
+
+public class ProjectileMovementStraight : ProjectileMovement {
+
+	public float speed = 1.0f;
+
+	public ProjectileMovementStraight SetSpeed(float speed) {
+		this.speed = speed;
+		return this;
+	}
+
+	public override void Move(Transform transform) {
+		transform.Translate(speed * Time.deltaTime * Vector3.forward);
+	}
+
+}
+
 [RequireComponent(typeof(SpriteRenderer))]
 public class Projectile : MonoBehaviour {
     
-	private ProjectileTrajectory trajectory;
+	private ProjectileTrajectory _trajectory = ProjectileTrajectory.STRAIGHT;
 	public Team team;
+
+	private ProjectileMovement _projectileMovement;
 
 	public static Projectile Spawn(Vector2 spawnPosition, ProjectileData spawnData) {
 		GameObject projectilePrefab = AssetManager.Instance.projectilePrefab;
@@ -85,14 +108,23 @@ public class Projectile : MonoBehaviour {
 
 		newProjectile.team = spawnData.team;
 
-		Enum.TryParse(spawnData.trajectory, out newProjectile.trajectory);
 		newProjectile.GetComponent<SpriteRenderer>().sprite = SpriteManager.Instance.RetrieveSpellSprite(spawnData.spriteIndex);
+
+		Enum.TryParse(spawnData.trajectory, out newProjectile._trajectory);
+
+		switch(newProjectile._trajectory) {
+			case ProjectileTrajectory.STRAIGHT:
+				newProjectile._projectileMovement = new ProjectileMovementStraight().SetSpeed(spawnData.speed);
+				break;
+			default:
+				break;
+		}
 
 		return newProjectile;
 	}
 
 	private void Update() {
-		
+		_projectileMovement.Move(transform);
 	}
 
 }
