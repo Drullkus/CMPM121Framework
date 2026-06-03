@@ -3,6 +3,7 @@ using Newtonsoft.Json.Converters;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using UnityEngine;
 
 [JsonConverter(typeof(StringEnumConverter))]
 public enum ProjectileTrajectory {
@@ -66,7 +67,7 @@ public class Spell {
 
 	public List<string> GetTraitNames() { return _traits.Keys.ToList(); }
 
-    public void Cast(int power, int wave) {
+    public void Cast(Vector2 spawnPosition, Team team, int power, int wave) {
 		Dictionary<string, int> castVariables = new() {
 			[ "power" ] = power,
 			[ "wave" ] = wave,
@@ -90,8 +91,25 @@ public class Spell {
 
 		return;
 
-		// TODO
-		void ArcaneBolt() { }
+		void ArcaneBolt() {
+			ProjectileData projectileData = new ProjectileData()
+				.SetRPNDictionary(castVariables)
+				.SetTeam(team);
+
+			if(_traits.TryGetValue("projectile.trajectory", out SpellTrait trajectory)) {
+				projectileData.SetTrajectory(trajectory.traitValue);
+			}
+
+			if(_traits.TryGetValue("projectile.speed", out SpellTrait speed)) {
+				projectileData.SetSpeed(speed.traitValue);
+			}
+
+			if(_traits.TryGetValue("projectile.lifetime", out SpellTrait lifetime)) {
+				projectileData.SetLifetime(lifetime.traitValue);
+			}
+
+			Projectile.Spawn(spawnPosition, projectileData);
+		}
 
 		// TODO
 		void MagicMissile() { }
