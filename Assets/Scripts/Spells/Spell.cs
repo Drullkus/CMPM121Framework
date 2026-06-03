@@ -66,7 +66,41 @@ public class Spell {
 
 	public List<string> GetTraitNames() { return _traits.Keys.ToList(); }
 
-	// TODO
-    public void Cast() {}
+    public void Cast(int power, int wave) {
+		Dictionary<string, int> castVariables = new() {
+			[ "power" ] = power,
+			[ "wave" ] = wave,
+		};
+
+		switch(name) {
+			case "Arcane Bolt":
+				ArcaneBolt();
+				break;
+			case "Magic Missile":
+				MagicMissile();
+				break;
+			case "Arcane Blast":
+				ArcaneBlast();
+				break;
+			case "Arcane Spray":
+				ArcaneSpray();
+				break;
+			default: break;
+		}
+
+		return;
+
+		// TODO
+		void ArcaneBolt() { }
+
+		// TODO
+		void MagicMissile() { }
+
+		// TODO
+		void ArcaneBlast() { }
+
+		// TODO
+		void ArcaneSpray() { }
+	}
 
 }
