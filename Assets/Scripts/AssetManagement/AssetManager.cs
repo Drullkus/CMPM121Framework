@@ -4,10 +4,19 @@ using UnityEngine;
 
 public class AssetManager {
 
+	public GameObject projectilePrefab;
+
 	private static AssetManager _instance;
 	public static AssetManager Instance {
 		get {
-			_instance ??= new AssetManager();
+			if(_instance == null) {
+				_instance = new AssetManager();
+
+				_instance.LoadPrefab("projectile", (loadedPrefab) => {
+					_instance.projectilePrefab = loadedPrefab;
+				});
+			}
+
 			return _instance;
 		}
 	}
