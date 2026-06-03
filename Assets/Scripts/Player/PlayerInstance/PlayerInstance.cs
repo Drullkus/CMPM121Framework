@@ -37,6 +37,9 @@ public class PlayerInstance :
 		};
 
 		_health.OnExpended += Die;
+
+		UI.SpellBarManager spellBarManager = FindFirstObjectByType<UI.SpellBarManager>();
+		spellBarManager.AddSpell(SpellReader.Instance.randomSpellBase);
 	}
 
 	public void SetClass(PlayerClassData classData) {
@@ -56,10 +59,16 @@ public class PlayerInstance :
 		_health = new(hpValue, GetComponent<HealthBar>());
 	}
 
-	private void Attack() {
+	public void OnAttack(InputAction.CallbackContext context) {
 		EventBus.Instance.InvokePlayerShoot();
 
 		Vector2 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.value);
+		Vector2 castDirection = (mouseWorldPosition - (Vector2)transform.position).normalized;
+
+		UI.SpellBarManager spellBarManager = FindFirstObjectByType<UI.SpellBarManager>();
+		spellBarManager.activeSpell.Cast(transform.position, castDirection, Team.PLAYER, 100, 1);
+
+		Debug.Log("wow!");
 	}
 
 	private void OnWaveChanged(int newWaveIndex, int _) {

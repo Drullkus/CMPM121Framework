@@ -101,10 +101,12 @@ public class Projectile : MonoBehaviour {
 
 	private ProjectileMovement _projectileMovement;
 
-	public static Projectile Spawn(Vector2 spawnPosition, ProjectileData spawnData) {
+	public static Projectile Spawn(Vector2 spawnPosition, Vector2 spawnDirection, ProjectileData spawnData) {
 		GameObject projectilePrefab = AssetManager.Instance.projectilePrefab;
 
-		Projectile newProjectile = Instantiate(projectilePrefab, spawnPosition, Quaternion.identity).GetComponent<Projectile>();
+		Quaternion rotation = Quaternion.Euler(0.0f, 0.0f, Mathf.Atan2(spawnDirection.y, spawnDirection.x) * Mathf.Rad2Deg);
+
+		Projectile newProjectile = Instantiate(projectilePrefab, spawnPosition, rotation).GetComponent<Projectile>();
 
 		newProjectile.team = spawnData.team;
 
