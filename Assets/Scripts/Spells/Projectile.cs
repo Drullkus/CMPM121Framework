@@ -6,7 +6,7 @@ public class ProjectileData {
 	
 	private Dictionary<string, int> _variableDictionary;
 
-	public float speed = 0.0f;
+	public float speed = 10.0f;
 	public float lifetime = 1.0f;
 
 	public string trajectory = "straight";
@@ -88,7 +88,7 @@ public class ProjectileMovementStraight : ProjectileMovement {
 	}
 
 	public override void Move(Transform transform) {
-		transform.Translate(speed * Time.deltaTime * Vector3.forward);
+		transform.Translate(speed * Time.deltaTime * Vector2.right);
 	}
 
 }
@@ -105,8 +105,10 @@ public class Projectile : MonoBehaviour {
 		GameObject projectilePrefab = AssetManager.Instance.projectilePrefab;
 
 		Quaternion rotation = Quaternion.Euler(0.0f, 0.0f, Mathf.Atan2(spawnDirection.y, spawnDirection.x) * Mathf.Rad2Deg);
+		
+		Vector2 offsetPosition = spawnPosition + spawnDirection * 1.5f;
 
-		Projectile newProjectile = Instantiate(projectilePrefab, spawnPosition, rotation).GetComponent<Projectile>();
+		Projectile newProjectile = Instantiate(projectilePrefab, offsetPosition, rotation).GetComponent<Projectile>();
 
 		newProjectile.team = spawnData.team;
 
