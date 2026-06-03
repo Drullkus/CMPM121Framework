@@ -147,18 +147,26 @@ public class SpellReader {
 		if(spellBasePrototype.primaryProjectile != null) {
 			traits.Add(("projectile.speed", new(SpellTraitType.RPN_FLOAT, spellBasePrototype.primaryProjectile.speed)));
 			traits.Add(("projectile.trajectory", new(SpellTraitType.TRAJECTORY, spellBasePrototype.primaryProjectile.trajectory.ToString())));
+
+			if(spellBasePrototype.primaryProjectile.lifetime != null) {
+				traits.Add(("projectile.lifetime", new(SpellTraitType.RPN_FLOAT, spellBasePrototype.primaryProjectile.lifetime)));
+			}
 		}
 
 		if(spellBasePrototype.secondaryProjectile != null) {
 			traits.Add(("projectile.secondary.speed", new(SpellTraitType.RPN_FLOAT, spellBasePrototype.secondaryProjectile.speed)));
 			traits.Add(("projectile.secondary.trajectory", new(SpellTraitType.TRAJECTORY, spellBasePrototype.secondaryProjectile.trajectory.ToString())));
+
+			if(spellBasePrototype.secondaryProjectile.lifetime != null) {
+				traits.Add(("projectile.lifetime", new(SpellTraitType.RPN_FLOAT, spellBasePrototype.secondaryProjectile.lifetime)));
+			}
 		}
 
-		if(spellBasePrototype.cooldown != "") { traits.Add(("cooldown", new(SpellTraitType.RPN_FLOAT, spellBasePrototype.cooldown))); }
-		if(spellBasePrototype.manaCost != "") { traits.Add(("manaCost", new(SpellTraitType.RPN_FLOAT, spellBasePrototype.manaCost))); }
-		if(spellBasePrototype.delay != "") { traits.Add(("delay", new(SpellTraitType.RPN_FLOAT, spellBasePrototype.delay))); }
-		if(spellBasePrototype.n != "") { traits.Add(("n", new(SpellTraitType.RPN_FLOAT, spellBasePrototype.n))); }
-		if(spellBasePrototype.spray != "") { traits.Add(("spray", new(SpellTraitType.RPN_FLOAT, spellBasePrototype.spray))); }
+		if(spellBasePrototype.cooldown!= null) { traits.Add(("cooldown", new(SpellTraitType.RPN_FLOAT, spellBasePrototype.cooldown))); }
+		if(spellBasePrototype.manaCost!= null) { traits.Add(("manaCost", new(SpellTraitType.RPN_FLOAT, spellBasePrototype.manaCost))); }
+		if(spellBasePrototype.delay!= null) { traits.Add(("delay", new(SpellTraitType.RPN_FLOAT, spellBasePrototype.delay))); }
+		if(spellBasePrototype.n!= null) { traits.Add(("n", new(SpellTraitType.RPN_FLOAT, spellBasePrototype.n))); }
+		if(spellBasePrototype.spray!= null) { traits.Add(("spray", new(SpellTraitType.RPN_FLOAT, spellBasePrototype.spray))); }
 
 		foreach((string key, SpellTrait trait) in traits) {
 			newSpell.AddTrait(key, trait);
@@ -178,6 +186,7 @@ public class SpellReader {
 		if(spellModifierPrototype.angle != null) { traits.Add(("angle", new(SpellTraitType.RPN_FLOAT, spellModifierPrototype.angle))); }
 		if(spellModifierPrototype.projectileTrajectory != null)  { traits.Add(("projectile.trajectory", new(SpellTraitType.TRAJECTORY, spellModifierPrototype.projectileTrajectory))); }
 		if(spellModifierPrototype.manaAdder != null) { traits.Add(("manaAdder", new(SpellTraitType.RPN_FLOAT, "{0} " + spellModifierPrototype.manaAdder + " +"))); }
+		if(spellModifierPrototype.lifetime != null) { traits.Add(("projectile.lifetime", new (SpellTraitType.RPN_FLOAT, spellModifierPrototype.lifetime)));
 
 		foreach((string key, SpellTrait trait) in traits) {
 			newSpellModifier.AddModifier(key, trait.traitValue);
