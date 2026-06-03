@@ -12,6 +12,9 @@ public class Reward : MonoBehaviour {
 	[SerializeField]
 	private Button _nextWaveButton;
 
+	[SerializeField]
+	private GameObject _spellRewardButton;
+
 	private void Start() {
 		UIScreen uiScreen = new(
 			UIState.REWARD,
@@ -39,6 +42,8 @@ public class Reward : MonoBehaviour {
 
 			_statDisplayLabels[i].gameObject.SetActive(true);
 		}
+
+		_spellRewardButton.GetComponent<GiveSpellReward>().RollOption();
 
 		gameObject.SetActive(true);
 	}
