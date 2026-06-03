@@ -115,8 +115,37 @@ public class SpellReader {
 	private Spell InstantiateSpellBase(JsonSpellData spellBasePrototype) {
 		var newSpell = new Spell(spellBasePrototype.name, spellBasePrototype.description, spellBasePrototype.icon);
 				
-		// TODO Handle: N, damage, secondary_damage, spray, manacost, cooldown, projectile, secondary_projectile
-				
+		List<(string, SpellTrait)> traits = new();
+		if(spellBasePrototype.primaryDamage != null) {
+			traits.Add(("damage.amount", new(SpellTraitType.RPN_FLOAT, spellBasePrototype.primaryDamage.amount)));
+			traits.Add(("damage.type", new(SpellTraitType.DAMAGE_TYPE, spellBasePrototype.primaryDamage.type.ToString())));
+		}
+
+		if(spellBasePrototype.secondaryDamage != null) {
+			traits.Add(("damage.secondary.amount", new(SpellTraitType.RPN_FLOAT, spellBasePrototype.primaryDamage.amount)));
+			traits.Add(("damage.secondary.type", new(SpellTraitType.DAMAGE_TYPE, spellBasePrototype.primaryDamage.type.ToString())));
+		}
+
+		if(spellBasePrototype.primaryProjectile != null) {
+			traits.Add(("projectile.speed", new(SpellTraitType.RPN_FLOAT, spellBasePrototype.primaryProjectile.speed)));
+			traits.Add(("projectile.trajectory", new(SpellTraitType.TRAJECTORY, spellBasePrototype.primaryProjectile.trajectory.ToString())));
+		}
+
+		if(spellBasePrototype.secondaryProjectile != null) {
+			traits.Add(("projectile.secondary.speed", new(SpellTraitType.RPN_FLOAT, spellBasePrototype.secondaryProjectile.speed)));
+			traits.Add(("projectile.secondary.trajectory", new(SpellTraitType.TRAJECTORY, spellBasePrototype.secondaryProjectile.trajectory.ToString())));
+		}
+
+		if(spellBasePrototype.cooldown != "") { traits.Add(("cooldown", new(SpellTraitType.RPN_FLOAT, spellBasePrototype.cooldown))); }
+		if(spellBasePrototype.manaCost != "") { traits.Add(("manaCost", new(SpellTraitType.RPN_FLOAT, spellBasePrototype.manaCost))); }
+		if(spellBasePrototype.delay != "") { traits.Add(("delay", new(SpellTraitType.RPN_FLOAT, spellBasePrototype.delay))); }
+		if(spellBasePrototype.n != "") { traits.Add(("n", new(SpellTraitType.RPN_FLOAT, spellBasePrototype.n))); }
+		if(spellBasePrototype.spray != "") { traits.Add(("spray", new(SpellTraitType.RPN_FLOAT, spellBasePrototype.spray))); }
+
+		foreach((string key, SpellTrait trait) in traits) {
+			newSpell.AddTrait(key, trait);
+		}
+
 		return newSpell;
 	}
 
