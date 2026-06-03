@@ -68,6 +68,25 @@ public class PlayerInstance :
 		Vector2 castDirection = (mouseWorldPosition - (Vector2)transform.position).normalized;
 
 		UI.SpellBarManager spellBarManager = FindFirstObjectByType<UI.SpellBarManager>();
+
+		Spell activeSpell = spellBarManager.activeSpell;
+		int manaCost = 0;
+
+		List<(string, SpellTrait)> wrappedCost = activeSpell.GetTraits(new List<string>(){"manaCost"});
+
+		if(wrappedCost.Count > 0) {
+			Dictionary<string, int> castVariables = new() {
+				[ "power" ] = 100,
+				[ "wave" ] = 1,
+			};
+
+			string unevaluatedCost = wrappedCost[0].Item2.traitValue;
+			manaCost = (int)(RPNEvaluator.RPNEvaluator.Evaluatef(unevaluatedCost, castVariables));
+		}
+
+		if(manaCost > _mana) { return; }
+
+		_mana -= manaCost;
 		spellBarManager.activeSpell.Cast(transform.position, castDirection, Team.PLAYER, 100, 1);
 	}
 
