@@ -171,13 +171,13 @@ public class SpellReader {
 		var newSpellModifier = new SpellModifier(spellModifierPrototype.name, spellModifierPrototype.description);
 				
 		List<(string, SpellTrait)> traits = new();
-		if(spellModifierPrototype.damageMultiplier != "") { traits.Add(("damage.amount", new(SpellTraitType.RPN_FLOAT, "{0} " + spellModifierPrototype.damageMultiplier + " *"))); }
-		if(spellModifierPrototype.manaMultiplier != "") { traits.Add(("manaCost", new(SpellTraitType.RPN_FLOAT, "{0} " + spellModifierPrototype.manaMultiplier + " *"))); }
-		if(spellModifierPrototype.speedMultiplier != "") { traits.Add(("speed", new(SpellTraitType.RPN_FLOAT, "{0} " + spellModifierPrototype.speedMultiplier + " *"))); }
-		if(spellModifierPrototype.cooldownMultiplier != "") { traits.Add(("cooldown", new(SpellTraitType.RPN_FLOAT, "{0} " + spellModifierPrototype.cooldownMultiplier + " *"))); }
-		if(spellModifierPrototype.angle != "") { traits.Add(("angle", new(SpellTraitType.RPN_FLOAT, spellModifierPrototype.angle))); }
-		if(spellModifierPrototype.projectileTrajectory != "")  { traits.Add(("projectile.trajectory", new(SpellTraitType.TRAJECTORY, spellModifierPrototype.projectileTrajectory))); }
-		if(spellModifierPrototype.manaAdder != "") { traits.Add(("manaAdder", new(SpellTraitType.RPN_FLOAT, "{0} " + spellModifierPrototype.manaAdder + " +"))); }
+		if(spellModifierPrototype.damageMultiplier != null) { traits.Add(("damage.amount", new(SpellTraitType.RPN_FLOAT, "{0} " + spellModifierPrototype.damageMultiplier + " *"))); }
+		if(spellModifierPrototype.manaMultiplier != null) { traits.Add(("manaCost", new(SpellTraitType.RPN_FLOAT, "{0} " + spellModifierPrototype.manaMultiplier + " *"))); }
+		if(spellModifierPrototype.speedMultiplier != null) { traits.Add(("speed", new(SpellTraitType.RPN_FLOAT, "{0} " + spellModifierPrototype.speedMultiplier + " *"))); }
+		if(spellModifierPrototype.cooldownMultiplier != null) { traits.Add(("cooldown", new(SpellTraitType.RPN_FLOAT, "{0} " + spellModifierPrototype.cooldownMultiplier + " *"))); }
+		if(spellModifierPrototype.angle != null) { traits.Add(("angle", new(SpellTraitType.RPN_FLOAT, spellModifierPrototype.angle))); }
+		if(spellModifierPrototype.projectileTrajectory != null)  { traits.Add(("projectile.trajectory", new(SpellTraitType.TRAJECTORY, spellModifierPrototype.projectileTrajectory))); }
+		if(spellModifierPrototype.manaAdder != null) { traits.Add(("manaAdder", new(SpellTraitType.RPN_FLOAT, "{0} " + spellModifierPrototype.manaAdder + " +"))); }
 
 		foreach((string key, SpellTrait trait) in traits) {
 			newSpellModifier.AddModifier(key, trait.traitValue);
