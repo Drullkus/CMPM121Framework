@@ -55,6 +55,22 @@ public class JsonSpellData {
 	[JsonProperty("spray")]
 	public string spray;
 
+	// modifier-specific fieds
+	[JsonProperty("damage_multiplier")]
+	public string damageMultiplier;
+	[JsonProperty("mana_multiplier")]
+	public string manaMultiplier;
+	[JsonProperty("speed_multiplier")]
+	public string speedMultiplier;
+	[JsonProperty("cooldown_multiplier")]
+	public string cooldownMultiplier;
+	[JsonProperty("angle")]
+	public string angle;
+	[JsonProperty("projectile_trajectory")]
+	public string projectileTrajectory;
+	[JsonProperty("mana_adder")]
+	public string manaAdder;
+
 }
 
 public class SpellReader {
@@ -152,8 +168,19 @@ public class SpellReader {
 	private SpellModifier InstantiateSpellModifier(JsonSpellData spellModifierPrototype) {
 		var newSpellModifier = new SpellModifier(spellModifierPrototype.name, spellModifierPrototype.description);
 				
-		// TODO handle all of the spell modifier info
-				
+		List<(string, SpellTrait)> traits = new();
+		if(spellModifierPrototype.damageMultiplier != "") { traits.Add(("damage.amount", new(SpellTraitType.RPN_FLOAT, "{0} " + spellModifierPrototype.damageMultiplier + " *"))); }
+		if(spellModifierPrototype.manaMultiplier != "") { traits.Add(("manaCost", new(SpellTraitType.RPN_FLOAT, "{0} " + spellModifierPrototype.manaMultiplier + " *"))); }
+		if(spellModifierPrototype.speedMultiplier != "") { traits.Add(("speed", new(SpellTraitType.RPN_FLOAT, "{0} " + spellModifierPrototype.speedMultiplier + " *"))); }
+		if(spellModifierPrototype.cooldownMultiplier != "") { traits.Add(("cooldown", new(SpellTraitType.RPN_FLOAT, "{0} " + spellModifierPrototype.cooldownMultiplier + " *"))); }
+		if(spellModifierPrototype.angle != "") { traits.Add(("angle", new(SpellTraitType.RPN_FLOAT, spellModifierPrototype.angle))); }
+		if(spellModifierPrototype.projectileTrajectory != "")  { traits.Add(("projectile.trajectory", new(SpellTraitType.TRAJECTORY, spellModifierPrototype.projectileTrajectory))); }
+		if(spellModifierPrototype.manaAdder != "") { traits.Add(("manaAdder", new(SpellTraitType.RPN_FLOAT, "{0} " + spellModifierPrototype.manaAdder + " *"))); }
+
+		foreach((string key, SpellTrait trait) in traits) {
+			newSpellModifier.AddModifier(key, trait.traitValue);
+		}
+
 		return newSpellModifier;
 	}
     
