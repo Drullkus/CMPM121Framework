@@ -59,6 +59,9 @@ public class EnemyInstance :
 		}
 	}
 
+	public Team GetTeam() {
+		return Team.ENEMY;
+	}
     private void Start() {
 		_attackRadius = GetComponent<AttackRadius>();
 

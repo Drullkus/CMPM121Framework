@@ -42,6 +42,10 @@ public class PlayerInstance :
 		spellBarManager.AddSpell(SpellReader.Instance.randomSpellBase);
 	}
 
+	public Team GetTeam() {
+		return Team.PLAYER;
+	}
+
 	public void SetClass(PlayerClassData classData) {
 		_classData = classData;
 	}
