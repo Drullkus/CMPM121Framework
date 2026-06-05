@@ -67,7 +67,7 @@ public class Spell {
 
 	public List<string> GetTraitNames() { return _traits.Keys.ToList(); }
 
-    public void Cast(Vector2 spawnPosition, Vector2 direction, Team team, int power, int wave) {
+    public void Cast(GameObject source, Vector2 direction, Team team, int power, int wave) {
 		Dictionary<string, int> castVariables = new() {
 			[ "power" ] = power,
 			[ "wave" ] = wave,
@@ -112,7 +112,7 @@ public class Spell {
 				projectileData.SetDamageAmount(damageAmount.traitValue);
 			}
 
-			Projectile.Spawn(spawnPosition, direction, projectileData);
+			Projectile.Spawn(source, direction, projectileData);
 		}
 
 		// TODO

@@ -91,7 +91,7 @@ public class PlayerInstance :
 		if(manaCost > _mana) { return; }
 
 		_mana -= manaCost;
-		spellBarManager.activeSpell.Cast(transform.position, castDirection, Team.PLAYER, 100, 1);
+		spellBarManager.activeSpell.Cast(gameObject, castDirection, Team.PLAYER, 100, 1);
 	}
 
 	private void OnWaveChanged(int newWaveIndex, int _) {

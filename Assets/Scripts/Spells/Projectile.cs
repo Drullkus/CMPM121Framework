@@ -103,23 +103,29 @@ public class ProjectileMovementStraight : ProjectileMovement {
 [RequireComponent(typeof(SpriteRenderer))]
 public class Projectile : MonoBehaviour {
     
+	private GameObject _source;
+
 	private ProjectileTrajectory _trajectory = ProjectileTrajectory.STRAIGHT;
 	public Team team;
+
+	private Action<IHittable, IHittable> _onHit;
 
 	private ProjectileMovement _projectileMovement;
 
 	private Damage _damage = new(0, Damage.Type.ARCANE);
 
-	public static Projectile Spawn(Vector2 spawnPosition, Vector2 spawnDirection, ProjectileData spawnData) {
+	public static Projectile Spawn(GameObject source, Vector2 spawnDirection, ProjectileData spawnData) {
 		GameObject projectilePrefab = AssetManager.Instance.projectilePrefab;
 
 		Quaternion rotation = Quaternion.Euler(0.0f, 0.0f, Mathf.Atan2(spawnDirection.y, spawnDirection.x) * Mathf.Rad2Deg);
 		
-		Vector2 offsetPosition = spawnPosition + spawnDirection * 1.5f;
+		Vector2 offsetPosition = (Vector2)source.transform.position + spawnDirection * 1.5f;
 
 		Projectile newProjectile = Instantiate(projectilePrefab, offsetPosition, rotation).GetComponent<Projectile>();
 
 		newProjectile.team = spawnData.team;
+
+		if(spawnData.onHit != null) { newProjectile._onHit = spawnData.onHit; }
 
 		if(spawnData.damage != null) { newProjectile._damage = spawnData.damage; }
 
@@ -141,7 +147,11 @@ public class Projectile : MonoBehaviour {
 	private void OnCollisionEnter2D(Collision2D collision) {
 		IHittable hittable = collision.gameObject.GetComponent<IHittable>();
 
-		if(hittable != null && hittable.GetTeam() != team) { hittable.Hit(_damage); }
+		if(hittable != null && hittable.GetTeam() != team) {
+			hittable.Hit(_damage);
+
+			_onHit.Invoke(_source.GetComponent<IHittable>(), hittable);
+		}
 
 		if(hittable != null && hittable.GetTeam() == team) { return; }
 
