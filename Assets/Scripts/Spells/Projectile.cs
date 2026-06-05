@@ -108,6 +108,8 @@ public class Projectile : MonoBehaviour {
 
 	private ProjectileMovement _projectileMovement;
 
+	private Damage _damage = new(0, Damage.Type.ARCANE);
+
 	public static Projectile Spawn(Vector2 spawnPosition, Vector2 spawnDirection, ProjectileData spawnData) {
 		GameObject projectilePrefab = AssetManager.Instance.projectilePrefab;
 
@@ -118,6 +120,8 @@ public class Projectile : MonoBehaviour {
 		Projectile newProjectile = Instantiate(projectilePrefab, offsetPosition, rotation).GetComponent<Projectile>();
 
 		newProjectile.team = spawnData.team;
+
+		if(spawnData.damage != null) { newProjectile._damage = spawnData.damage; }
 
 		newProjectile.GetComponent<SpriteRenderer>().sprite = SpriteManager.Instance.RetrieveSpellSprite(spawnData.spriteIndex);
 
@@ -132,6 +136,16 @@ public class Projectile : MonoBehaviour {
 		}
 
 		return newProjectile;
+	}
+
+	private void OnCollisionEnter2D(Collision2D collision) {
+		IHittable hittable = collision.gameObject.GetComponent<IHittable>();
+
+		if(hittable != null && hittable.GetTeam() != team) { hittable.Hit(_damage); }
+
+		if(hittable != null && hittable.GetTeam() == team) { return; }
+
+		Destroy(gameObject);
 	}
 
 	private void Update() {
