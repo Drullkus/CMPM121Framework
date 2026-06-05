@@ -11,6 +11,8 @@ public class ProjectileData {
 
 	public string trajectory = "straight";
 
+	public Damage damage;
+
 	public Action<IHittable, IHittable> onHit;
 
 	public Team team = Team.PLAYER;
@@ -52,6 +54,11 @@ public class ProjectileData {
 
 	public ProjectileData SetTrajectory(string trajectory) {
 		this.trajectory = trajectory;
+		return this;
+	}
+
+	public ProjectileData SetDamageAmount(string rpnDamageAmount) {
+		damage = new Damage((int)RPNEvaluator.RPNEvaluator.Evaluatef(rpnDamageAmount, _variableDictionary), Damage.Type.ARCANE);
 		return this;
 	}
 

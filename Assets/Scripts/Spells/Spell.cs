@@ -108,6 +108,10 @@ public class Spell {
 				projectileData.SetLifetime(lifetime.traitValue);
 			}
 
+			if(_traits.TryGetValue("damage.amount", out SpellTrait damageAmount)) {
+				projectileData.SetDamageAmount(damageAmount.traitValue);
+			}
+
 			Projectile.Spawn(spawnPosition, direction, projectileData);
 		}
 
