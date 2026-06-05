@@ -4,7 +4,7 @@ using System.Linq;
 
 public class SpellModifier {
     
-	private Dictionary<string, string> _traitModifications;
+	private Dictionary<string, string> _traitModifications = new();
 
 	public string name;
 	public string description;
