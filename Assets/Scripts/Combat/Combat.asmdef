@@ -2,7 +2,8 @@
     "name": "Combat",
     "rootNamespace": "",
     "references": [
-        "GUID:49655c21453611d099388e0f21954175"
+        "GUID:49655c21453611d099388e0f21954175",
+        "GUID:77f55ace9ee14a46dbefad5325a1cdae"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
