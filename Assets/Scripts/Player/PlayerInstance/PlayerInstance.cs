@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using System.Timers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(ManaBar))]
 public class PlayerInstance :
 	MonoBehaviour, IHittable
 {
@@ -11,12 +13,19 @@ public class PlayerInstance :
     private PlayerClassData _classData;
 
 	private HP _health;
+	private int _maxMana;
 	private int _mana;
 	private int _manaRegeneration;
 	private int _spellpower;
     private int _speed;
 
+	private ManaBar _manaBar;
+
+	private int _waveIndex;
+
 	private bool _movementBlocked = true;
+
+	private Timer _manaRegenTimer;
 
     void Start() {
 		PlayerClassManager.GetClasses((Dictionary<string, PlayerClassData> classData) => {
@@ -36,7 +45,13 @@ public class PlayerInstance :
 			_movement = Vector2.zero;
 		};
 
+		_manaRegenTimer = new(1000);
+		_manaRegenTimer.Elapsed += (_, _) => { ExecutionQueue.Instance.Enqueue(RestoreSomeMana); }; 
+		_manaRegenTimer.Enabled = true;
+
 		_health.OnExpended += Die;
+
+		_manaBar = GetComponent<ManaBar>();
 
 		UI.SpellBarManager spellBarManager = FindFirstObjectByType<UI.SpellBarManager>();
 		spellBarManager.AddSpell(SpellReader.Instance.randomSpellBase);
@@ -54,11 +69,13 @@ public class PlayerInstance :
 		_classData.CalculatePlayerStatsForWave(
 			waveIndex,
 			out int hpValue,
-			out _mana,
+			out _maxMana,
 			out _manaRegeneration,
 			out _spellpower,
 			out _speed
 		);
+
+		_mana = _maxMana;
 
 		_health = new(hpValue, GetComponent<HealthBar>());
 	}
@@ -80,8 +97,8 @@ public class PlayerInstance :
 
 		if(wrappedCost.Count > 0) {
 			Dictionary<string, int> castVariables = new() {
-				[ "power" ] = 100,
-				[ "wave" ] = 1,
+				[ "power" ] = _spellpower,
+				[ "wave" ] = _waveIndex,
 			};
 
 			string unevaluatedCost = wrappedCost[0].Item2.traitValue;
@@ -91,11 +108,16 @@ public class PlayerInstance :
 		if(manaCost > _mana) { return; }
 
 		_mana -= manaCost;
-		spellBarManager.activeSpell.Cast(gameObject, castDirection, Team.PLAYER, 100, 1);
+		spellBarManager.activeSpell.Cast(gameObject, castDirection, Team.PLAYER, _spellpower, 1);
+
+		_manaBar.SetMana((float)_mana / (float)_maxMana);
 	}
 
 	private void OnWaveChanged(int newWaveIndex, int _) {
+		_waveIndex = newWaveIndex;
 		SetStats(newWaveIndex);
+
+		RestoreAllMana();
 	}
 
 	public void OnMove(InputAction.CallbackContext context) {
@@ -113,6 +135,19 @@ public class PlayerInstance :
 		if(collisionCount > 0) { return; }
 
 		transform.Translate(direction);
+	}
+
+	private void RestoreSomeMana() {
+		_mana += _manaRegeneration;
+		if(_mana > _maxMana) { _mana = _maxMana; }
+
+		_manaBar.SetMana((float)_mana / (float)_maxMana);
+	}
+
+	private void RestoreAllMana() {
+		_mana = _maxMana;
+
+		_manaBar.SetMana(1.0f);
 	}
 
 	private void FixedUpdate() {
