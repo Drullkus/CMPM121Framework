@@ -83,5 +83,9 @@ public class WaveManager {
 		EventBus.Instance.EndWave();
 	}
 
+	public int getWave() {
+		return _waveIndex;
+	}
+
 }
 

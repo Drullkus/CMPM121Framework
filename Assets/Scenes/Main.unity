@@ -56976,6 +56976,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ee4baf3362a4412b4a6084cd1c0384e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UI::UI.SpellBarManager
+  _gameManager: {fileID: 1987132275}
   SpellSlots:
   - {fileID: 2085212183}
   - {fileID: 96316927}

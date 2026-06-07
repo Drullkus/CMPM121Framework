@@ -8,4 +8,8 @@ public class GameManager : MonoBehaviour {
 		_waveManager.Initialize();
 	}
 
+	public int getWave() {
+		return _waveManager.getWave();
+	}
+
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -6,6 +7,7 @@ using UnityEngine.UI;
 namespace UI {
     public class SpellBarManager : MonoBehaviour {
 
+        [SerializeField] private GameManager _gameManager;
         [SerializeField] private List<GameObject> SpellSlots;
         private int slotSelected = 0;
         private List<Spell> spells = new();
@@ -30,9 +32,39 @@ namespace UI {
             var spellSlotObj = SpellSlots[spells.Count - 1];
             spellSlotObj.SetActive(true);
             spellSlotObj.transform.Find("spellicon").GetComponent<Image>().sprite = SpriteManager.Instance.RetrieveSpellSprite(spell.icon);
-            // TODO spellSlotObj.transform.Find("manacost").GetComponent<TextMeshProUGUI>().text = "foo";
-            // TODO spellSlotObj.transform.Find("damage").GetComponent<TextMeshProUGUI>().text = "bar";
             spellSlotObj.transform.Find("drop").gameObject.SetActive(false);
+
+            if (spells.Count - 1 != slotSelected) {
+                spellSlotObj.transform.Find("highlight").gameObject.SetActive(false);
+            }
+
+            var spellTraits = spell.GetTraits(new List<string> {"damage.amount", "manaCost"});
+            
+            Debug.Log($"damage.amount: {spellTraits[0].Item2.traitValue}, manaCost: {spellTraits[1].Item2.traitValue}");
+
+            var waveVal = _gameManager.getWave();
+            var spellPowerVal = 100;
+
+            var damageVal = Math.Ceiling(RPNEvaluator.RPNEvaluator.Evaluatef(spellTraits[0].Item2.traitValue, new Dictionary<string, int>() { ["power"] = spellPowerVal, ["wave"] = waveVal }));
+            var manaVal = Math.Ceiling(RPNEvaluator.RPNEvaluator.Evaluatef(spellTraits[1].Item2.traitValue, new Dictionary<string, int>() { ["power"] = spellPowerVal, ["wave"] = waveVal }));
+
+            Debug.Log($"damageVal: {damageVal}, manaVal: {manaVal}");
+            
+            spellSlotObj.transform.Find("damage").GetComponent<TextMeshProUGUI>().text = $"{damageVal}";
+            spellSlotObj.transform.Find("manacost").GetComponent<TextMeshProUGUI>().text = $"{manaVal}";
+        }
+
+        public void ToggleSpellSlot() {
+            if (spells.Count <= 0) {
+                return;
+            }
+
+            int oldSelected = slotSelected;
+            slotSelected = (slotSelected + 1) % spells.Count;
+            int newSelected = slotSelected;
+            
+            SpellSlots[oldSelected].transform.Find("highlight").gameObject.SetActive(false);
+            SpellSlots[newSelected].transform.Find("highlight").gameObject.SetActive(true);
         }
 
     }
