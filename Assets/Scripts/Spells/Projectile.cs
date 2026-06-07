@@ -13,7 +13,7 @@ public class ProjectileData {
 
 	public Damage damage;
 
-	public Action<IHittable, IHittable> onHit;
+	public Action<IHittable, IHittable, Vector2> onHit;
 
 	public Team team = Team.PLAYER;
 
@@ -62,7 +62,7 @@ public class ProjectileData {
 		return this;
 	}
 
-	public ProjectileData SetOnHit(Action<IHittable, IHittable> onHit) {
+	public ProjectileData SetOnHit(Action<IHittable, IHittable, Vector2> onHit) {
 		this.onHit = onHit;
 		return this;
 	}
@@ -171,18 +171,18 @@ public class Projectile : MonoBehaviour {
 	private ProjectileTrajectory _trajectory = ProjectileTrajectory.STRAIGHT;
 	public Team team;
 
-	private Action<IHittable, IHittable> _onHit;
+	private Action<IHittable, IHittable, Vector2> _onHit;
 
 	private ProjectileMovement _projectileMovement;
 
 	private Damage _damage = new(0, Damage.Type.ARCANE);
 
-	public static Projectile Spawn(GameObject source, Vector2 spawnDirection, ProjectileData spawnData) {
+	public static Projectile Spawn(GameObject source, Vector2 spawnPosition, Vector2 spawnDirection, ProjectileData spawnData) {
 		GameObject projectilePrefab = AssetManager.Instance.projectilePrefab;
 
 		Quaternion rotation = Quaternion.Euler(0.0f, 0.0f, Mathf.Atan2(spawnDirection.y, spawnDirection.x) * Mathf.Rad2Deg);
 		
-		Vector2 offsetPosition = (Vector2)source.transform.position + spawnDirection * 1.5f;
+		Vector2 offsetPosition = spawnPosition + spawnDirection * 1.5f;
 
 		Projectile newProjectile = Instantiate(projectilePrefab, offsetPosition, rotation).GetComponent<Projectile>();
 
@@ -217,7 +217,9 @@ public class Projectile : MonoBehaviour {
 		if(hittable != null && hittable.GetTeam() != team) {
 			hittable.Hit(_damage);
 
-			_onHit?.Invoke(_source.GetComponent<IHittable>(), hittable);
+			_onHit?.Invoke(_source.GetComponent<IHittable>(), hittable, collision.contacts[0].point);
+		} else if(hittable == null) {
+			_onHit?.Invoke(_source.GetComponent<IHittable>(), null, collision.contacts[0].point);
 		}
 
 		if(hittable != null && hittable.GetTeam() == team) { return; }

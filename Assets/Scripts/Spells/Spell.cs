@@ -87,6 +87,26 @@ public class Spell {
 			);
 		}
 
+		ProjectileData projectileData = new ProjectileData()
+			.SetRPNDictionary(castVariables)
+			.SetTeam(team);
+
+		if(_traits.TryGetValue("projectile.trajectory", out SpellTrait trajectory)) {
+			projectileData.SetTrajectory(trajectory.traitValue);
+		}
+
+		if(_traits.TryGetValue("projectile.speed", out SpellTrait speed)) {
+			projectileData.SetSpeed(speed.traitValue);
+		}
+
+		if(_traits.TryGetValue("projectile.lifetime", out SpellTrait lifetime)) {
+			projectileData.SetLifetime(lifetime.traitValue);
+		}
+
+		if(_traits.TryGetValue("damage.amount", out SpellTrait damageAmount)) {
+			projectileData.SetDamageAmount(damageAmount.traitValue);
+		}
+
 		switch(_baseName) {
 			case "Arcane Bolt":
 				ArcaneBolt();
@@ -106,55 +126,51 @@ public class Spell {
 		return;
 
 		void ArcaneBolt() {
-			ProjectileData projectileData = new ProjectileData()
-				.SetRPNDictionary(castVariables)
-				.SetTeam(team);
-
-			if(_traits.TryGetValue("projectile.trajectory", out SpellTrait trajectory)) {
-				projectileData.SetTrajectory(trajectory.traitValue);
-			}
-
-			if(_traits.TryGetValue("projectile.speed", out SpellTrait speed)) {
-				projectileData.SetSpeed(speed.traitValue);
-			}
-
-			if(_traits.TryGetValue("projectile.lifetime", out SpellTrait lifetime)) {
-				projectileData.SetLifetime(lifetime.traitValue);
-			}
-
-			if(_traits.TryGetValue("damage.amount", out SpellTrait damageAmount)) {
-				projectileData.SetDamageAmount(damageAmount.traitValue);
-			}
-
-			Projectile.Spawn(source, direction, projectileData);
+			Projectile.Spawn(source, source.transform.position, direction, projectileData);
 		}
 
 		void MagicMissile() {
-			ProjectileData projectileData = new ProjectileData()
+			Projectile.Spawn(source, source.transform.position, direction, projectileData);
+		}
+
+		void ArcaneBlast() {
+			ProjectileData secondaryData = new ProjectileData()
 				.SetRPNDictionary(castVariables)
 				.SetTeam(team);
 
-			if(_traits.TryGetValue("projectile.trajectory", out SpellTrait trajectory)) {
-				projectileData.SetTrajectory(trajectory.traitValue);
+			if(_traits.TryGetValue("projectile.secondary.trajectory", out SpellTrait trajectory)) {
+				secondaryData.SetTrajectory(trajectory.traitValue);
+			}
+	
+			if(_traits.TryGetValue("projectile.secondary.speed", out SpellTrait speed)) {
+				secondaryData.SetSpeed(speed.traitValue);
+			}
+	
+			if(_traits.TryGetValue("projectile.secondary.lifetime", out SpellTrait lifetime)) {
+				secondaryData.SetLifetime(lifetime.traitValue);
+			}
+	
+			if(_traits.TryGetValue("damage.secondary.amount", out SpellTrait damageAmount)) {
+				secondaryData.SetDamageAmount(damageAmount.traitValue);
 			}
 
-			if(_traits.TryGetValue("projectile.speed", out SpellTrait speed)) {
-				projectileData.SetSpeed(speed.traitValue);
-			}
+			int n = (int)RPNEvaluator.RPNEvaluator.Evaluatef(_traits["n"].traitValue, castVariables);
 
-			if(_traits.TryGetValue("projectile.lifetime", out SpellTrait lifetime)) {
-				projectileData.SetSpeed(lifetime.traitValue);
-			}
+			projectileData.SetOnHit((_, _, coordinates) => {
+				for(int i = 0; i < n; i++) {
+					float angle = (float)i * 2.0f * Mathf.PI / (float)n;
 
-			if(_traits.TryGetValue("damage.amount", out SpellTrait damageAmount)) {
-				projectileData.SetSpeed(damageAmount.traitValue);
-			}
+					Projectile newProjectile = Projectile.Spawn(
+						source,
+						coordinates,
+						new(Mathf.Cos(angle), Mathf.Sin(angle)),
+						secondaryData
+					);
+				}
+			});
 
-			Projectile.Spawn(source, direction, projectileData);
+			Projectile.Spawn(source, source.transform.position, direction, projectileData);
 		}
-
-		// TODO
-		void ArcaneBlast() { }
 
 		// TODO
 		void ArcaneSpray() { }
