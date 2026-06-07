@@ -141,6 +141,8 @@ public class Spell {
 
 			if(_traits.TryGetValue("projectile.secondary.trajectory", out SpellTrait trajectory)) {
 				secondaryData.SetTrajectory(trajectory.traitValue);
+			} else if(_traits.TryGetValue("projectile.trajectory", out trajectory)) {
+				secondaryData.SetTrajectory(trajectory.traitValue);
 			}
 	
 			if(_traits.TryGetValue("projectile.secondary.speed", out SpellTrait speed)) {
