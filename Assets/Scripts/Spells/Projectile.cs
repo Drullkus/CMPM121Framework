@@ -219,6 +219,10 @@ public class Projectile : MonoBehaviour {
 
 			_onHit?.Invoke(_source.GetComponent<IHittable>(), hittable, collision.contacts[0].point);
 		} else if(hittable == null) {
+			if(collision.gameObject.GetComponent<Projectile>() != null) {
+				return;
+			}
+
 			_onHit?.Invoke(_source.GetComponent<IHittable>(), null, collision.contacts[0].point);
 		}
 
