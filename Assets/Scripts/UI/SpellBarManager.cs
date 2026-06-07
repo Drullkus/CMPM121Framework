@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace UI {
@@ -11,6 +12,12 @@ namespace UI {
         [SerializeField] private List<GameObject> SpellSlots;
         private int slotSelected = 0;
         private List<Spell> spells = new();
+
+		private void Awake() {
+			SceneManager.sceneLoaded += (_, _) => {
+				spells.Clear();
+			};
+		}
 
         public Spell activeSpell {
             get {
