@@ -100,6 +100,69 @@ public class ProjectileMovementStraight : ProjectileMovement {
 
 }
 
+public class ProjectileMovementHoming : ProjectileMovement {
+
+	public float speed = 1.0f;
+
+	private Team _team;
+	private Transform _target;
+
+	private const float _searchRadius = 4.0f;
+
+	public ProjectileMovementHoming SetSpeed(float speed) {
+		this.speed = speed;
+		return this;
+	}
+
+	public ProjectileMovementHoming SetTeam(Team team) {
+		_team = team;
+		return this;
+	}
+
+	public override void Move(Transform transform) {
+		if(_target == null) {
+			Collider2D[] collidersInRadius = Physics2D.OverlapCircleAll(transform.position, _searchRadius, Physics.AllLayers);
+
+			float lowestDistanceSquared = _searchRadius + 1.0f;
+			Transform candidate = null;
+
+			foreach(Collider2D collider in collidersInRadius) {
+				IHittable hittable = collider.GetComponent<IHittable>();
+
+				if(hittable == null) { continue; }
+				if(hittable.GetTeam() == _team) { continue; }
+
+				float distanceSquared = (transform.position - collider.transform.position).sqrMagnitude;
+				if(distanceSquared < lowestDistanceSquared) {
+					candidate = collider.transform;
+					lowestDistanceSquared = distanceSquared;
+				}
+			}
+
+			_target = candidate;
+		}
+
+		transform.Translate(speed * Time.deltaTime * Vector2.right);
+
+		if(_target == null) { return; }
+
+		Vector2 delta = _target.position - transform.position;
+		Vector2 direction = delta.normalized;
+
+		transform.rotation = Quaternion.AngleAxis(
+			Mathf.LerpAngle(
+				transform.rotation.z * Mathf.Rad2Deg,
+				Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg,
+				0.6f
+			),
+			Vector3.forward
+		);
+
+		if(delta.magnitude > 2.0f * _searchRadius) { _target = null; }
+	}
+
+}
+
 [RequireComponent(typeof(SpriteRenderer))]
 public class Projectile : MonoBehaviour {
     
@@ -123,6 +186,7 @@ public class Projectile : MonoBehaviour {
 
 		Projectile newProjectile = Instantiate(projectilePrefab, offsetPosition, rotation).GetComponent<Projectile>();
 
+		newProjectile._source = source;
 		newProjectile.team = spawnData.team;
 
 		if(spawnData.onHit != null) { newProjectile._onHit = spawnData.onHit; }
@@ -137,6 +201,9 @@ public class Projectile : MonoBehaviour {
 			case ProjectileTrajectory.STRAIGHT:
 				newProjectile._projectileMovement = new ProjectileMovementStraight().SetSpeed(spawnData.speed);
 				break;
+			case ProjectileTrajectory.HOMING:
+				newProjectile._projectileMovement = new ProjectileMovementHoming().SetSpeed(spawnData.speed);
+				break;
 			default:
 				break;
 		}
@@ -150,7 +217,7 @@ public class Projectile : MonoBehaviour {
 		if(hittable != null && hittable.GetTeam() != team) {
 			hittable.Hit(_damage);
 
-			_onHit.Invoke(_source.GetComponent<IHittable>(), hittable);
+			_onHit?.Invoke(_source.GetComponent<IHittable>(), hittable);
 		}
 
 		if(hittable != null && hittable.GetTeam() == team) { return; }

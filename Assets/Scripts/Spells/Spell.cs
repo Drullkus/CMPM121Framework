@@ -115,8 +115,29 @@ public class Spell {
 			Projectile.Spawn(source, direction, projectileData);
 		}
 
-		// TODO
-		void MagicMissile() { }
+		void MagicMissile() {
+			ProjectileData projectileData = new ProjectileData()
+				.SetRPNDictionary(castVariables)
+				.SetTeam(team);
+
+			if(_traits.TryGetValue("projectile.trajectory", out SpellTrait trajectory)) {
+				projectileData.SetTrajectory(trajectory.traitValue);
+			}
+
+			if(_traits.TryGetValue("projectile.speed", out SpellTrait speed)) {
+				projectileData.SetSpeed(speed.traitValue);
+			}
+
+			if(_traits.TryGetValue("projectile.lifetime", out SpellTrait lifetime)) {
+				projectileData.SetSpeed(lifetime.traitValue);
+			}
+
+			if(_traits.TryGetValue("damage.amount", out SpellTrait damageAmount)) {
+				projectileData.SetSpeed(damageAmount.traitValue);
+			}
+
+			Projectile.Spawn(source, direction, projectileData);
+		}
 
 		// TODO
 		void ArcaneBlast() { }
