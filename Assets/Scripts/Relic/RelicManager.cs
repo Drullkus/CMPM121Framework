@@ -42,7 +42,7 @@ namespace Relic {
             foreach (var relicData in relicDatas) {
                 RelicRegistry[relicData.Name] = relicData;
             }
-            Debug.Log($"Loaded {relicDatas.Count} Relics: {string.Join(", ", relicDatas.Select(d => d.Name))}");
+            // Debug.Log($"Loaded {relicDatas.Count} Relics: {string.Join(", ", relicDatas.Select(d => d.Name))}");
         }
         
         private void UnloadRelics() {
