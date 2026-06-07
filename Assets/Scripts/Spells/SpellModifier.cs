@@ -22,6 +22,11 @@ public class SpellModifier {
 		spell.name = $"{name} {spell.name}";
 		spell.description = $"{spell.description}\n{name}: {description}";
 
+		if(name.ToLower() == "recoil") {
+			spell.AddTrait("recoil.knockbackTimer", new(SpellTraitType.RPN_FLOAT, ""));
+			spell.AddTrait("recoil.knockbackForce", new(SpellTraitType.RPN_FLOAT, ""));
+		}
+
 		foreach(
 			(string traitName, SpellTrait trait) in
 			spell.GetTraits(_traitModifications.Keys.ToList())
