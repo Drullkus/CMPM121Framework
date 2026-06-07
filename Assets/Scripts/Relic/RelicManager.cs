@@ -37,12 +37,14 @@ namespace Relic {
         }
 
         private void LoadRelics() {
-            var relicsJsonAsset = Resources.Load<TextAsset>("relics");
-            var relicDatas = JsonConvert.DeserializeObject<List<RelicData>>(relicsJsonAsset.text);
+            AssetManager.Instance.Deserialize<List<RelicData>>("relics", PutRelics);
+        }
+
+        private void PutRelics(List<RelicData> relicDatas) {
+            Debug.Log($"Loaded {relicDatas.Count} Relics: {string.Join(", ", relicDatas.Select(d => d.Name))}");
             foreach (var relicData in relicDatas) {
                 RelicRegistry[relicData.Name] = relicData;
             }
-            // Debug.Log($"Loaded {relicDatas.Count} Relics: {string.Join(", ", relicDatas.Select(d => d.Name))}");
         }
         
         private void UnloadRelics() {
