@@ -13,10 +13,9 @@ public class SpellBuilder {
 	public Spell GenerateSpell() {
 		Spell spell = SpellReader.Instance.randomSpellBase;
 
-		SpellModifier recoil = SpellReader.Instance.getSpellModifierFactory("recoil").Invoke();
-		// SpellModifier modifier = SpellReader.Instance.randomSpellModifier;
+		SpellModifier modifier = SpellReader.Instance.randomSpellModifier;
 
-		return recoil.ModifySpell(spell);
+		return modifier.ModifySpell(spell);
 	}
     
 }
