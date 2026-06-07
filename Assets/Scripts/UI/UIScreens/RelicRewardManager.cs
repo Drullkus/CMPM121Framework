@@ -10,14 +10,12 @@ namespace UI.UIScreens {
         [SerializeField] private GameObject relic2;
         [SerializeField] private GameObject relic3;
 
+        [SerializeField] private RelicBarManager relicBar;
+
         public void RollRelics() {
-			relic1.SetActive(false);
-			relic2.SetActive(false);
-			relic3.SetActive(false);
+			HideRelicButtons();
 
-			Debug.Log("Rolling relics");
-
-			List<RelicData> randomRelics = RelicManager.Instance.GetRandomRelicOptions(new HashSet<string>());
+			List<RelicData> randomRelics = RelicManager.Instance.GetRandomRelicOptions(relicBar.claimedRelics);
 
 			if(randomRelics.Count > 0) {
 				BindRelicInfo(relic1, randomRelics[0]);
@@ -34,6 +32,17 @@ namespace UI.UIScreens {
 			relicButton.SetActive(true);
 			relicButton.GetComponentInChildren<TextMeshProUGUI>().text = $"{relic.Name}\n{relic.Trigger.Description}\n{relic.Effect.Description}";
 			relicButton.GetComponentInChildren<Image>().sprite = SpriteManager.Instance.RetrieveRelicSprite(relic.Sprite);
+			relicButton.GetComponentInChildren<Button>().onClick.RemoveAllListeners();
+			relicButton.GetComponentInChildren<Button>().onClick.AddListener(() => {
+				HideRelicButtons();
+				relicBar.AddRelic(relic);
+			});
+		}
+
+		private void HideRelicButtons() {
+			relic1.SetActive(false);
+			relic2.SetActive(false);
+			relic3.SetActive(false);
 		}
     }
 }

@@ -4260,6 +4260,7 @@ GameObject:
   - component: {fileID: 1202924359}
   - component: {fileID: 1202924361}
   - component: {fileID: 1202924360}
+  - component: {fileID: 1202924362}
   m_Layer: 5
   m_Name: RelicUI
   m_TagString: Untagged
@@ -4324,6 +4325,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1202924358}
   m_CullTransparentMesh: 1
+--- !u!114 &1202924362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1202924358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7644683698d04656871425562e193455, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UI::UI.RelicBarManager
+  relicSlotPrefab: {fileID: 4768719596465049812, guid: 7c979a0e67b484b958e1a55bc39a2f7d, type: 3}
 --- !u!1 &1218915916
 GameObject:
   m_ObjectHideFlags: 0
@@ -57903,6 +57917,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RelicRewards
       objectReference: {fileID: 0}
+    - target: {fileID: 7652758384300030917, guid: 72b06504c62b0421e922018752b27e34, type: 3}
+      propertyPath: relicBar
+      value: 
+      objectReference: {fileID: 1202924362}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
