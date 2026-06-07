@@ -65,7 +65,8 @@ public class PlayerInstance :
 		_manaBar = GetComponent<ManaBar>();
 
 		UI.SpellBarManager spellBarManager = FindFirstObjectByType<UI.SpellBarManager>();
-		spellBarManager.AddSpell(SpellReader.Instance.randomSpellBase);
+
+		spellBarManager.AddSpell(SpellBuilder.Instance.GenerateSpell());
 	}
 
     void Awake() {

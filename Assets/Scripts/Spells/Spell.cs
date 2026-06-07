@@ -73,6 +73,18 @@ public class Spell {
 			[ "wave" ] = wave,
 		};
 
+		if(_traits.TryGetValue("recoil.knockbackTimer", out SpellTrait timer)
+			&& _traits.TryGetValue("recoil.knockbackForce", out SpellTrait force)
+		) {
+			EventBus.Instance.InvokeRecoil(
+				source,
+				RPNEvaluator.RPNEvaluator.Evaluatef(timer.traitValue, castVariables),
+				RPNEvaluator.RPNEvaluator.Evaluatef(force.traitValue, castVariables)
+			);
+
+			Debug.Log("recoil invoked!");
+		}
+
 		switch(name) {
 			case "Arcane Bolt":
 				ArcaneBolt();
