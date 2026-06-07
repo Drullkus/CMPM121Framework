@@ -19,6 +19,9 @@ public class SpellModifier {
 	}
 
 	public Spell ModifySpell(Spell spell) {
+		spell.name = $"{name} {spell.name}";
+		spell.description = $"{spell.description}\n{name}: {description}";
+
 		foreach(
 			(string traitName, SpellTrait trait) in
 			spell.GetTraits(_traitModifications.Keys.ToList())
