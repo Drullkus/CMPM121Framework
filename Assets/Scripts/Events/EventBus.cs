@@ -105,5 +105,40 @@ public class EventBus {
 	public void InvokeDebugMessage(string s) {
 		Debug.Log(s);
 	}
+	
+	public event Action GameStarted;
+	public void DoGameStarted() {
+		GameStarted?.Invoke();
+	}
+    
+	public event Action GameStopped;
+	public void DoGameStopped() {
+		GameStopped?.Invoke();
+	}
+	
+	public event Action<GameObject> OnTakeHit;
+	public void DoOnTakeHit(GameObject dying) {
+		OnTakeHit?.Invoke(dying);
+	}
+	
+	public event Action<GameObject> MovementStarted;
+	public void DoMovementStarted(GameObject unit) {
+		MovementStarted?.Invoke(unit);
+	}
+    
+	public event Action<GameObject> MovementStopped;
+	public void DoMovementStopped(GameObject unit) {
+		MovementStopped?.Invoke(unit);
+	}
+    
+	public event Action<GameObject> OnKill;
+	public void DoOnKill(GameObject killer) {
+		OnKill?.Invoke(killer);
+	}
+    
+	public event Action<GameObject> OnDeath;
+	public void DoOnDeath(GameObject dying) {
+		OnDeath?.Invoke(dying);
+	}
 
 }

@@ -1,0 +1,16 @@
+{
+    "name": "Relic",
+    "rootNamespace": "",
+    "references": [
+        "GUID:cac2b8cda57893a1da15521c3850f3a3"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
