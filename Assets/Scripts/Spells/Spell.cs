@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Collections.Generic;
 using System.Linq;
+using System.Timers;
 using System.Runtime.Serialization;
 using UnityEngine;
 
@@ -172,8 +173,23 @@ public class Spell {
 			Projectile.Spawn(source, source.transform.position, direction, projectileData);
 		}
 
-		// TODO
-		void ArcaneSpray() { }
+		void ArcaneSpray() {
+			int n = (int)RPNEvaluator.RPNEvaluator.Evaluatef(_traits["n"].traitValue, castVariables);
+			float delay = RPNEvaluator.RPNEvaluator.Evaluatef(_traits["spray"].traitValue, castVariables);
+
+			for(int i = 1; i < n; i++) {
+				Timer timer = new(delay * 1000.0f);
+				timer.Elapsed += (_, _) => {
+					ExecutionQueue.Instance.Enqueue(() => {
+						Projectile.Spawn(source, source.transform.position, direction, projectileData);
+					});
+				};
+				timer.AutoReset = false;
+				timer.Enabled = true;
+			}
+
+			Projectile.Spawn(source, source.transform.position, direction, projectileData);
+		}
 	}
 
 }
