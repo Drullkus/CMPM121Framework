@@ -16,14 +16,13 @@ public class GiveSpellReward : MonoBehaviour {
 
     public void RollOption() {
         deactivatedUponClick.SetActive(true);
-        _spell = _spellBuilder.GenerateSpell(out string modifierInfo);
+        _spell = _spellBuilder.GenerateSpell();
 
         var image = gameObject.GetComponentsInChildren<Image>().FirstOrDefault(c => c.gameObject != gameObject);
         image.sprite = SpriteManager.Instance.RetrieveSpellSprite(_spell.icon);
         
         var textMesh = gameObject.GetComponentInChildren<TextMeshProUGUI>();
         textMesh.text = $"{_spell.name}\n{_spell.description}"; // TODO add more info, like modifiers
-        textMesh.text += $"\n{modifierInfo}";
     }
 
     public void OnClick() {
