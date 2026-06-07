@@ -66,6 +66,11 @@ public class EventBus {
 		OnPlayerShoot?.Invoke();
 	}
 
+	public event Action<GameObject, float, float> OnRecoil;
+	public void InvokeRecoil(GameObject source, float timer, float force) {
+		OnRecoil?.Invoke(source, timer, force);
+	}
+
 	public event Action OnEnemyHit;
 	public void InvokeEnemyHit() {
 		OnEnemyHit?.Invoke();
