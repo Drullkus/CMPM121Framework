@@ -72,6 +72,10 @@ public class JsonSpellData {
 	public string projectileTrajectory;
 	[JsonProperty("mana_adder")]
 	public string manaAdder;
+	[JsonProperty("knockback_timer")]
+	public string recoilKnockbackTimer;
+	[JsonProperty("knockback_force")]
+	public string recoilKnockbackForce;
 
 }
 
@@ -186,6 +190,8 @@ public class SpellReader {
 		if(spellModifierPrototype.angle != null) { traits.Add(("angle", new(SpellTraitType.RPN_FLOAT, spellModifierPrototype.angle))); }
 		if(spellModifierPrototype.projectileTrajectory != null)  { traits.Add(("projectile.trajectory", new(SpellTraitType.TRAJECTORY, spellModifierPrototype.projectileTrajectory))); }
 		if(spellModifierPrototype.manaAdder != null) { traits.Add(("manaAdder", new(SpellTraitType.RPN_FLOAT, "{0} " + spellModifierPrototype.manaAdder + " +"))); }
+		if(spellModifierPrototype.recoilKnockbackTimer != null) { traits.Add(("recoil.knockbackTimer", new(SpellTraitType.RPN_FLOAT, spellModifierPrototype.recoilKnockbackTimer))); }
+		if(spellModifierPrototype.recoilKnockbackForce != null) { traits.Add(("recoil.knockbackForce", new(SpellTraitType.RPN_FLOAT, spellModifierPrototype.recoilKnockbackForce))); }
 
 		foreach((string key, SpellTrait trait) in traits) {
 			newSpellModifier.AddModifier(key, trait.traitValue);
