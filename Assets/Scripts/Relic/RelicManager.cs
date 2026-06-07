@@ -21,7 +21,7 @@ namespace Relic {
                 _theInstance = new RelicManager();
                 _theInstance.InitializeTypes();
                 EventBus.Instance.GameStarted += _theInstance.LoadRelics;
-                EventBus.Instance.GameStopped += _theInstance.UnloadRelics;
+                EventBus.Instance.OnPlayerDeath += _theInstance.UnloadRelics;
                 
                 return _theInstance;
             }
