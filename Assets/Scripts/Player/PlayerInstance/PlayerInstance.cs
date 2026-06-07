@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Timers;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
+using UI;
 
 [RequireComponent(typeof(ManaBar))]
 public class PlayerInstance :
@@ -26,6 +28,15 @@ public class PlayerInstance :
 	private bool _movementBlocked = true;
 
 	private Timer _manaRegenTimer;
+	
+	[SerializeField] private SpellBarManager _spellBarManager;
+	[SerializeField] private InputActionAsset playerControls;
+
+	private InputAction toggleSpell;
+	private InputAction spell1;
+	private InputAction spell2;
+	private InputAction spell3;
+	private InputAction spell4;
 
     void Start() {
 		PlayerClassManager.GetClasses((Dictionary<string, PlayerClassData> classData) => {
@@ -56,6 +67,24 @@ public class PlayerInstance :
 		UI.SpellBarManager spellBarManager = FindFirstObjectByType<UI.SpellBarManager>();
 		spellBarManager.AddSpell(SpellReader.Instance.randomSpellBase);
 	}
+
+    void Awake() {
+	    InputActionMap mapReference = playerControls.FindActionMap("Player");
+	    
+	    toggleSpell = mapReference.FindAction("ChangeSpell");
+	    spell1 = mapReference.FindAction("Spell1");
+	    spell2 = mapReference.FindAction("Spell2");
+	    spell3 = mapReference.FindAction("Spell3");
+	    spell4 = mapReference.FindAction("Spell4");
+
+	    toggleSpell.performed += OnToggleSpell;
+	    spell1.performed += OnSelectSpell;
+	    spell2.performed += OnSelectSpell;
+	    spell3.performed += OnSelectSpell;
+	    spell4.performed += OnSelectSpell;
+	    
+	    playerControls.FindActionMap("Player").Enable();
+    }
 
 	public Team GetTeam() {
 		return Team.PLAYER;
@@ -135,6 +164,26 @@ public class PlayerInstance :
 		if(collisionCount > 0) { return; }
 
 		transform.Translate(direction);
+	}
+
+	public void OnToggleSpell(InputAction.CallbackContext context) {
+		if (context.performed && context.control is KeyControl keyControl && keyControl.keyCode == Key.Tab) {
+			_spellBarManager.ToggleSpellSlot();
+		}
+	}
+
+	public void OnSelectSpell(InputAction.CallbackContext context) {
+		if (context.performed && context.control is KeyControl keyControl) {
+			if (keyControl.keyCode == Key.Digit1) {
+				_spellBarManager.ChooseSpell(1);
+			} else if (keyControl.keyCode == Key.Digit2) {
+				_spellBarManager.ChooseSpell(2);
+			} else if (keyControl.keyCode == Key.Digit3) {
+				_spellBarManager.ChooseSpell(3);
+			} else if (keyControl.keyCode == Key.Digit4) {
+				_spellBarManager.ChooseSpell(4);
+			}
+		}
 	}
 
 	private void RestoreSomeMana() {

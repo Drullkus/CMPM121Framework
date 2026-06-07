@@ -59,12 +59,23 @@ namespace UI {
                 return;
             }
 
+            SetSlot(slotSelected + 1);
+        }
+
+        public void ChooseSpell(int numKeyPressed) {
+            if (numKeyPressed > spells.Count) {
+                return;
+            }
+
+            SetSlot(numKeyPressed - 1);
+        }
+
+        private void SetSlot(int newSelected) {
             int oldSelected = slotSelected;
-            slotSelected = (slotSelected + 1) % spells.Count;
-            int newSelected = slotSelected;
+            slotSelected = newSelected % spells.Count;
             
             SpellSlots[oldSelected].transform.Find("highlight").gameObject.SetActive(false);
-            SpellSlots[newSelected].transform.Find("highlight").gameObject.SetActive(true);
+            SpellSlots[slotSelected].transform.Find("highlight").gameObject.SetActive(true);
         }
 
     }

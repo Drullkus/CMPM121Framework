@@ -6478,6 +6478,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 9caa3d8a-6b2f-4e8e-8bad-6ede561bd9be
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e5ddd9f8-8c00-4dc7-96c3-be5a34844d87
+    m_ActionName: 'Player/Spell1[/Keyboard/1]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ae91224e-401a-4438-b160-e90b53187fb5
+    m_ActionName: 'Player/Spell2[/Keyboard/2]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 72c12c48-c773-45e0-b64d-cc5b97cbd426
+    m_ActionName: 'Player/Spell3[/Keyboard/3]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 65386ad9-5c7d-4d07-890a-7da093b57b9f
+    m_ActionName: 'Player/Spell4[/Keyboard/4]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -6495,6 +6511,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4ef5265fce1b544c872205988919fb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spellBarManager: {fileID: 1982188287}
+  playerControls: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
 --- !u!4 &1718273953
 Transform:
   m_ObjectHideFlags: 0
