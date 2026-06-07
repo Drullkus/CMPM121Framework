@@ -6,6 +6,7 @@ using UnityEngine.InputSystem.Controls;
 using UI;
 
 [RequireComponent(typeof(ManaBar))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerInstance :
 	MonoBehaviour, IHittable
 {
@@ -44,6 +45,7 @@ public class PlayerInstance :
 			SetStats(0);
 		});
 
+		EventBus.Instance.OnRecoil += HandleRecoil;
 		EventBus.Instance.OnWaveStarted += OnWaveChanged;
 
 		EventBus.Instance.OnCountdownStarted += () => { _movementBlocked = false; };
@@ -108,6 +110,26 @@ public class PlayerInstance :
 		_mana = _maxMana;
 
 		_health = new(hpValue, GetComponent<HealthBar>());
+	}
+
+	public void HandleRecoil(GameObject source, float timer, float force) {
+		if(source != gameObject) { return; }
+
+		Vector2 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.value);
+		Vector2 recoilDirection = (-mouseWorldPosition + (Vector2)transform.position).normalized;
+
+		_movementBlocked = true;
+		GetComponent<Rigidbody2D>().AddForce(recoilDirection * force);
+
+		Timer restoreSpeedTimer = new(timer);
+		restoreSpeedTimer.Elapsed += (_, _) => {
+			// this is not a very good way to do this. what if something
+			// tries to unset `_movementBlocked` while recoil is being
+			// applied?
+			ExecutionQueue.Instance.Enqueue(() => { _movementBlocked = false; });
+		};
+		restoreSpeedTimer.AutoReset = false;
+		restoreSpeedTimer.Enabled = true;
 	}
 
 	public void OnAttack(InputAction.CallbackContext context) {
