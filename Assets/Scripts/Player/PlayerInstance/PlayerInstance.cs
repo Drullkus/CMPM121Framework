@@ -135,6 +135,8 @@ public class PlayerInstance :
 	public void OnAttack(InputAction.CallbackContext context) {
 		if(Mouse.current.leftButton.wasPressedThisFrame) { return; }
 
+		if(_movementBlocked) { return; }
+
 		EventBus.Instance.InvokePlayerShoot();
 
 		Vector2 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.value);
@@ -212,6 +214,8 @@ public class PlayerInstance :
 	private void RestoreSomeMana() {
 		_mana += _manaRegeneration;
 		if(_mana > _maxMana) { _mana = _maxMana; }
+
+		if(_manaBar == null) { return; }
 
 		_manaBar.SetMana((float)_mana / (float)_maxMana);
 	}
