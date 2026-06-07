@@ -81,8 +81,6 @@ public class Spell {
 				RPNEvaluator.RPNEvaluator.Evaluatef(timer.traitValue, castVariables),
 				RPNEvaluator.RPNEvaluator.Evaluatef(force.traitValue, castVariables)
 			);
-
-			Debug.Log("recoil invoked!");
 		}
 
 		switch(name) {
