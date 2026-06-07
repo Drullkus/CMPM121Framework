@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UI.UIScreens;
 
 public class Reward : MonoBehaviour {
 
@@ -14,6 +15,8 @@ public class Reward : MonoBehaviour {
 
 	[SerializeField]
 	private GameObject _spellRewardButton;
+
+	[SerializeField] private RelicRewardManager _relicRewards;
 
 	private void Start() {
 		UIScreen uiScreen = new(
@@ -44,6 +47,7 @@ public class Reward : MonoBehaviour {
 		}
 
 		_spellRewardButton.GetComponent<GiveSpellReward>().RollOption();
+		_relicRewards.RollRelics();
 
 		gameObject.SetActive(true);
 	}

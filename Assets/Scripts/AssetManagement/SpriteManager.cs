@@ -11,7 +11,7 @@ public class SpriteManager {
 
 				AssetManager.Instance.LoadSprites("enemy_sprites", _instance.RegisterEnemySprites);
 				AssetManager.Instance.LoadSprites("enemy_sprites", _instance.RegisterPlayerSprites);
-				AssetManager.Instance.LoadSprites("relic_sprites", _instance.RegisterRelicSprites);
+				AssetManager.Instance.LoadSprites("spell_sprites", _instance.RegisterRelicSprites);
 				AssetManager.Instance.LoadSprites("spell_sprites", _instance.RegisterSpellSprites);
 			}
 
@@ -48,6 +48,16 @@ public class SpriteManager {
 		109,
 	};
 
+	private static int[] _relicSpriteSheetIndices = {
+		823,
+		865,
+		1879,
+		1896,
+		2388,
+		2343,
+		828
+	};
+
 	private Sprite[] _enemySprites;
 	private Sprite[] _playerSprites;
 	private Sprite[] _relicSprites;
@@ -67,7 +77,12 @@ public class SpriteManager {
 	}
 
 	private void RegisterRelicSprites(Sprite[] sprites) {
-		_relicSprites = sprites;
+		List<Sprite> selectedSprites = new();
+		foreach(int index in (_relicSpriteSheetIndices)) {
+			selectedSprites.Add(sprites[index]);
+		}
+
+		_relicSprites = selectedSprites.ToArray();
 	}
 
 	private void RegisterSpellSprites(Sprite[] sprites) {

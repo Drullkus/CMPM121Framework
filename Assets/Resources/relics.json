@@ -56,7 +56,7 @@
     },
     {
         "name": "Cheese Shield",
-        "sprite": 18,
+        "sprite": 4,
         "trigger": {
             "description": "When you take damage",
             "type": "take-damage"
@@ -69,7 +69,7 @@
     },
     {
         "name": "Healer's Gauntlet",
-        "sprite": 19,
+        "sprite": 5,
         "trigger": {
             "description": "When you cast spell",
             "type": "cast-spell"
@@ -82,7 +82,7 @@
     },
     {
         "name": "Quickscope",
-        "sprite": 20,
+        "sprite": 6,
         "trigger": {
             "description": "When a new wave begins",
             "type": "new-wave"
