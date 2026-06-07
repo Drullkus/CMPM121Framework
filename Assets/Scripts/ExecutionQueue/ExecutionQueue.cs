@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ExecutionQueue : MonoBehaviour {
 
@@ -13,6 +14,11 @@ public class ExecutionQueue : MonoBehaviour {
 	private void Awake() {
 		if(Instance != null) {
 			if(Instance != this) { Destroy(gameObject); }
+
+			SceneManager.sceneLoaded += (_, _) => {
+				_queue.Clear();
+			};
+
 			return;
 		}
 
