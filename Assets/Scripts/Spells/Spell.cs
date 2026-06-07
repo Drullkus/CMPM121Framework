@@ -40,12 +40,16 @@ public class Spell {
 	public string description;
 	public int icon;
 
+	private readonly string _baseName;
+
 	private Dictionary<string, SpellTrait> _traits = new();
 
 	public Spell(string name, string description, int icon) {
 		this.name = name;
 		this.description = description;
 		this.icon = icon;
+
+		_baseName = name;
 	}
 
 	public void AddTrait(string traitName, SpellTrait trait) {
@@ -83,7 +87,7 @@ public class Spell {
 			);
 		}
 
-		switch(name) {
+		switch(_baseName) {
 			case "Arcane Bolt":
 				ArcaneBolt();
 				break;
