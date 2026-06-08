@@ -113,7 +113,7 @@ public class Spell {
 
 			Timer secondCastTimer = new(delay * 1000.0f);
 			secondCastTimer.Elapsed += (_, _) => {
-				ExecutionQueue.Instance.Enqueue(_Cast);
+				ExecutionQueue.Instance.Enqueue(() => { _Cast(direction); });
 			};
 			secondCastTimer.AutoReset = false;
 			secondCastTimer.Enabled = true;
