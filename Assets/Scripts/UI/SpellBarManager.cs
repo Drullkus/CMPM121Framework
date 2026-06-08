@@ -53,8 +53,6 @@ namespace UI {
             var damageVal = Math.Ceiling(RPNEvaluator.RPNEvaluator.Evaluatef(spellTraits[0].Item2.traitValue, new Dictionary<string, int>() { ["power"] = spellPowerVal, ["wave"] = waveVal }));
             var manaVal = Math.Ceiling(RPNEvaluator.RPNEvaluator.Evaluatef(spellTraits[1].Item2.traitValue, new Dictionary<string, int>() { ["power"] = spellPowerVal, ["wave"] = waveVal }));
 
-            Debug.Log($"damageVal: {damageVal}, manaVal: {manaVal}");
-            
             spellSlotObj.transform.Find("damage").GetComponent<TextMeshProUGUI>().text = $"{damageVal}";
             spellSlotObj.transform.Find("manacost").GetComponent<TextMeshProUGUI>().text = $"{manaVal}";
         }

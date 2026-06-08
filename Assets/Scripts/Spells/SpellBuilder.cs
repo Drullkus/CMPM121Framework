@@ -16,8 +16,8 @@ public class SpellBuilder {
 		// SpellModifier modifier = SpellReader.Instance.randomSpellModifier;
 
 		// return modifier.ModifySpell(spell);
-		SpellModifier doubler = SpellReader.Instance.getSpellModifierFactory("doubler").Invoke();
-		return doubler.ModifySpell(spell);
+		SpellModifier splitter = SpellReader.Instance.getSpellModifierFactory("splitter").Invoke();
+		return splitter.ModifySpell(spell);
 	}
     
 }

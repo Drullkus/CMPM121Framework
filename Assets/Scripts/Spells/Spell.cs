@@ -122,8 +122,8 @@ public class Spell {
 		if(_traits.TryGetValue("splitter.angle", out SpellTrait splitterAngle)) {
 			float angle = RPNEvaluator.RPNEvaluator.Evaluatef(splitterAngle.traitValue, castVariables) / 2.0f;
 
-			float leftAngle = Mathf.Atan2(direction.y, direction.x) + angle;
-			float rightAngle = Mathf.Atan2(direction.y, direction.x) - angle;
+			float leftAngle = Mathf.Atan2(direction.y, direction.x) + (angle * Mathf.Deg2Rad);
+			float rightAngle = Mathf.Atan2(direction.y, direction.x) - (angle * Mathf.Deg2Rad);
 
 			Vector2 leftDirection = new(Mathf.Cos(leftAngle), Mathf.Sin(leftAngle));
 			Vector2 rightDirection = new(Mathf.Cos(rightAngle), Mathf.Sin(rightAngle));
