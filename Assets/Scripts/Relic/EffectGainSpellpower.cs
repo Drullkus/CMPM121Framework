@@ -7,6 +7,8 @@ namespace Relic.RelicEffect {
 
         public GainSpellpowerEffect(RelicEffectData relicEffectData) {
             _relicEffectData = relicEffectData;
+            
+            gainAmount = relicEffectData.Amount;
 
             if (relicEffectData.Until != null && relicEffectData.Until != "") {
                 RelicManager.Instance.GetEvent(relicEffectData.Until).Invoke(this.RemoveEffect);
