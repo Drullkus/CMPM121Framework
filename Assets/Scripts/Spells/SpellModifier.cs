@@ -28,6 +28,10 @@ public class SpellModifier {
 			spell.AddTrait("recoil.knockbackForce", new(SpellTraitType.RPN_FLOAT, ""));
 		}
 
+		if(name.ToLower() == "doubled") {
+			spell.AddTrait("doubler.delay", new(SpellTraitType.RPN_FLOAT, ""));
+		}
+
 		foreach(
 			(string traitName, SpellTrait trait) in
 			spell.GetTraits(_traitModifications.Keys.ToList())

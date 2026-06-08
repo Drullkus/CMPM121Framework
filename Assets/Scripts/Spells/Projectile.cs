@@ -220,9 +220,6 @@ public class Projectile : MonoBehaviour {
 		newProjectile.GetComponent<SpriteRenderer>().sprite = SpriteManager.Instance.RetrieveSpellSprite(spawnData.spriteIndex);
 
 		switch(spawnData.trajectory) {
-			case "straight":
-				newProjectile._projectileMovement = new ProjectileMovementStraight().SetSpeed(spawnData.speed);
-				break;
 			case "homing":
 				newProjectile._projectileMovement = new ProjectileMovementHoming().SetSpeed(spawnData.speed);
 
@@ -232,25 +229,26 @@ public class Projectile : MonoBehaviour {
 
 				break;
 			default:
+				newProjectile._projectileMovement = new ProjectileMovementStraight().SetSpeed(spawnData.speed);
 				break;
 		}
 
 		return newProjectile;
 	}
 
-	private void OnCollisionEnter2D(Collision2D collision) {
-		IHittable hittable = collision.gameObject.GetComponent<IHittable>();
+	private void OnTriggerEnter2D(Collider2D collider) {
+		IHittable hittable = collider.gameObject.GetComponent<IHittable>();
 
 		if(hittable != null && hittable.GetTeam() != team) {
 			hittable.Hit(_damage);
 
-			_onHit?.Invoke(_source.GetComponent<IHittable>(), hittable, collision.contacts[0].point);
+			_onHit?.Invoke(_source.GetComponent<IHittable>(), hittable, transform.position);
 		} else if(hittable == null) {
-			if(collision.gameObject.GetComponent<Projectile>() != null) {
+			if(collider.gameObject.GetComponent<Projectile>() != null) {
 				return;
 			}
 
-			_onHit?.Invoke(_source.GetComponent<IHittable>(), null, collision.contacts[0].point);
+			_onHit?.Invoke(_source.GetComponent<IHittable>(), null, transform.position);
 		}
 
 		if(hittable != null && hittable.GetTeam() == team) { return; }

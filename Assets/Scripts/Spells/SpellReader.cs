@@ -168,7 +168,6 @@ public class SpellReader {
 
 		if(spellBasePrototype.cooldown!= null) { traits.Add(("cooldown", new(SpellTraitType.RPN_FLOAT, spellBasePrototype.cooldown))); }
 		if(spellBasePrototype.manaCost!= null) { traits.Add(("manaCost", new(SpellTraitType.RPN_FLOAT, spellBasePrototype.manaCost))); }
-		if(spellBasePrototype.delay!= null) { traits.Add(("delay", new(SpellTraitType.RPN_FLOAT, spellBasePrototype.delay))); }
 		if(spellBasePrototype.n!= null) { traits.Add(("n", new(SpellTraitType.RPN_FLOAT, spellBasePrototype.n))); }
 		if(spellBasePrototype.spray!= null) { traits.Add(("spray", new(SpellTraitType.RPN_FLOAT, spellBasePrototype.spray))); }
 
@@ -192,6 +191,7 @@ public class SpellReader {
 		if(spellModifierPrototype.manaAdder != null) { traits.Add(("manaAdder", new(SpellTraitType.RPN_FLOAT, "{0} " + spellModifierPrototype.manaAdder + " +"))); }
 		if(spellModifierPrototype.recoilKnockbackTimer != null) { traits.Add(("recoil.knockbackTimer", new(SpellTraitType.RPN_FLOAT, spellModifierPrototype.recoilKnockbackTimer))); }
 		if(spellModifierPrototype.recoilKnockbackForce != null) { traits.Add(("recoil.knockbackForce", new(SpellTraitType.RPN_FLOAT, spellModifierPrototype.recoilKnockbackForce))); }
+		if(spellModifierPrototype.delay != null) { traits.Add(("doubler.delay", new(SpellTraitType.RPN_FLOAT, spellModifierPrototype.delay))); }
 
 		foreach((string key, SpellTrait trait) in traits) {
 			newSpellModifier.AddModifier(key, trait.traitValue);

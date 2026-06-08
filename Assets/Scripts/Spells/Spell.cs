@@ -108,23 +108,41 @@ public class Spell {
 			projectileData.SetDamageAmount(damageAmount.traitValue);
 		}
 
-		switch(_baseName) {
-			case "Arcane Bolt":
-				ArcaneBolt();
-				break;
-			case "Magic Missile":
-				MagicMissile();
-				break;
-			case "Arcane Blast":
-				ArcaneBlast();
-				break;
-			case "Arcane Spray":
-				ArcaneSpray();
-				break;
-			default: break;
+		if(_traits.TryGetValue("doubler.delay", out SpellTrait doublerDelay)) {
+			float delay = RPNEvaluator.RPNEvaluator.Evaluatef(doublerDelay.traitValue, castVariables);
+
+			Timer secondCastTimer = new(delay * 1000.0f);
+			secondCastTimer.Elapsed += (_, _) => {
+				ExecutionQueue.Instance.Enqueue(_Cast);
+			};
+			secondCastTimer.AutoReset = false;
+			secondCastTimer.Enabled = true;
 		}
 
+		_Cast();
+
 		return;
+
+		void _Cast() {
+			if(source == null) { return; }
+			if(projectileData == null) { return; }
+
+			switch(_baseName) {
+				case "Arcane Bolt":
+					ArcaneBolt();
+					break;
+				case "Magic Missile":
+					MagicMissile();
+					break;
+				case "Arcane Blast":
+					ArcaneBlast();
+					break;
+				case "Arcane Spray":
+					ArcaneSpray();
+					break;
+				default: break;
+			}
+		}
 
 		void ArcaneBolt() {
 			Projectile.Spawn(source, source.transform.position, direction, projectileData);

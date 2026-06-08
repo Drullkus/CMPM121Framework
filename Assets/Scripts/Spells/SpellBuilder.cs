@@ -13,9 +13,11 @@ public class SpellBuilder {
 	public Spell GenerateSpell() {
 		Spell spell = SpellReader.Instance.randomSpellBase;
 
-		SpellModifier modifier = SpellReader.Instance.randomSpellModifier;
+		// SpellModifier modifier = SpellReader.Instance.randomSpellModifier;
 
-		return modifier.ModifySpell(spell);
+		// return modifier.ModifySpell(spell);
+		SpellModifier doubler = SpellReader.Instance.getSpellModifierFactory("doubler").Invoke();
+		return doubler.ModifySpell(spell);
 	}
     
 }
