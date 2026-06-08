@@ -21,6 +21,11 @@ public class EventBus {
 		OnUIScreenRegistered?.Invoke(uiScreen);
 	}
 
+	public event Action<string, PlayerClassData> OnClassChosen;
+	public void InvokeClassChosen(string className, PlayerClassData classData) {
+		OnClassChosen?.Invoke(className, classData);
+	}
+
 	public event Action<Level> OnDifficultyChosen;
 	public void ChooseDifficulty(Level level) {
 		OnDifficultyChosen?.Invoke(level);

@@ -4234,7 +4234,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d418e72ceef05ddbd9c6df4695c03992, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DifficultySelect
-  _buttonPrefab: {fileID: 5943188199844143392, guid: e89f4767538ad84dfaf0f8756239917e, type: 3}
+  _difficultyButtonPrefab: {fileID: 5943188199844143392, guid: e89f4767538ad84dfaf0f8756239917e, type: 3}
+  _classButtonPrefab: {fileID: 797367925331027617, guid: cc97210235d5f4491afc57a829ef9eb4, type: 3}
 --- !u!114 &1158956589
 MonoBehaviour:
   m_ObjectHideFlags: 0

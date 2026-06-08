@@ -7,6 +7,7 @@ using UnityEngine.InputSystem.Controls;
 using UI;
 
 [RequireComponent(typeof(ManaBar))]
+[RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerInstance :
 	MonoBehaviour, IHittable
@@ -47,6 +48,13 @@ public class PlayerInstance :
 			SetClass(classData["mage"]);
 			SetStats(0);
 		});
+
+		EventBus.Instance.OnClassChosen += (_, classData) => {
+			GetComponent<SpriteRenderer>().sprite = SpriteManager.Instance.RetrievePlayerSprite(classData.sprite);
+
+			SetClass(classData);
+			SetStats(0);
+		};
 
 		EventBus.Instance.OnRecoil += HandleRecoil;
 		EventBus.Instance.OnWaveStarted += OnWaveChanged;
