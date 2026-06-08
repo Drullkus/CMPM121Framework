@@ -32,6 +32,10 @@ public class SpellModifier {
 			spell.AddTrait("doubler.delay", new(SpellTraitType.RPN_FLOAT, ""));
 		}
 
+		if(name.ToLower() == "angle") {
+			spell.AddTrait("splitter.angle", new(SpellTraitType.RPN_FLOAT, ""));
+		}
+
 		foreach(
 			(string traitName, SpellTrait trait) in
 			spell.GetTraits(_traitModifications.Keys.ToList())

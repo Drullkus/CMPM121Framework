@@ -119,40 +119,55 @@ public class Spell {
 			secondCastTimer.Enabled = true;
 		}
 
-		_Cast();
+		if(_traits.TryGetValue("splitter.angle", out SpellTrait splitterAngle)) {
+			float angle = RPNEvaluator.RPNEvaluator.Evaluatef(splitterAngle.traitValue, castVariables) / 2.0f;
+
+			float leftAngle = Mathf.Atan2(direction.y, direction.x) + angle;
+			float rightAngle = Mathf.Atan2(direction.y, direction.x) - angle;
+
+			Vector2 leftDirection = new(Mathf.Cos(leftAngle), Mathf.Sin(leftAngle));
+			Vector2 rightDirection = new(Mathf.Cos(rightAngle), Mathf.Sin(rightAngle));
+
+			_Cast(leftDirection);
+			_Cast(rightDirection);
+
+			return;
+		}
+
+		_Cast(direction);
 
 		return;
 
-		void _Cast() {
+		void _Cast(Vector2 direction) {
 			if(source == null) { return; }
 			if(projectileData == null) { return; }
 
 			switch(_baseName) {
 				case "Arcane Bolt":
-					ArcaneBolt();
+					ArcaneBolt(direction);
 					break;
 				case "Magic Missile":
-					MagicMissile();
+					MagicMissile(direction);
 					break;
 				case "Arcane Blast":
-					ArcaneBlast();
+					ArcaneBlast(direction);
 					break;
 				case "Arcane Spray":
-					ArcaneSpray();
+					ArcaneSpray(direction);
 					break;
 				default: break;
 			}
 		}
 
-		void ArcaneBolt() {
+		void ArcaneBolt(Vector2 direction) {
 			Projectile.Spawn(source, source.transform.position, direction, projectileData);
 		}
 
-		void MagicMissile() {
+		void MagicMissile(Vector2 direction) {
 			Projectile.Spawn(source, source.transform.position, direction, projectileData);
 		}
 
-		void ArcaneBlast() {
+		void ArcaneBlast(Vector2 direction) {
 			ProjectileData secondaryData = new ProjectileData()
 				.SetRPNDictionary(castVariables)
 				.SetTeam(team);
@@ -193,7 +208,7 @@ public class Spell {
 			Projectile.Spawn(source, source.transform.position, direction, projectileData);
 		}
 
-		void ArcaneSpray() {
+		void ArcaneSpray(Vector2 direction) {
 			int n = (int)RPNEvaluator.RPNEvaluator.Evaluatef(_traits["n"].traitValue, castVariables);
 			float delay = RPNEvaluator.RPNEvaluator.Evaluatef(_traits["spray"].traitValue, castVariables);
 

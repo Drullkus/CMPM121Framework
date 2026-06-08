@@ -192,6 +192,7 @@ public class SpellReader {
 		if(spellModifierPrototype.recoilKnockbackTimer != null) { traits.Add(("recoil.knockbackTimer", new(SpellTraitType.RPN_FLOAT, spellModifierPrototype.recoilKnockbackTimer))); }
 		if(spellModifierPrototype.recoilKnockbackForce != null) { traits.Add(("recoil.knockbackForce", new(SpellTraitType.RPN_FLOAT, spellModifierPrototype.recoilKnockbackForce))); }
 		if(spellModifierPrototype.delay != null) { traits.Add(("doubler.delay", new(SpellTraitType.RPN_FLOAT, spellModifierPrototype.delay))); }
+		if(spellModifierPrototype.angle != null) { traits.Add(("splitter.angle", new(SpellTraitType.RPN_FLOAT, spellModifierPrototype.angle))); }
 
 		foreach((string key, SpellTrait trait) in traits) {
 			newSpellModifier.AddModifier(key, trait.traitValue);
