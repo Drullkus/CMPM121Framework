@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI {
+namespace Relic {
     public class RelicBarManager : MonoBehaviour {
 		[SerializeField] private GameObject relicSlotPrefab;
 		private List<GameObject> relicSlots = new();
@@ -17,7 +17,7 @@ namespace UI {
 			relicSlots.Add(newRelicSlot);
 			claimedRelics.Add(relicPrototype.Name);
 
-			new Relic.Relic(relicPrototype);
+			new Relic(relicPrototype);
 		}
     }
 }

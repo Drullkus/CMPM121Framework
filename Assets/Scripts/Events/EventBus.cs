@@ -140,5 +140,15 @@ public class EventBus {
 	public void DoOnDeath(GameObject dying) {
 		OnDeath?.Invoke(dying);
 	}
+    
+	public event Action<GameObject> OnCastSpell;
+	public void DoOnCastSpell(GameObject player) {
+		OnCastSpell?.Invoke(player);
+	}
+    
+	public event Action<GameObject> OnNewWave;
+	public void DoOnNewWave(GameObject player) {
+		OnNewWave?.Invoke(player);
+	}
 
 }

@@ -20,6 +20,7 @@ namespace Relic {
 
                 _theInstance = new RelicManager();
                 _theInstance.InitializeTypes();
+                _theInstance.LoadRelics();
                 EventBus.Instance.GameStarted += _theInstance.LoadRelics;
                 EventBus.Instance.OnPlayerDeath += _theInstance.UnloadRelics;
                 
@@ -41,6 +42,7 @@ namespace Relic {
         }
 
         private void PutRelics(List<RelicData> relicDatas) {
+            UnloadRelics();
             Debug.Log($"Loaded {relicDatas.Count} Relics: {string.Join(", ", relicDatas.Select(d => d.Name))}");
             foreach (var relicData in relicDatas) {
                 RelicRegistry[relicData.Name] = relicData;

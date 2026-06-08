@@ -212,7 +212,11 @@ public class PlayerInstance :
 	}
 
 	private void RestoreSomeMana() {
-		_mana += _manaRegeneration;
+		RestoreMana(_manaRegeneration);
+	}
+
+	public void RestoreMana(int mana) {
+		_mana += mana;
 		if(_mana > _maxMana) { _mana = _maxMana; }
 
 		if(_manaBar == null) { return; }
