@@ -163,6 +163,30 @@ public class ProjectileMovementHoming : ProjectileMovement {
 
 }
 
+public class ProjectileMovementChaotic : ProjectileMovement {
+
+	public float speed = 1.0f;
+	private float _angularVelocity = 1.0f;
+
+	public ProjectileMovementChaotic SetSpeed(float newSpeed) {
+		speed = newSpeed;
+		_angularVelocity = speed;
+
+		return this;
+	}
+	
+	public override void Move(Transform transform) {
+		transform.Translate(speed * Time.deltaTime * Vector2.right);
+
+		Debug.Log(transform.rotation.z);
+
+		transform.Rotate(speed * _angularVelocity * Time.deltaTime * Vector3.forward);
+		_angularVelocity += UnityEngine.Random.Range(-10, 10) * Time.deltaTime;
+		_angularVelocity = Mathf.Clamp(_angularVelocity, 0.0f, speed);
+	}
+
+}
+
 [RequireComponent(typeof(SpriteRenderer))]
 public class Projectile : MonoBehaviour {
     
@@ -195,14 +219,17 @@ public class Projectile : MonoBehaviour {
 
 		newProjectile.GetComponent<SpriteRenderer>().sprite = SpriteManager.Instance.RetrieveSpellSprite(spawnData.spriteIndex);
 
-		Enum.TryParse(spawnData.trajectory, out newProjectile._trajectory);
-
-		switch(newProjectile._trajectory) {
-			case ProjectileTrajectory.STRAIGHT:
+		switch(spawnData.trajectory) {
+			case "straight":
 				newProjectile._projectileMovement = new ProjectileMovementStraight().SetSpeed(spawnData.speed);
 				break;
-			case ProjectileTrajectory.HOMING:
+			case "homing":
 				newProjectile._projectileMovement = new ProjectileMovementHoming().SetSpeed(spawnData.speed);
+
+				break;
+			case "spiraling":
+				newProjectile._projectileMovement = new ProjectileMovementChaotic().SetSpeed(spawnData.speed);
+
 				break;
 			default:
 				break;
@@ -232,6 +259,9 @@ public class Projectile : MonoBehaviour {
 	}
 
 	private void Update() {
+		if(_projectileMovement == null) { return; }
+		if(transform == null) { return; }
+		
 		_projectileMovement.Move(transform);
 	}
 

@@ -47,8 +47,6 @@ namespace UI {
 
             var spellTraits = spell.GetTraits(new List<string> {"damage.amount", "manaCost"});
             
-            Debug.Log($"damage.amount: {spellTraits[0].Item2.traitValue}, manaCost: {spellTraits[1].Item2.traitValue}");
-
             var waveVal = _gameManager.getWave();
             var spellPowerVal = 100;
 
