@@ -12,6 +12,7 @@ namespace Relic {
         private static readonly Dictionary<string, RelicData> RelicRegistry = new();
         private static readonly Dictionary<string, Action<RelicTriggerData, Action<GameObject>>> RelicTriggerRegistry = new();
         private static readonly Dictionary<string, Func<RelicEffectData, RelicEffect.RelicEffect>> RelicEffectRegistry = new();
+        private static readonly Dictionary<string, Action<Action<GameObject>>> RelicEventRegistry = new();
 
         private static RelicManager _theInstance;
         public static RelicManager Instance {
@@ -32,9 +33,17 @@ namespace Relic {
             RelicTriggerRegistry.Add("take-damage", (_, gameObjectEffect) => EventBus.Instance.OnTakeHit += gameObjectEffect);
             RelicTriggerRegistry.Add("stand-still", (data, gameObjectEffect) => new StandStill(data, gameObjectEffect));
             RelicTriggerRegistry.Add("on-kill", (_, gameObjectEffect) => EventBus.Instance.OnKill += gameObjectEffect);
-
             RelicEffectRegistry.Add("gain-mana", data => new GainManaEffect(data));
             RelicEffectRegistry.Add("gain-spellpower", data => new GainSpellpowerEffect(data));
+
+            RelicEventRegistry.Add("move", a => EventBus.Instance.MovementStarted += a);
+            
+            // Custom
+            RelicTriggerRegistry.Add("cast-spell", (_, gameObjectEffect) => EventBus.Instance.OnCastSpell += gameObjectEffect);
+            RelicTriggerRegistry.Add("new-wave", (_, gameObjectEffect) => EventBus.Instance.OnNewWave += gameObjectEffect);
+            RelicEffectRegistry.Add("damage-nearest", data => new GainSpellpowerEffect(data));
+            RelicEffectRegistry.Add("gain-health", data => new GainSpellpowerEffect(data));
+            RelicEffectRegistry.Add("next-spells-free", data => new GainSpellpowerEffect(data));
         }
 
         private void LoadRelics() {
@@ -67,6 +76,10 @@ namespace Relic {
 
         public Func<RelicEffectData, RelicEffect.RelicEffect> GetEffect(string triggerName) {
             return RelicEffectRegistry[triggerName];
+        }
+
+        public Action<Action<GameObject>> GetEvent(string eventName) {
+            return RelicEventRegistry[eventName];
         }
 
         public Relic InstantiateRelic(string relicName) {

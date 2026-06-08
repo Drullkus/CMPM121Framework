@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Timers;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -38,6 +39,8 @@ public class PlayerInstance :
 	private InputAction spell2;
 	private InputAction spell3;
 	private InputAction spell4;
+	
+	private Dictionary<string, int> spellpowerBonuses = new Dictionary<string, int>();
 
     void Start() {
 		PlayerClassManager.GetClasses((Dictionary<string, PlayerClassData> classData) => {
@@ -151,7 +154,7 @@ public class PlayerInstance :
 
 		if(wrappedCost.Count > 0) {
 			Dictionary<string, int> castVariables = new() {
-				[ "power" ] = _spellpower,
+				[ "power" ] = _spellpower + spellpowerBonuses.Values.Sum(),
 				[ "wave" ] = _waveIndex,
 			};
 
@@ -160,6 +163,8 @@ public class PlayerInstance :
 		}
 
 		if(manaCost > _mana) { return; }
+		
+		EventBus.Instance.DoOnCastSpell(this.gameObject);
 
 		_mana -= manaCost;
 		spellBarManager.activeSpell.Cast(gameObject, castDirection, Team.PLAYER, _spellpower, 1);
@@ -243,6 +248,14 @@ public class PlayerInstance :
 
     void Die() {
 		EventBus.Instance.InvokePlayerDeath();
+    }
+
+    public void AddSpellpowerBonus(string name, int buff) {
+	    spellpowerBonuses.Add(name, buff);
+    }
+
+    public void RemoveSpellpowerBonus(string name) {
+	    spellpowerBonuses.Remove(name);
     }
 
 }
