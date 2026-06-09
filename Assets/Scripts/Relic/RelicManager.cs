@@ -35,6 +35,7 @@ namespace Relic {
             RelicEffectRegistry.Add("gain-spellpower", data => new GainSpellpowerEffect(data));
 
             RelicEventRegistry.Add("move", a => EventBus.Instance.MovementStarted += a);
+            RelicEventRegistry.Add("cast-spell", a => EventBus.Instance.OnCastSpell += a);
             
             // Custom
             RelicTriggerRegistry.Add("cast-spell", (_, gameObjectEffect) => EventBus.Instance.OnCastSpell += gameObjectEffect);

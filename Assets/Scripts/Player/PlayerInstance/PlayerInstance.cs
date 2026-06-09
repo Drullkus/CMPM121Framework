@@ -264,11 +264,15 @@ public class PlayerInstance :
     }
 
     public void AddSpellpowerBonus(string name, int buff) {
-	    spellpowerBonuses.Add(name, buff);
+	    if (!spellpowerBonuses.ContainsKey(name)) {
+		    spellpowerBonuses.Add(name, buff);
+	    }
     }
 
     public void RemoveSpellpowerBonus(string name) {
-	    spellpowerBonuses.Remove(name);
+	    if (spellpowerBonuses.ContainsKey(name)) {
+		    spellpowerBonuses.Remove(name);
+	    }
     }
 
     public int GetSpellPower() {

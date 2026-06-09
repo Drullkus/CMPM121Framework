@@ -2,11 +2,11 @@ using UnityEngine;
 
 namespace Relic {
     public class GainSpellpowerEffect : RelicEffect {
-        private readonly RelicEffectData _relicEffectData;
+        private readonly string powerBonusKey;
         private string gainAmount;
 
         public GainSpellpowerEffect(RelicEffectData relicEffectData) {
-            _relicEffectData = relicEffectData;
+            powerBonusKey = relicEffectData.Description;
             
             gainAmount = relicEffectData.Amount;
 
@@ -17,12 +17,12 @@ namespace Relic {
 
         public void ApplyEffect(GameObject subject) {
             var player = Object.FindAnyObjectByType<PlayerInstance>();
-            player.AddSpellpowerBonus(_relicEffectData.Description, RPNEvaluator.RPNEvaluator.Evaluate(gainAmount, new()));
+            player.AddSpellpowerBonus(powerBonusKey, RPNEvaluator.RPNEvaluator.Evaluate(gainAmount, new()));
         }
 
         public void RemoveEffect(GameObject subject) {
             var player = Object.FindAnyObjectByType<PlayerInstance>();
-            player.RemoveSpellpowerBonus(_relicEffectData.Description);
+            player.RemoveSpellpowerBonus(powerBonusKey);
         }
     }
 }
