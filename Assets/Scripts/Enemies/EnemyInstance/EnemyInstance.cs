@@ -120,6 +120,7 @@ public class EnemyInstance :
 	public void Hit(Damage damage) {
 		_health.TakeDamage(damage);
 
+		EventBus.Instance.DoOnKill();
 		EventBus.Instance.DoDamage(transform.position, damage, this);
 	}
 

@@ -251,6 +251,7 @@ public class PlayerInstance :
 	public void Hit(Damage damage) {
 		_health.TakeDamage(damage);
 
+		EventBus.Instance.DoOnTakeHit(this.gameObject);
 		EventBus.Instance.DoDamage(transform.position, damage, this);
 	}
 

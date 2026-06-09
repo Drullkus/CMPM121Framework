@@ -3,15 +3,13 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using Relic.RelicEffect;
-using Relic.RelicTrigger;
 using Random = UnityEngine.Random;
 
 namespace Relic {
     public class RelicManager {
         private static readonly Dictionary<string, RelicData> RelicRegistry = new();
         private static readonly Dictionary<string, Action<RelicTriggerData, Action<GameObject>>> RelicTriggerRegistry = new();
-        private static readonly Dictionary<string, Func<RelicEffectData, RelicEffect.RelicEffect>> RelicEffectRegistry = new();
+        private static readonly Dictionary<string, Func<RelicEffectData, RelicEffect>> RelicEffectRegistry = new();
         private static readonly Dictionary<string, Action<Action<GameObject>>> RelicEventRegistry = new();
 
         private static RelicManager _theInstance;
@@ -32,7 +30,7 @@ namespace Relic {
         private void InitializeTypes() {
             RelicTriggerRegistry.Add("take-damage", (_, gameObjectEffect) => EventBus.Instance.OnTakeHit += gameObjectEffect);
             RelicTriggerRegistry.Add("stand-still", (data, gameObjectEffect) => new StandStill(data, gameObjectEffect));
-            RelicTriggerRegistry.Add("on-kill", (_, gameObjectEffect) => EventBus.Instance.OnKill += gameObjectEffect);
+            RelicTriggerRegistry.Add("on-kill", (_, gameObjectEffect) => EventBus.Instance.OnKill += () => gameObjectEffect.Invoke(UnityEngine.Object.FindAnyObjectByType<PlayerInstance>().gameObject));
             RelicEffectRegistry.Add("gain-mana", data => new GainManaEffect(data));
             RelicEffectRegistry.Add("gain-spellpower", data => new GainSpellpowerEffect(data));
 
@@ -41,7 +39,7 @@ namespace Relic {
             // Custom
             RelicTriggerRegistry.Add("cast-spell", (_, gameObjectEffect) => EventBus.Instance.OnCastSpell += gameObjectEffect);
             RelicTriggerRegistry.Add("new-wave", (_, gameObjectEffect) => EventBus.Instance.OnNewWave += gameObjectEffect);
-            RelicEffectRegistry.Add("damage-nearest", data => new GainSpellpowerEffect(data));
+            RelicEffectRegistry.Add("damage-nearest", data => new EffectDamageNearest(data));
             RelicEffectRegistry.Add("gain-health", data => new GainSpellpowerEffect(data));
             RelicEffectRegistry.Add("next-spells-free", data => new GainSpellpowerEffect(data));
         }
@@ -74,7 +72,7 @@ namespace Relic {
             return RelicTriggerRegistry[triggerName];
         }
 
-        public Func<RelicEffectData, RelicEffect.RelicEffect> GetEffect(string triggerName) {
+        public Func<RelicEffectData, RelicEffect> GetEffect(string triggerName) {
             return RelicEffectRegistry[triggerName];
         }
 
@@ -82,8 +80,8 @@ namespace Relic {
             return RelicEventRegistry[eventName];
         }
 
-        public Relic InstantiateRelic(string relicName) {
-            return new Relic(RelicRegistry[relicName]);
+        public RelicData GetRelicData(string relicName) {
+            return RelicRegistry[relicName];
         }
     }
 }

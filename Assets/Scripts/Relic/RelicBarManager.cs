@@ -19,5 +19,9 @@ namespace Relic {
 
 			new Relic(relicPrototype);
 		}
+
+		public void GrantRelic(string name) {
+			AddRelic(RelicManager.Instance.GetRelicData(name));
+		}
     }
 }

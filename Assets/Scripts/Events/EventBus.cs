@@ -136,9 +136,9 @@ public class EventBus {
 		MovementStopped?.Invoke(unit);
 	}
     
-	public event Action<GameObject> OnKill;
-	public void DoOnKill(GameObject killer) {
-		OnKill?.Invoke(killer);
+	public event Action OnKill;
+	public void DoOnKill() {
+		OnKill?.Invoke();
 	}
     
 	public event Action<GameObject> OnDeath;

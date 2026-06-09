@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Relic.RelicEffect {
+namespace Relic {
     public class GainManaEffect : RelicEffect {
         private readonly RelicEffectData _relicEffectData;
         private string restoreAmount;
