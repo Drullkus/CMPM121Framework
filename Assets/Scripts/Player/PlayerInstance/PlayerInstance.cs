@@ -255,6 +255,10 @@ public class PlayerInstance :
 		EventBus.Instance.DoDamage(transform.position, damage, this);
 	}
 
+	public void RestoreHealth(int amount) {
+		_health.Recover(amount);
+	}
+
     void Die() {
 		EventBus.Instance.InvokePlayerDeath();
     }

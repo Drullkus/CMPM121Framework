@@ -40,7 +40,7 @@ namespace Relic {
             RelicTriggerRegistry.Add("cast-spell", (_, gameObjectEffect) => EventBus.Instance.OnCastSpell += gameObjectEffect);
             RelicTriggerRegistry.Add("new-wave", (_, gameObjectEffect) => EventBus.Instance.OnNewWave += gameObjectEffect);
             RelicEffectRegistry.Add("damage-nearest", data => new EffectDamageNearest(data));
-            RelicEffectRegistry.Add("gain-health", data => new GainSpellpowerEffect(data));
+            RelicEffectRegistry.Add("gain-health", data => new EffectGainHealth(data));
             RelicEffectRegistry.Add("next-spells-free", data => new GainSpellpowerEffect(data));
         }
 
