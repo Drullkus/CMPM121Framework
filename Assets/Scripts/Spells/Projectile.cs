@@ -178,8 +178,6 @@ public class ProjectileMovementChaotic : ProjectileMovement {
 	public override void Move(Transform transform) {
 		transform.Translate(speed * Time.deltaTime * Vector2.right);
 
-		Debug.Log(transform.rotation.z);
-
 		transform.Rotate(speed * _angularVelocity * Time.deltaTime * Vector3.forward);
 		_angularVelocity += UnityEngine.Random.Range(-10, 10) * Time.deltaTime;
 		_angularVelocity = Mathf.Clamp(_angularVelocity, 0.0f, speed);

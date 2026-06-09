@@ -30,7 +30,7 @@ namespace Relic {
         private void InitializeTypes() {
             RelicTriggerRegistry.Add("take-damage", (_, gameObjectEffect) => EventBus.Instance.OnTakeHit += gameObjectEffect);
             RelicTriggerRegistry.Add("stand-still", (data, gameObjectEffect) => new StandStill(data, gameObjectEffect));
-            RelicTriggerRegistry.Add("on-kill", (_, gameObjectEffect) => EventBus.Instance.OnKill += () => gameObjectEffect.Invoke(UnityEngine.Object.FindAnyObjectByType<PlayerInstance>().gameObject));
+            RelicTriggerRegistry.Add("on-kill", (_, gameObjectEffect) => EventBus.Instance.OnKill += () => gameObjectEffect.Invoke(GetPlayer()));
             RelicEffectRegistry.Add("gain-mana", data => new GainManaEffect(data));
             RelicEffectRegistry.Add("gain-spellpower", data => new GainSpellpowerEffect(data));
 
@@ -38,10 +38,14 @@ namespace Relic {
             
             // Custom
             RelicTriggerRegistry.Add("cast-spell", (_, gameObjectEffect) => EventBus.Instance.OnCastSpell += gameObjectEffect);
-            RelicTriggerRegistry.Add("new-wave", (_, gameObjectEffect) => EventBus.Instance.OnNewWave += gameObjectEffect);
+            RelicTriggerRegistry.Add("new-wave", (_, gameObjectEffect) => EventBus.Instance.OnCountdownStarted += () => gameObjectEffect.Invoke(GetPlayer()));
             RelicEffectRegistry.Add("damage-nearest", data => new EffectDamageNearest(data));
             RelicEffectRegistry.Add("gain-health", data => new EffectGainHealth(data));
-            RelicEffectRegistry.Add("next-spells-free", data => new GainSpellpowerEffect(data));
+            RelicEffectRegistry.Add("next-spells-free", data => new EffectNextSpellsFree(data));
+        }
+
+        private GameObject GetPlayer() {
+            return UnityEngine.Object.FindAnyObjectByType<PlayerInstance>().gameObject;
         }
 
         private void LoadRelics() {

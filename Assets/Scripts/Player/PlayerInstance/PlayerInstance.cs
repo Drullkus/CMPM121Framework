@@ -237,7 +237,7 @@ public class PlayerInstance :
 		_manaBar.SetMana((float)_mana / (float)_maxMana);
 	}
 
-	private void RestoreAllMana() {
+	public void RestoreAllMana() {
 		_mana = _maxMana;
 
 		_manaBar.SetMana(1.0f);
@@ -269,6 +269,10 @@ public class PlayerInstance :
 
     public void RemoveSpellpowerBonus(string name) {
 	    spellpowerBonuses.Remove(name);
+    }
+
+    public int GetSpellPower() {
+	    return _spellpower;
     }
 
 }

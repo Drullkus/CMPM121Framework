@@ -48,7 +48,7 @@ namespace UI {
             var spellTraits = spell.GetTraits(new List<string> {"damage.amount", "manaCost"});
             
             var waveVal = _gameManager.getWave();
-            var spellPowerVal = 100;
+            var spellPowerVal = GetPlayerSpellPower();
 
             var damageVal = Math.Ceiling(RPNEvaluator.RPNEvaluator.Evaluatef(spellTraits[0].Item2.traitValue, new Dictionary<string, int>() { ["power"] = spellPowerVal, ["wave"] = waveVal }));
             var manaVal = Math.Ceiling(RPNEvaluator.RPNEvaluator.Evaluatef(spellTraits[1].Item2.traitValue, new Dictionary<string, int>() { ["power"] = spellPowerVal, ["wave"] = waveVal }));
@@ -79,6 +79,17 @@ namespace UI {
             
             SpellSlots[oldSelected].transform.Find("highlight").gameObject.SetActive(false);
             SpellSlots[slotSelected].transform.Find("highlight").gameObject.SetActive(true);
+        }
+
+        public int GetActiveSpellCost() {
+            int waveVal = _gameManager.getWave();
+            int spellPowerVal = GetPlayerSpellPower();
+            var spellTraits = activeSpell.GetTraits(new List<string> {"manaCost"});
+            return (int) Math.Ceiling(RPNEvaluator.RPNEvaluator.Evaluatef(spellTraits[0].Item2.traitValue, new Dictionary<string, int>() { ["power"] = spellPowerVal, ["wave"] = waveVal }));
+        }
+
+        private int GetPlayerSpellPower() {
+            return 10; //UnityEngine.Object.FindAnyObjectByType<PlayerInstance>().GetSpellPower() ?? 10;
         }
 
     }

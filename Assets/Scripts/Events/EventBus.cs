@@ -150,10 +150,5 @@ public class EventBus {
 	public void DoOnCastSpell(GameObject player) {
 		OnCastSpell?.Invoke(player);
 	}
-    
-	public event Action<GameObject> OnNewWave;
-	public void DoOnNewWave(GameObject player) {
-		OnNewWave?.Invoke(player);
-	}
 
 }
