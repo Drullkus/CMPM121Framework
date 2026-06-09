@@ -44,8 +44,11 @@ public class PlayerInstance :
 	private Dictionary<string, int> spellpowerBonuses = new Dictionary<string, int>();
 
     void Start() {
-		PlayerClassManager.GetClasses((Dictionary<string, PlayerClassData> classData) => {
-			SetClass(classData["mage"]);
+		PlayerClassManager.GetClasses((Dictionary<string, PlayerClassData> classDatas) => {
+			var classData = classDatas["mage"];
+			GetComponent<SpriteRenderer>().sprite = SpriteManager.Instance.RetrievePlayerSprite(classData.sprite);
+
+			SetClass(classData);
 			SetStats(0);
 		});
 
