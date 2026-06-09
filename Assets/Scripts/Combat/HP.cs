@@ -29,8 +29,7 @@ public class HP {
 	}
 
 	public void Recover(int amount) {
-		_value += amount;
-		Math.Clamp(_value, 0, _maxValue);
+		_value = Math.Clamp(_value + amount, 0, _maxValue);
 
 		HPChanged();
 	}
