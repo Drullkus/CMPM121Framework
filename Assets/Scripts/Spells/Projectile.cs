@@ -190,7 +190,6 @@ public class Projectile : MonoBehaviour {
     
 	private GameObject _source;
 
-	private ProjectileTrajectory _trajectory = ProjectileTrajectory.STRAIGHT;
 	public Team team;
 
 	private Action<IHittable, IHittable, Vector2> _onHit;
