@@ -1,11 +1,11 @@
 using UnityEngine;
 
 namespace Relic {
-    public class GainManaEffect : RelicEffect {
+    public class EffectGainMana : RelicEffect {
         private readonly RelicEffectData _relicEffectData;
         private string restoreAmount;
 
-        public GainManaEffect(RelicEffectData relicEffectData) {
+        public EffectGainMana(RelicEffectData relicEffectData) {
             _relicEffectData = relicEffectData;
             restoreAmount = relicEffectData.Amount;
         }

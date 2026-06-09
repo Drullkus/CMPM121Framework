@@ -31,8 +31,8 @@ namespace Relic {
             RelicTriggerRegistry.Add("take-damage", (_, gameObjectEffect) => EventBus.Instance.OnTakeHit += gameObjectEffect);
             RelicTriggerRegistry.Add("stand-still", (data, gameObjectEffect) => new StandStill(data, gameObjectEffect));
             RelicTriggerRegistry.Add("on-kill", (_, gameObjectEffect) => EventBus.Instance.OnKill += () => gameObjectEffect.Invoke(GetPlayer()));
-            RelicEffectRegistry.Add("gain-mana", data => new GainManaEffect(data));
-            RelicEffectRegistry.Add("gain-spellpower", data => new GainSpellpowerEffect(data));
+            RelicEffectRegistry.Add("gain-mana", data => new EffectGainMana(data));
+            RelicEffectRegistry.Add("gain-spellpower", data => new EffectGainSpellpower(data));
 
             RelicEventRegistry.Add("move", a => EventBus.Instance.MovementStarted += a);
             RelicEventRegistry.Add("cast-spell", a => EventBus.Instance.OnCastSpell += a);

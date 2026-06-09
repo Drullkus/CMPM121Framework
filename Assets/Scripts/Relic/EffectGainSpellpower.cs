@@ -1,11 +1,11 @@
 using UnityEngine;
 
 namespace Relic {
-    public class GainSpellpowerEffect : RelicEffect {
+    public class EffectGainSpellpower : RelicEffect {
         private readonly string powerBonusKey;
         private string gainAmount;
 
-        public GainSpellpowerEffect(RelicEffectData relicEffectData) {
+        public EffectGainSpellpower(RelicEffectData relicEffectData) {
             powerBonusKey = relicEffectData.Description;
             
             gainAmount = relicEffectData.Amount;
