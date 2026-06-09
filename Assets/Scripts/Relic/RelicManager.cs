@@ -55,7 +55,7 @@ namespace Relic {
 
         private void PutRelics(List<RelicData> relicDatas) {
             UnloadRelics();
-            Debug.Log($"Loaded {relicDatas.Count} Relics: {string.Join(", ", relicDatas.Select(d => d.Name))}");
+            // Debug.Log($"Loaded {relicDatas.Count} Relics: {string.Join(", ", relicDatas.Select(d => d.Name))}");
             foreach (var relicData in relicDatas) {
                 RelicRegistry[relicData.Name] = relicData;
             }
