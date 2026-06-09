@@ -57922,6 +57922,10 @@ PrefabInstance:
       propertyPath: relicBar
       value: 
       objectReference: {fileID: 1202924362}
+    - target: {fileID: 7652758384300030917, guid: 72b06504c62b0421e922018752b27e34, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 1987132275}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

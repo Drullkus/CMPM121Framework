@@ -11,8 +11,15 @@ namespace Relic {
 
         [SerializeField] private RelicBarManager relicBar;
 
+        [SerializeField] private GameManager gameManager;
+
         public void RollRelics() {
 			HideRelicButtons();
+
+			if ((gameManager.getWave() % 3) != 1) { // Rewards are first shown when getWave() returns 2, never shown because wave 1 ends before rewards are shown
+				return;
+			}
+			// Debug.Log($"Showing relics before wave {gameManager.getWave()}"); // Show relics if wave 3 completed, going before 4
 
 			List<RelicData> randomRelics = RelicManager.Instance.GetRandomRelicOptions(relicBar.claimedRelics);
 
