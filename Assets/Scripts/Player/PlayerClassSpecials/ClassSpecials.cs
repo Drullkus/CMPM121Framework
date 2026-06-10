@@ -7,6 +7,8 @@ using UnityEngine;
 
 [JsonConverter(typeof(StringEnumConverter))]
 public enum ClassSpecialValue {
+	[EnumMember(Value = "none")]
+	NONE,
 	[EnumMember(Value = "teleport")]
 	TELEPORT
 };
@@ -14,8 +16,11 @@ public enum ClassSpecialValue {
 public class ClassSpecials {
 
 	public static Dictionary<ClassSpecialValue, Action<GameObject>> specialLookup = new(){
+		[ ClassSpecialValue.NONE] = Nop,
 		[ ClassSpecialValue.TELEPORT ] = Teleport,
 	};
+
+	public static void Nop(GameObject _) { }
 
 	public static void Teleport(GameObject target) {
 		int startingChunk = UnityEngine.Random.Range(0, 99);
