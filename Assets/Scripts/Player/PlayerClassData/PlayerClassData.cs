@@ -25,6 +25,10 @@ public class PlayerClassData {
     [JsonProperty("speed", DefaultValueHandling = DefaultValueHandling.Populate)]
     public string speed { get; set; } = "5";
 
+	[DefaultValue(ClassSpecialValue.NONE)]
+	[JsonProperty("special", DefaultValueHandling = DefaultValueHandling.Populate)]
+	public ClassSpecialValue special { get; set; } = ClassSpecialValue.NONE;
+
     public void CalculatePlayerStatsForWave(int wave, out int health, out int mana, out int mana_regeneration, out int spellpower, out int speed) {
         Dictionary<string, int> variables = new() { ["wave"] = wave };
         

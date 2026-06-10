@@ -33,10 +33,10 @@ public class ClassSpecials {
 			ContactFilter2D filter = new();
 			filter.useTriggers = false;
 
-			int collisionCount = target.GetComponent<Rigidbody2D>().Cast(direction, filter, hits, 3.0f);
+			int collisionCount = target.GetComponent<Rigidbody2D>().Cast(direction, filter, hits, 10.0f);
 
 			if(collisionCount < 1) {
-				_Teleport(direction * 3.0f); 
+				_Teleport(direction * 10.0f); 
 				break;
 			}
 		}
