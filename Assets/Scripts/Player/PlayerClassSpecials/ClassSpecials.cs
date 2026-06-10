@@ -14,10 +14,10 @@ public enum ClassSpecialValue {
 public class ClassSpecials {
 
 	public static Dictionary<ClassSpecialValue, Action<GameObject>> specialLookup = new(){
-		[ ClassSpecialValue.TELEPORT ] = null,
+		[ ClassSpecialValue.TELEPORT ] = Teleport,
 	};
 
-	public void Teleport(GameObject target) {
+	public static void Teleport(GameObject target) {
 		int startingChunk = UnityEngine.Random.Range(0, 99);
 		
 		for(int i = 0; i < 100; i++) {
