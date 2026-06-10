@@ -46,6 +46,7 @@ public class SpriteManager {
 		65,
 		101,
 		109,
+		19,
 	};
 
 	private static int[] _relicSpriteSheetIndices = {

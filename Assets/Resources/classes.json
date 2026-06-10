@@ -24,7 +24,7 @@
             "speed": "5 wave 2 / +"
     },
 	"vengeance": {
-		"sprite": 4,
+		"sprite": 3,
 		"health": "90",
 		"mana_regeneration": "15 wave 2 * +",
 		"mana": "90 15 wave 2 * + +",
