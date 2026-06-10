@@ -1,3 +1,16 @@
 {
-	"name": "PlayerClassData"
+    "name": "PlayerClassData",
+    "rootNamespace": "",
+    "references": [
+        "GUID:95839765437fa25f99b3840d324e9457"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

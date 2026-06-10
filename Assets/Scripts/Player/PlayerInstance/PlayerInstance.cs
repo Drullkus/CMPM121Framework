@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
@@ -16,6 +17,8 @@ public class PlayerInstance :
 	private Vector2 _movement;
 
     private PlayerClassData _classData;
+
+	private Action<GameObject> special;
 
 	private HP _health;
 	private int _maxMana;
@@ -58,6 +61,17 @@ public class PlayerInstance :
 			SetClass(classData);
 			SetStats(0);
 		};
+
+		Timer specialTimer = new(5000.0f);
+		specialTimer.Elapsed += (_, _) => {
+			ExecutionQueue.Instance.Enqueue(() => {
+				if(_movementBlocked) { return; }
+				
+				special.Invoke(gameObject);
+			});
+		};
+		specialTimer.AutoReset = true;
+		specialTimer.Enabled = true;
 
 		EventBus.Instance.OnRecoil += HandleRecoil;
 		EventBus.Instance.OnWaveStarted += OnWaveChanged;
@@ -109,6 +123,7 @@ public class PlayerInstance :
 
 	public void SetClass(PlayerClassData classData) {
 		_classData = classData;
+		special = ClassSpecials.specialLookup[classData.special];
 	}
 
 	private void SetStats(int waveIndex) {
