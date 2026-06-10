@@ -10,7 +10,9 @@ namespace Relic {
 		public HashSet<string> claimedRelics = new();
 
         public void AddRelic(RelicData relicPrototype) {
-			GameObject newRelicSlot = Instantiate(relicSlotPrefab, this.transform.position + new Vector3(40 * relicSlots.Count, 0, 0), Quaternion.identity, this.gameObject.transform);
+	        int offset = GetRelicPlacementOffset();
+	        //Debug.Log($"Offset: {offset}");
+			GameObject newRelicSlot = Instantiate(relicSlotPrefab, this.transform.position + new Vector3(offset, 0, 0), Quaternion.identity, this.gameObject.transform);
 
 			newRelicSlot.GetComponentInChildren<Image>().sprite = SpriteManager.Instance.RetrieveRelicSprite(relicPrototype.Sprite);
 
@@ -18,6 +20,18 @@ namespace Relic {
 			claimedRelics.Add(relicPrototype.Name);
 
 			new Relic(relicPrototype);
+		}
+
+		private int GetRelicPlacementOffset() {
+			int relicIndex = relicSlots.Count;
+			// Places first in middle then alternates placement on right then left
+			// Relic index == # of relics owned before obtaining
+			if (relicIndex == 0) return 0;
+			
+			int sign = (relicIndex % 2) * 2 - 1; // right is signed positive, left is signed negative
+			int offsetShift = (relicIndex + 1) / 2; // Actual offset from index=0
+			
+			return (sign * offsetShift) * 40; // 40 pixels of spacing between object origins
 		}
 
 		public void GrantRelic(string name) {
