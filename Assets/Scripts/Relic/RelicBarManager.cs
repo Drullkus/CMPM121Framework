@@ -9,6 +9,16 @@ namespace Relic {
 		private List<GameObject> relicSlots = new();
 		public HashSet<string> claimedRelics = new();
 
+		public void Start() {
+			// GrantRelic("Green Gem");
+			// GrantRelic("Jade Elephant");
+			// GrantRelic("Golden Mask");
+			// GrantRelic("Cursed Scroll");
+			// GrantRelic("Cheese Shield");
+			// GrantRelic("Healer's Gauntlet");
+			// GrantRelic("Quickscope");
+		}
+
         public void AddRelic(RelicData relicPrototype) {
 	        int offset = GetRelicPlacementOffset();
 	        //Debug.Log($"Offset: {offset}");
